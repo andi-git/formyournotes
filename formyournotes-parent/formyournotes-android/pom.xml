@@ -37,6 +37,7 @@
 	</dependencies>
 
 	<build>
+	    <finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
@@ -47,6 +48,9 @@
 					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>
+<!-- 					<run> -->
+<!--                         <debug>true</debug> -->
+<!--                     </run> -->
 					<sdk>
 						<platform>17</platform>
 					</sdk>

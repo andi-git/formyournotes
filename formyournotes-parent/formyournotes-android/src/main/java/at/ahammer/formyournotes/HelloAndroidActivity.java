@@ -1,4 +1,4 @@
-package at.ahammer;
+package at.ahammer.formyournotes;
 
 import android.app.Activity;
 import android.os.Bundle;

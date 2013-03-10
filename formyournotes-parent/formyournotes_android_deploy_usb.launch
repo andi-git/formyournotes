@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="ANDROID_HOME" value="${ANDROID_HOME}"/>
+<mapEntry key="JAVA_HOME" value="${JAVA_HOME}"/>
+</mapAttribute>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/home/andreas/development/apache-maven-3.0.4/bin/mvn"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Dandroid.device=usb&#10;clean install android:deploy android:run"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/formyournotes-parent/formyournotes-android}"/>
+</launchConfiguration>
