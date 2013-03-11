@@ -9,6 +9,8 @@
 	<name>formyournotes: Parent Project</name>
 
 	<modules>
+		<module>formyournotes-beans</module>
+		<module>formyournotes-bean-serializer</module>
 		<module>formyournotes-android</module>
 	</modules>
 
@@ -32,6 +34,11 @@
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.2.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -39,6 +39,20 @@ public class HelloAndroidActivity extends Activity {
 		Log.i(LogTag.FYN.getTag(), "my message");
 		LinearLayout layout = (LinearLayout) findViewById(R.id.buttonlayout);
 		layout.addView(button);
+		
+//		Form form = new Form();
+//		form.setId(1);
+//		form.setName("formName");
+//		Group group = new Group();
+//		group.setId(2);
+//		group.setName("groupName");
+//		form.getGroups().add(group);
+		
+//		try {
+//			openFileInput("");
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
