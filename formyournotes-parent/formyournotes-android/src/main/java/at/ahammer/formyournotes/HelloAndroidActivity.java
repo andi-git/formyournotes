@@ -14,6 +14,8 @@ import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
 import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
+import at.ahammer.formyournotes.dao.Contact;
+import at.ahammer.formyournotes.dao.ContactDao;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.BeanViewMapper;
 
@@ -39,7 +41,8 @@ public class HelloAndroidActivity extends Activity {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.formyournotelayout);
 
 		List<FormYourNotesBean> formYourNotesBeans = new ArrayList<FormYourNotesBean>();
-		formYourNotesBeans.add(new ContactBean(0, 0, "Benutzer", 561));
+		formYourNotesBeans.add(new ContactBean(0, 0, "Benutzer", "Andreas",
+				"Ahammer"));
 		formYourNotesBeans.add(new EditTextBean(1, 1, "Info 1",
 				"ein bisschen Text"));
 		formYourNotesBeans.add(new EditTextBean(2, 2, "Info 2",
@@ -71,22 +74,21 @@ public class HelloAndroidActivity extends Activity {
 		Log.i(LogTag.FYN.getTag(), "my message");
 		layout.addView(button);
 
+		ContactDao contactDao = new ContactDao();
+		List<Contact> allContacts = contactDao.getAllContacts(this);
+		for (Contact contact : allContacts) {
+			Log.i("FormYourNotes", contact.toString());
+		}
+
 		// Cursor phones = getContentResolver().query(
-		// ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
-		// null, null);
-		// while (phones.moveToNext()) {
-		// String id = phones
-		// .getString(phones
-		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
-		// String name = phones
+		// ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+		// ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+		// new String[] { "61" }, null);
+		// phones.moveToNext();
+		// String displayName = phones
 		// .getString(phones
 		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-		// String phoneNumber = phones
-		// .getString(phones
-		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		// Log.i(LogTag.FYN.getTag(), id + ", " + name + ", " + phoneNumber);
-		// }
-		// phones.close();
+		// Log.i("FormYourNotes", "contact id 61: " + displayName);
 
 		// this.setContentView(R.layout.list_layout);
 		// listView = (ListView) findViewById(R.id.my_list);
@@ -108,5 +110,4 @@ public class HelloAndroidActivity extends Activity {
 		// e.printStackTrace();
 		// }
 	}
-
 }

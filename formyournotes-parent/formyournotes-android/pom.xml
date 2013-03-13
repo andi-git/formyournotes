@@ -38,6 +38,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>at.ahammer.formyournotes</groupId>
+			<artifactId>formyournotes-android-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>

@@ -1,11 +1,11 @@
-package at.ahammer.formyournotes.beans;
+package at.ahammer.formyournotes.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactBean extends FormYourNotesBean {
+public class Contact {
 
-	private String discription;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String displayName;
@@ -13,20 +13,16 @@ public class ContactBean extends FormYourNotesBean {
 	private List<String> emails = new ArrayList<String>();
 	private String address;
 
-	public ContactBean(int id, int rank, String discription, String firstName,
-			String lastName) {
-		super(id, rank);
-		this.discription = discription;
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public Contact() {
+		// nothing
 	}
 
-	public String getDiscription() {
-		return discription;
+	public int getId() {
+		return id;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -75,5 +71,28 @@ public class ContactBean extends FormYourNotesBean {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(id);
+		sb.append(", ");
+		sb.append(displayName);
+		sb.append(", ");
+		sb.append(firstName);
+		sb.append(", ");
+		sb.append(lastName);
+		for (String phone : phones) {
+			sb.append(", ");
+			sb.append(phone);
+		}
+		for (String email : emails) {
+			sb.append(", ");
+			sb.append(email);
+		}
+		sb.append(", ");
+		sb.append(address);
+		return sb.toString();
 	}
 }

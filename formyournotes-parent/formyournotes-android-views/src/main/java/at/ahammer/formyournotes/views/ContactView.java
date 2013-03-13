@@ -16,7 +16,7 @@ public class ContactView extends LinearLayout {
 		super(context);
 		setOrientation(HORIZONTAL);
 		viewText = viewHelper.getDefaultTextView(context);
-		viewText.setText(contactBean.getText());
+		viewText.setText(contactBean.getDiscription());
 		viewColon = viewHelper.getDefaultTextView(context);
 		viewColon.setText(": ");
 

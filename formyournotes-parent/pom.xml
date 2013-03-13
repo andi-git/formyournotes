@@ -12,6 +12,7 @@
 		<module>formyournotes-beans</module>
 		<module>formyournotes-bean-serializer</module>
 		<module>formyournotes-android-views</module>
+		<module>formyournotes-android-dao</module>
 		<module>formyournotes-android</module>
 	</modules>
 
