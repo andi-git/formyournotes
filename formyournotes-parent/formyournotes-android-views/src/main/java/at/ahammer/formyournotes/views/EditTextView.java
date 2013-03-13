@@ -1,0 +1,48 @@
+package at.ahammer.formyournotes.views;
+
+import android.content.Context;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import at.ahammer.formyournotes.beans.EditTextBean;
+
+public class EditTextView extends LinearLayout {
+
+	private ViewHelper viewHelper = new ViewHelper();
+	private final TextView viewName;
+	private final TextView viewColon;
+	private final EditText viewText;
+	
+	public EditTextView(Context context, EditTextBean editTextBean) {
+		super(context);
+		setOrientation(HORIZONTAL);
+		viewName = viewHelper.getDefaultTextView(context);
+		viewName.setText(editTextBean.getName());
+		viewText = viewHelper.getDefaultEditText(context);
+		viewText.setText(editTextBean.getText());
+		viewColon = viewHelper.getDefaultTextView(context);
+		viewColon.setText(": ");
+		addView(viewName, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		addView(viewColon, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		addView(viewText, new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	}
+	
+	public String getName() {
+	     return viewName.getText().toString();
+	}
+
+	public String getText() {
+	     return viewText.getText().toString();
+	}
+
+	public void setName(String name) {
+	     viewName.setText(name);
+	}
+
+	public void setText(String text) {
+	     viewText.setText(text);
+	}
+}

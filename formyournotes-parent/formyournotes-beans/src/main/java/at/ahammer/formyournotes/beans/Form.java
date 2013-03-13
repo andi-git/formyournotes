@@ -3,20 +3,15 @@ package at.ahammer.formyournotes.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Form implements Identifiable {
+public class Form extends FormYourNotesBean {
 
-	private int id;
 	private String name;
 	private List<Group> groups = new ArrayList<Group>();
 
-	public int getId() {
-		return id;
+	public Form(int id, int rank, String name) {
+		super(id, rank);
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	
 	public String getName() {
 		return name;
 	}

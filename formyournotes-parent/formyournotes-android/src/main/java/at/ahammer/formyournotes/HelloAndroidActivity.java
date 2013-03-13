@@ -1,14 +1,25 @@
 package at.ahammer.formyournotes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import at.ahammer.formyournotes.beans.CheckBoxBean;
+import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
+import at.ahammer.formyournotes.beans.ContactBean;
+import at.ahammer.formyournotes.beans.EditTextBean;
+import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.logging.LogTag;
+import at.ahammer.formyournotes.views.BeanViewMapper;
 
 public class HelloAndroidActivity extends Activity {
+
+	private BeanViewMapper beanViewMapper = new BeanViewMapper();
 
 	/**
 	 * Called when the activity is first created.
@@ -25,8 +36,30 @@ public class HelloAndroidActivity extends Activity {
 		Log.i(LogTag.FYN.getTag(), "onCreate");
 		setContentView(R.layout.main);
 
+		LinearLayout layout = (LinearLayout) findViewById(R.id.formyournotelayout);
+
+		List<FormYourNotesBean> formYourNotesBeans = new ArrayList<FormYourNotesBean>();
+		formYourNotesBeans.add(new ContactBean(0, 0, "Benutzer", 561));
+		formYourNotesBeans.add(new EditTextBean(1, 1, "Info 1",
+				"ein bisschen Text"));
+		formYourNotesBeans.add(new EditTextBean(2, 2, "Info 2",
+				"noch mehr Text"));
+		CheckBoxGroupBean checkBoxGroupBean = new CheckBoxGroupBean(3, 3,
+				"ein paar check-boxes");
+		checkBoxGroupBean.getCheckBoxes().add(
+				new CheckBoxBean(4, 4, "box1", true));
+		checkBoxGroupBean.getCheckBoxes().add(
+				new CheckBoxBean(5, 5, "box2", true));
+		checkBoxGroupBean.getCheckBoxes().add(
+				new CheckBoxBean(5, 5, "box3", false));
+		formYourNotesBeans.add(checkBoxGroupBean);
+
+		for (FormYourNotesBean formYourNotesBean : formYourNotesBeans) {
+			layout.addView(beanViewMapper.getView(this, formYourNotesBean));
+		}
+
 		Button button = new Button(this);
-		button.setText("a button");
+		button.setText("Speichern");
 		button.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -35,24 +68,45 @@ public class HelloAndroidActivity extends Activity {
 			}
 
 		});
-
 		Log.i(LogTag.FYN.getTag(), "my message");
-		LinearLayout layout = (LinearLayout) findViewById(R.id.buttonlayout);
 		layout.addView(button);
-		
-//		Form form = new Form();
-//		form.setId(1);
-//		form.setName("formName");
-//		Group group = new Group();
-//		group.setId(2);
-//		group.setName("groupName");
-//		form.getGroups().add(group);
-		
-//		try {
-//			openFileInput("");
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
+
+		// Cursor phones = getContentResolver().query(
+		// ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
+		// null, null);
+		// while (phones.moveToNext()) {
+		// String id = phones
+		// .getString(phones
+		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+		// String name = phones
+		// .getString(phones
+		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+		// String phoneNumber = phones
+		// .getString(phones
+		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+		// Log.i(LogTag.FYN.getTag(), id + ", " + name + ", " + phoneNumber);
+		// }
+		// phones.close();
+
+		// this.setContentView(R.layout.list_layout);
+		// listView = (ListView) findViewById(R.id.my_list);
+		// dataSource = new ArrayList<MyData>();
+		// adapter = new MyListAdapter(this, R.layout.item_layout, dataSource);
+		// listView.setAdapter(adapter);
+
+		// Form form = new Form();
+		// form.setId(1);
+		// form.setName("formName");
+		// Group group = new Group();
+		// group.setId(2);
+		// group.setName("groupName");
+		// form.getGroups().add(group);
+
+		// try {
+		// openFileInput("");
+		// } catch (FileNotFoundException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 }
