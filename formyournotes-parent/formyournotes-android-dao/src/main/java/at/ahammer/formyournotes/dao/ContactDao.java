@@ -152,4 +152,27 @@ public class ContactDao {
 		cursor.close();
 	}
 
+	public List<String> getAllDisplayNames(Context context) {
+		String[] projection = new String[] { NAME_DISPLAY_NAME };
+		String selection = DATA_MIMETYPE + " = ?";
+		String[] selectionArgs = new String[] { NAME_CONTENT_ITEM_TYPE };
+		String sortOrder = NAME_DISPLAY_NAME;
+
+		Cursor cursor = context.getContentResolver().query(DATA_CONTENT_URI,
+				projection, selection, selectionArgs, sortOrder);
+
+		List<String> displayNames = new ArrayList<String>();
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				String displayName = cursor.getString(cursor
+						.getColumnIndex(NAME_DISPLAY_NAME));
+				if (displayName == null) {
+					displayName = "unknown";
+				}
+				displayNames.add(displayName);
+			}
+		}
+		cursor.close();
+		return displayNames;
+	}
 }

@@ -16,11 +16,11 @@ public class EditTextView extends LinearLayout {
 	public EditTextView(Context context, EditTextBean editTextBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
-		viewName = viewHelper.getDefaultTextView(context);
+		viewName = viewHelper.newDefaultTextView(context);
 		viewName.setText(editTextBean.getName());
-		viewText = viewHelper.getDefaultEditText(context);
+		viewText = viewHelper.newDefaultEditText(context);
 		viewText.setText(editTextBean.getText());
-		viewColon = viewHelper.getDefaultTextView(context);
+		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 		addView(viewName, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));

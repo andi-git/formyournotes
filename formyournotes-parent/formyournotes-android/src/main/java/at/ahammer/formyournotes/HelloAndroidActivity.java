@@ -75,9 +75,12 @@ public class HelloAndroidActivity extends Activity {
 		layout.addView(button);
 
 		ContactDao contactDao = new ContactDao();
-		List<Contact> allContacts = contactDao.getAllContacts(this);
-		for (Contact contact : allContacts) {
-			Log.i("FormYourNotes", contact.toString());
+//		List<Contact> allContacts = contactDao.getAllContacts(this);
+//		for (Contact contact : allContacts) {
+//			Log.i("FormYourNotes", contact.toString());
+//		}
+		for (String name : contactDao.getAllDisplayNames(this)) {
+			Log.i("FormYourNotes", name);
 		}
 
 		// Cursor phones = getContentResolver().query(

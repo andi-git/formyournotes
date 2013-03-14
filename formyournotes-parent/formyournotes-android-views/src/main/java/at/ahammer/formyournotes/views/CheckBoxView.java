@@ -13,7 +13,7 @@ public class CheckBoxView extends LinearLayout {
 	public CheckBoxView(Context context, CheckBoxBean checkBoxBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
-		checkBox = viewHelper.getDefaultCheckBox(context);
+		checkBox = viewHelper.newDefaultCheckBox(context);
 		checkBox.setText(checkBoxBean.getText());
 		checkBox.setChecked(checkBoxBean.isChecked());
 		addView(checkBox, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,

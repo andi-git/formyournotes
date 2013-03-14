@@ -3,6 +3,7 @@ package at.ahammer.formyournotes.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,21 +32,27 @@ public class ViewHelper {
 		setTextType(view);
 	}
 	
-	public TextView getDefaultTextView(Context context) {
+	public TextView newDefaultTextView(Context context) {
 		TextView textView = new TextView(context);
 		setAllDefaults(textView);
 		return textView;
 	}
 
-	public EditText getDefaultEditText(Context context) {
+	public EditText newDefaultEditText(Context context) {
 		EditText editText = new EditText(context);
 		setAllDefaults(editText);
 		return editText;
 	}
 	
-	public CheckBox getDefaultCheckBox(Context context) {
+	public CheckBox newDefaultCheckBox(Context context) {
 		CheckBox checkBox = new CheckBox(context);
 		setAllDefaults(checkBox);
 		return checkBox;
+	}
+
+	public Button newDefaultButton(Context context) {
+		Button button = new Button(context);
+		setAllDefaults(button);
+		return button;
 	}
 }
