@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.ContactBean;
+import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.dao.ContactDao;
 
 public class ContactView extends LinearLayout {
@@ -30,7 +31,8 @@ public class ContactView extends LinearLayout {
 	private List<String> displayNames = new ArrayList<String>();
 	private ContactDao contactDao = new ContactDao();
 
-	public ContactView(final Context context, ContactBean contactBean) {
+	public ContactView(final Context context, MyR r, FormBean formBean,
+			ContactBean contactBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
 		viewText = viewHelper.newDefaultTextView(context);

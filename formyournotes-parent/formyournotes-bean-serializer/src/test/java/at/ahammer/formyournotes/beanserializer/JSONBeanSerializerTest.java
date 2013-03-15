@@ -15,7 +15,21 @@ import org.junit.Test;
 
 public class JSONBeanSerializerTest {
 
-	private static final String SIMPLE_BEAN_A_JSON = "{\"string\":\"a string\",\"i\":42,\"list\":[{\"bstring\":\"string1\",\"b\":true},{\"bstring\":\"string2\",\"b\":false}]}";
+	private static final String SIMPLE_BEAN_A_JSON = "" + 
+		"{\n" + //
+		"  \"string\": \"a string\",\n" + 
+		"  \"i\": 42,\n" + 
+		"  \"list\": [\n" + 
+		"    {\n" + 
+		"      \"bstring\": \"string1\",\n" + 
+		"      \"b\": true\n" + 
+		"    },\n" + 
+		"    {\n" + 
+		"      \"bstring\": \"string2\",\n" + 
+		"      \"b\": false\n" + 
+		"    }\n" + 
+		"  ]\n" + 
+		"}";
 	private BeanSerializer beanSerializer;
 
 	@Before
@@ -25,6 +39,7 @@ public class JSONBeanSerializerTest {
 
 	@Test
 	public void testSerialize() throws SerializationException {
+		System.out.println(beanSerializer.serialize(createSimpleBeanA()));
 		Assert.assertEquals(SIMPLE_BEAN_A_JSON,
 				beanSerializer.serialize(createSimpleBeanA()));
 	}

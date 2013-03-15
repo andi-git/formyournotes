@@ -3,7 +3,9 @@ package at.ahammer.formyournotes.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactBean extends FormYourNotesBean {
+import at.ahammer.formyournotes.data.ContactData;
+
+public class ContactBean extends FormYourNotesBean<ContactData> {
 
 	private String discription;
 	private String firstName;
@@ -13,12 +15,8 @@ public class ContactBean extends FormYourNotesBean {
 	private List<String> emails = new ArrayList<String>();
 	private String address;
 
-	public ContactBean(int id, int rank, String discription, String firstName,
-			String lastName) {
-		super(id, rank);
-		this.discription = discription;
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public ContactBean() {
+		super();
 	}
 
 	public String getDiscription() {
@@ -75,5 +73,42 @@ public class ContactBean extends FormYourNotesBean {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	@Override
+	public void addData(ContactData data) {
+		firstName = data.getFirstName();
+		lastName = data.getLastName();
+		displayName = data.getDisplayName();
+		phones = new ArrayList<String>();
+		for (String phone : data.getPhones()) {
+			phones.add(phone);
+		}
+		emails = new ArrayList<String>();
+		for (String email : data.getEmails()) {
+			emails.add(email);
+		}
+		address = data.getAddress();
+	}
+
+	@Override
+	public ContactData getData() {
+		ContactData data = new ContactData();
+		data.setFirstName(firstName);
+		data.setLastName(lastName);
+		data.setDisplayName(displayName);
+		for (String phone : phones) {
+			data.getPhones().add(phone);
+		}
+		for (String email : emails) {
+			data.getEmails().add(email);
+		}
+		data.setAddress(address);
+		return null;
+	}
+
+	@Override
+	public boolean canBeParent() {
+		return false;
 	}
 }

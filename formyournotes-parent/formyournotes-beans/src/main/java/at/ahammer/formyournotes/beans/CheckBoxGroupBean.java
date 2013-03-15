@@ -3,30 +3,46 @@ package at.ahammer.formyournotes.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckBoxGroupBean extends FormYourNotesBean {
+import at.ahammer.formyournotes.data.CheckBoxGroupData;
 
-	private String text;
+public class CheckBoxGroupBean extends FormYourNotesBean<CheckBoxGroupData> {
+
+	private String discription;
 
 	private List<CheckBoxBean> checkBoxes = new ArrayList<CheckBoxBean>();
 
-	public CheckBoxGroupBean(int id, int rank, String text) {
-		super(id, rank);
-		this.text = text;
+	public CheckBoxGroupBean() {
+		super();
 	}
 
-	public String getText() {
-		return text;
+	public String getDiscription() {
+		return discription;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setDiscription(String discription) {
+		this.discription = discription;
 	}
 
 	public List<CheckBoxBean> getCheckBoxes() {
 		return checkBoxes;
 	}
 
-	public void setCheckBoxes(List<CheckBoxBean> checkBoxes) {
-		this.checkBoxes = checkBoxes;
+	public void addCheckBox(CheckBoxBean checkBox) {
+		checkBoxes.add(checkBox);
+	}
+
+	@Override
+	public void addData(CheckBoxGroupData data) {
+		// nothing
+	}
+
+	@Override
+	public CheckBoxGroupData getData() {
+		return new CheckBoxGroupData();
+	}
+
+	@Override
+	public boolean canBeParent() {
+		return false;
 	}
 }

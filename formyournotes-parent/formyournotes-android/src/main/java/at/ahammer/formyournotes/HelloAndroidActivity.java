@@ -1,23 +1,16 @@
 package at.ahammer.formyournotes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import at.ahammer.formyournotes.beans.CheckBoxBean;
-import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
-import at.ahammer.formyournotes.beans.ContactBean;
-import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
-import at.ahammer.formyournotes.dao.Contact;
-import at.ahammer.formyournotes.dao.ContactDao;
+import at.ahammer.formyournotes.beans.HebammenFormular;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.BeanViewMapper;
+import at.ahammer.formyournotes.views.MyR;
 
 public class HelloAndroidActivity extends Activity {
 
@@ -40,26 +33,34 @@ public class HelloAndroidActivity extends Activity {
 
 		LinearLayout layout = (LinearLayout) findViewById(R.id.formyournotelayout);
 
-		List<FormYourNotesBean> formYourNotesBeans = new ArrayList<FormYourNotesBean>();
-		formYourNotesBeans.add(new ContactBean(0, 0, "Benutzer", "Andreas",
-				"Ahammer"));
-		formYourNotesBeans.add(new EditTextBean(1, 1, "Info 1",
-				"ein bisschen Text"));
-		formYourNotesBeans.add(new EditTextBean(2, 2, "Info 2",
-				"noch mehr Text"));
-		CheckBoxGroupBean checkBoxGroupBean = new CheckBoxGroupBean(3, 3,
-				"ein paar check-boxes");
-		checkBoxGroupBean.getCheckBoxes().add(
-				new CheckBoxBean(4, 4, "box1", true));
-		checkBoxGroupBean.getCheckBoxes().add(
-				new CheckBoxBean(5, 5, "box2", true));
-		checkBoxGroupBean.getCheckBoxes().add(
-				new CheckBoxBean(5, 5, "box3", false));
-		formYourNotesBeans.add(checkBoxGroupBean);
-
-		for (FormYourNotesBean formYourNotesBean : formYourNotesBeans) {
-			layout.addView(beanViewMapper.getView(this, formYourNotesBean));
+		MyR myR = new MyR();
+		myR.getDrawable().setMyCustomBackground(R.drawable.my_custom_background);
+		
+		HebammenFormular hebammenFormular = new HebammenFormular();
+		for (FormYourNotesBean<?> formYourNotesBean : hebammenFormular.getForm().getAllTopLevelItemsSortedByRank()) {
+			layout.addView(beanViewMapper.getView(this, myR, hebammenFormular.getForm(), formYourNotesBean));
 		}
+		
+//		List<FormYourNotesBean> formYourNotesBeans = new ArrayList<FormYourNotesBean>();
+//		formYourNotesBeans.add(new ContactBean(0, 0, "Benutzer", "Andreas",
+//				"Ahammer"));
+//		formYourNotesBeans.add(new EditTextBean(1, 1, "Info 1",
+//				"ein bisschen Text"));
+//		formYourNotesBeans.add(new EditTextBean(2, 2, "Info 2",
+//				"noch mehr Text"));
+//		CheckBoxGroupBean checkBoxGroupBean = new CheckBoxGroupBean(3, 3,
+//				"ein paar check-boxes");
+//		checkBoxGroupBean.getCheckBoxes().add(
+//				new CheckBoxBean(4, 4, "box1", true));
+//		checkBoxGroupBean.getCheckBoxes().add(
+//				new CheckBoxBean(5, 5, "box2", true));
+//		checkBoxGroupBean.getCheckBoxes().add(
+//				new CheckBoxBean(5, 5, "box3", false));
+//		formYourNotesBeans.add(checkBoxGroupBean);
+//
+//		for (FormYourNotesBean formYourNotesBean : formYourNotesBeans) {
+//			layout.addView(beanViewMapper.getView(this, formYourNotesBean));
+//		}
 
 		Button button = new Button(this);
 		button.setText("Speichern");
@@ -74,14 +75,14 @@ public class HelloAndroidActivity extends Activity {
 		Log.i(LogTag.FYN.getTag(), "my message");
 		layout.addView(button);
 
-		ContactDao contactDao = new ContactDao();
+//		ContactDao contactDao = new ContactDao();
 //		List<Contact> allContacts = contactDao.getAllContacts(this);
 //		for (Contact contact : allContacts) {
 //			Log.i("FormYourNotes", contact.toString());
 //		}
-		for (String name : contactDao.getAllDisplayNames(this)) {
-			Log.i("FormYourNotes", name);
-		}
+//		for (String name : contactDao.getAllDisplayNames(this)) {
+//			Log.i("FormYourNotes", name);
+//		}
 
 		// Cursor phones = getContentResolver().query(
 		// ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,

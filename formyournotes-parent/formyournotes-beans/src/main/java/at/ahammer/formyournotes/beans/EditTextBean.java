@@ -1,30 +1,46 @@
 package at.ahammer.formyournotes.beans;
 
-public class EditTextBean extends FormYourNotesBean {
+import at.ahammer.formyournotes.data.EditTextData;
 
-	private String name;
+public class EditTextBean extends FormYourNotesBean<EditTextData> {
 
-	private String text;
+	private String discription;
+	private String value;
 
-	public EditTextBean(int id, int rank, String name, String text) {
-		super(id, rank);
-		this.name = name;
-		this.text = text;
+	public EditTextBean() {
+		super();
 	}
 
-	public String getName() {
-		return name;
+	public String getDiscription() {
+		return discription;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDiscription(String discription) {
+		this.discription = discription;
 	}
 
-	public String getText() {
-		return text;
+	public String getValue() {
+		return value;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	@Override
+	public void addData(EditTextData data) {
+		value = data.getValue();
+	}
+
+	@Override
+	public EditTextData getData() {
+		EditTextData data = new EditTextData();
+		data.setValue(value);
+		return data;
+	}
+
+	@Override
+	public boolean canBeParent() {
+		return false;
 	}
 }

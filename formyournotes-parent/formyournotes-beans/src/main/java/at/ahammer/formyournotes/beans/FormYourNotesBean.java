@@ -1,15 +1,17 @@
 package at.ahammer.formyournotes.beans;
 
-public class FormYourNotesBean {
+import at.ahammer.formyournotes.data.FormYourNotesData;
 
-	private int id;
+public abstract class FormYourNotesBean <T extends FormYourNotesData> {
 
-	private int rank;
+	private int id = 0;
 
-	public FormYourNotesBean(int id, int rank) {
+	private int rank = 0;
+
+	private int parent = 0;
+
+	public FormYourNotesBean() {
 		super();
-		this.id = id;
-		this.rank = rank;
 	}
 
 	public int getId() {
@@ -26,5 +28,31 @@ public class FormYourNotesBean {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getParent() {
+		return parent;
+	}
+
+	public void setParent(int parent) {
+		this.parent = parent;
+	}
+
+	public void setParent(FormYourNotesBean<?> bean) {
+		this.parent = bean.getId();
+	}
+
+	public boolean hasParent() {
+		return parent > 0;
+	}
+
+	public abstract void addData(T data);
+
+	public abstract T getData();
+	
+	public abstract boolean canBeParent();
+	
+	public boolean isTopLevelElement() {
+		return parent == 0;
 	}
 }

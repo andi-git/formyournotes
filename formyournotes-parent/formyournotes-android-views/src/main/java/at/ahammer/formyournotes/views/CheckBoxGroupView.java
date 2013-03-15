@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
+import at.ahammer.formyournotes.beans.FormBean;
 
 public class CheckBoxGroupView extends LinearLayout {
 
@@ -17,15 +18,15 @@ public class CheckBoxGroupView extends LinearLayout {
 	private final TextView viewColon;
 	private final List<CheckBoxView> checkBoxes = new ArrayList<CheckBoxView>();
 	
-	public CheckBoxGroupView(Context context, CheckBoxGroupBean checkBoxGroupBean) {
+	public CheckBoxGroupView(Context context, MyR r, FormBean formBean, CheckBoxGroupBean checkBoxGroupBean) {
 		super(context);
 		setOrientation(VERTICAL);
 		viewName = viewHelper.newDefaultTextView(context);
-		viewName.setText(checkBoxGroupBean.getText());
+		viewName.setText(checkBoxGroupBean.getDiscription());
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 		for (CheckBoxBean checkBoxBean : checkBoxGroupBean.getCheckBoxes()) {
-			checkBoxes.add(new CheckBoxView(context, checkBoxBean));
+			checkBoxes.add(new CheckBoxView(context, r, formBean, checkBoxBean));
 		}
 		addView(addRow(context, viewName, viewColon), new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
