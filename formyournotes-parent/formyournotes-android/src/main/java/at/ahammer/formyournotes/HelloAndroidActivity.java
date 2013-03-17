@@ -34,7 +34,7 @@ public class HelloAndroidActivity extends Activity {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.formyournotelayout);
 
 		MyR myR = new MyR();
-		myR.getDrawable().setMyCustomBackground(R.drawable.my_custom_background);
+		myR.getDrawable().setBorderTopElement(R.drawable.border_top_element);
 		
 		HebammenFormular hebammenFormular = new HebammenFormular();
 		for (FormYourNotesBean<?> formYourNotesBean : hebammenFormular.getForm().getAllTopLevelItemsSortedByRank()) {

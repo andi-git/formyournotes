@@ -24,12 +24,9 @@ public class EditTextView extends LinearLayout {
 		viewText.setText(editTextBean.getValue());
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
-		addView(viewName, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(viewColon, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(viewText, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		addView(viewName, viewHelper.getLinearLayoutParam());
+		addView(viewColon, viewHelper.getLinearLayoutParam());
+		addView(viewText, viewHelper.getLinearLayoutParam());
 	}
 
 	public String getName() {

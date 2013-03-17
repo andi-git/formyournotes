@@ -64,16 +64,11 @@ public class ContactView extends LinearLayout {
 			}
 		});
 
-		addView(viewText, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(viewColon, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(viewName, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(chooseButton, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addView(actionButton, new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		addView(viewText, viewHelper.getLinearLayoutParam());
+		addView(viewColon, viewHelper.getLinearLayoutParam());
+		addView(viewName, viewHelper.getLinearLayoutParam());
+		addView(chooseButton, viewHelper.getLinearLayoutParam());
+		addView(actionButton, viewHelper.getLinearLayoutParam());
 	}
 
 	private View.OnClickListener createChooseButtonOnClickListener(

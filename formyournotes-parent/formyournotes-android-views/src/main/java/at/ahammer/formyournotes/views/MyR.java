@@ -13,14 +13,14 @@ public class MyR {
 	}
 
 	public static final class Drawable {
-		private int myCustomBackground;
+		private int borderTopElement;
 
-		public int getMyCustomBackground() {
-			return myCustomBackground;
+		public int getBorderTopElement() {
+			return borderTopElement;
 		}
 
-		public void setMyCustomBackground(int myCustomBackground) {
-			this.myCustomBackground = myCustomBackground;
+		public void setBorderTopElement(int borderTopElement) {
+			this.borderTopElement = borderTopElement;
 		}
 
 	}

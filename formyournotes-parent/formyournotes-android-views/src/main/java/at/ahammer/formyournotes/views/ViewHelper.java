@@ -6,7 +6,9 @@ import android.graphics.Typeface;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 public class ViewHelper {
 
@@ -24,7 +26,7 @@ public class ViewHelper {
 	public void setTextType(TextView view) {
 		view.setTypeface(TEXT_TYPE);
 	}
-	
+
 	public void setTextColor(TextView view) {
 		view.setTextSize(TEXT_SIZE);
 	}
@@ -32,15 +34,15 @@ public class ViewHelper {
 	public void setHeaderSize(TextView view) {
 		view.setTextSize(HEADER_SIZE);
 	}
-	
+
 	public void setHeaderType(TextView view) {
 		view.setTypeface(HEADER_TYPE);
 	}
-	
+
 	public void setHeaderColor(TextView view) {
 		view.setTextSize(HEADER_SIZE);
 	}
-	
+
 	public void setAllDefaults(TextView view) {
 		setTextColor(view);
 		setTextSize(view);
@@ -53,7 +55,7 @@ public class ViewHelper {
 		setHeaderType(view);
 		view.setTypeface(HEADER_TYPE, Typeface.BOLD_ITALIC);
 	}
-	
+
 	public TextView newDefaultTextView(Context context) {
 		TextView textView = new TextView(context);
 		setAllDefaults(textView);
@@ -71,7 +73,7 @@ public class ViewHelper {
 		setAllDefaults(editText);
 		return editText;
 	}
-	
+
 	public CheckBox newDefaultCheckBox(Context context) {
 		CheckBox checkBox = new CheckBox(context);
 		setAllDefaults(checkBox);
@@ -82,5 +84,19 @@ public class ViewHelper {
 		Button button = new Button(context);
 		setAllDefaults(button);
 		return button;
+	}
+
+	public LinearLayout.LayoutParams getLinearLayoutParamFirstInRow() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(20, 0, 0, 0);
+		return layoutParams;
+	}
+
+	public LinearLayout.LayoutParams getLinearLayoutParam() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0, 0, 0, 0);
+		return layoutParams;
 	}
 }
