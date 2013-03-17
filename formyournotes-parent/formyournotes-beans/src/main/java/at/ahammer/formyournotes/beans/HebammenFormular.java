@@ -36,12 +36,12 @@ public class HebammenFormular {
 
 		ContactData dataMutterContact = new ContactData();
 		dataMutterContact.setDisplayName("Petra Ahammer");
-		mutterContact.addData(dataMutterContact);
-		mutterGebDat.addData(new EditTextData("31.10.1978"));
-		mutterVsnr.addData(new EditTextData("0000311078"));
-		mutterKK.addData(new EditTextData("KFA"));
-		mutterZusatzversicherung.addData(new CheckBoxData(true));
-		mutterBeruf.addData(new EditTextData("Hebamme"));
+		mutterContact.setData(dataMutterContact);
+		mutterGebDat.setData(new EditTextData("31.10.1978"));
+		mutterVsnr.setData(new EditTextData("0000311078"));
+		mutterKK.setData(new EditTextData("KFA"));
+		mutterZusatzversicherung.setData(new CheckBoxData(true));
+		mutterBeruf.setData(new EditTextData("Hebamme"));
 
 		return form;
 	}

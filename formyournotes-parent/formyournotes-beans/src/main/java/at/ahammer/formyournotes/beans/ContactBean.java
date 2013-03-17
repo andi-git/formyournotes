@@ -1,6 +1,5 @@
 package at.ahammer.formyournotes.beans;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import at.ahammer.formyournotes.data.ContactData;
@@ -8,12 +7,7 @@ import at.ahammer.formyournotes.data.ContactData;
 public class ContactBean extends FormYourNotesBean<ContactData> {
 
 	private String discription;
-	private String firstName;
-	private String lastName;
-	private String displayName;
-	private List<String> phones = new ArrayList<String>();
-	private List<String> emails = new ArrayList<String>();
-	private String address;
+	private ContactData data = new ContactData();
 
 	public ContactBean() {
 		super();
@@ -28,83 +22,61 @@ public class ContactBean extends FormYourNotesBean<ContactData> {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return data.getFirstName();
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		data.setFirstName(firstName);
 	}
 
 	public String getLastName() {
-		return lastName;
+		return data.getLastName();
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		data.setLastName(lastName);
 	}
 
 	public String getDisplayName() {
-		return displayName;
+		return data.getDisplayName();
 	}
 
 	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+		data.setDisplayName(displayName);
 	}
 
 	public List<String> getPhones() {
-		return phones;
+		return data.getPhones();
 	}
 
 	public void setPhones(List<String> phones) {
-		this.phones = phones;
+		data.setPhones(phones);
 	}
 
 	public List<String> getEmails() {
-		return emails;
+		return data.getEmails();
 	}
 
 	public void setEmails(List<String> emails) {
-		this.emails = emails;
+		data.setEmails(emails);
 	}
 
 	public String getAddress() {
-		return address;
+		return data.getAddress();
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		data.setAddress(address);
 	}
 
 	@Override
-	public void addData(ContactData data) {
-		firstName = data.getFirstName();
-		lastName = data.getLastName();
-		displayName = data.getDisplayName();
-		phones = new ArrayList<String>();
-		for (String phone : data.getPhones()) {
-			phones.add(phone);
-		}
-		emails = new ArrayList<String>();
-		for (String email : data.getEmails()) {
-			emails.add(email);
-		}
-		address = data.getAddress();
+	public void setData(ContactData data) {
+		this.data = data;
 	}
 
 	@Override
 	public ContactData getData() {
-		ContactData data = new ContactData();
-		data.setFirstName(firstName);
-		data.setLastName(lastName);
-		data.setDisplayName(displayName);
-		for (String phone : phones) {
-			data.getPhones().add(phone);
-		}
-		for (String email : emails) {
-			data.getEmails().add(email);
-		}
-		data.setAddress(address);
-		return null;
+		return data;
 	}
 
 	@Override

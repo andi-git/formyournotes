@@ -36,14 +36,14 @@ public class TestFormSerialization {
 		checkBoxBean1.setDiscription("a check 1");
 		CheckBoxData checkBoxData1 = new CheckBoxData();
 		checkBoxData1.setChecked(true);
-		checkBoxBean1.addData(checkBoxData1);
+		checkBoxBean1.setData(checkBoxData1);
 		CheckBoxBean checkBoxBean2 = new CheckBoxBean();
 		checkBoxBean2.setId(11);
 		checkBoxBean2.setRank(11);
 		checkBoxBean2.setDiscription("a check 2");
 		CheckBoxData checkBoxData2 = new CheckBoxData();
 		checkBoxData2.setChecked(true);
-		checkBoxBean2.addData(checkBoxData2);
+		checkBoxBean2.setData(checkBoxData2);
 		checkBoxGroupBean.addCheckBox(checkBoxBean1);
 		checkBoxGroupBean.addCheckBox(checkBoxBean2);
 		formBean.addCheckBoxGroupBean(checkBoxGroupBean);
@@ -60,7 +60,7 @@ public class TestFormSerialization {
 		contactData.setFirstName("Max");
 		contactData.setLastName("Mustermann");
 		contactData.setPhones(Arrays.asList("0123456789", "9876543210"));
-		contactBean.addData(contactData);
+		contactBean.setData(contactData);
 		formBean.addContactBean(contactBean);
 
 		GroupBean groupBean = new GroupBean();
@@ -74,7 +74,7 @@ public class TestFormSerialization {
 		editTextBean1.setParent(30);
 		EditTextData editTextData1 = new EditTextData();
 		editTextData1.setValue("text1");
-		editTextBean1.addData(editTextData1);
+		editTextBean1.setData(editTextData1);
 		EditTextBean editTextBean2 = new EditTextBean();
 		editTextBean2.setId(3);
 		editTextBean2.setRank(3);
@@ -82,7 +82,7 @@ public class TestFormSerialization {
 		editTextBean2.setDiscription("text2");
 		EditTextData editTextData2 = new EditTextData();
 		editTextData2.setValue("text2");
-		editTextBean2.addData(editTextData2);
+		editTextBean2.setData(editTextData2);
 		formBean.addEditTextBean(editTextBean1);
 		formBean.addEditTextBean(editTextBean2);
 

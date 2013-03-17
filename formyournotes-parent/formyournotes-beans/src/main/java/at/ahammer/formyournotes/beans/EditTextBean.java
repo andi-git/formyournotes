@@ -5,8 +5,8 @@ import at.ahammer.formyournotes.data.EditTextData;
 public class EditTextBean extends FormYourNotesBean<EditTextData> {
 
 	private String discription;
-	private String value;
-
+	private EditTextData data = new EditTextData();
+	
 	public EditTextBean() {
 		super();
 	}
@@ -20,22 +20,20 @@ public class EditTextBean extends FormYourNotesBean<EditTextData> {
 	}
 
 	public String getValue() {
-		return value;
+		return data.getValue();
 	}
 
 	public void setValue(String value) {
-		this.value = value;
+		data.setValue(value);
 	}
 
 	@Override
-	public void addData(EditTextData data) {
-		value = data.getValue();
+	public void setData(EditTextData data) {
+		this.data = data;
 	}
 
 	@Override
 	public EditTextData getData() {
-		EditTextData data = new EditTextData();
-		data.setValue(value);
 		return data;
 	}
 

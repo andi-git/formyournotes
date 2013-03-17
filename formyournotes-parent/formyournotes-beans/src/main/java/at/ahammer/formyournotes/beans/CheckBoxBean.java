@@ -6,7 +6,7 @@ public class CheckBoxBean extends FormYourNotesBean<CheckBoxData> {
 
 	private String discription;
 
-	private boolean checked;
+	private CheckBoxData data = new CheckBoxData();
 
 	public CheckBoxBean() {
 		super();
@@ -21,22 +21,20 @@ public class CheckBoxBean extends FormYourNotesBean<CheckBoxData> {
 	}
 
 	public boolean isChecked() {
-		return checked;
+		return data.isChecked();
 	}
 
 	public void setChecked(boolean checked) {
-		this.checked = checked;
+		data.setChecked(checked);
 	}
 
 	@Override
-	public void addData(CheckBoxData data) {
-		checked = data.isChecked();
+	public void setData(CheckBoxData data) {
+		this.data = data;
 	}
 
 	@Override
 	public CheckBoxData getData() {
-		CheckBoxData data = new CheckBoxData();
-		data.setChecked(checked);
 		return data;
 	}
 

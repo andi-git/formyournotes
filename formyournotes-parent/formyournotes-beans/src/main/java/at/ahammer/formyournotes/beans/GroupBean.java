@@ -6,6 +6,8 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 
 	private String name;
 
+	private GroupData data = new GroupData();
+
 	public GroupBean() {
 		super();
 	}
@@ -19,13 +21,13 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 	}
 
 	@Override
-	public void addData(GroupData data) {
+	public void setData(GroupData data) {
 		// nothing
 	}
 
 	@Override
 	public GroupData getData() {
-		return new GroupData();
+		return data;
 	}
 
 	@Override

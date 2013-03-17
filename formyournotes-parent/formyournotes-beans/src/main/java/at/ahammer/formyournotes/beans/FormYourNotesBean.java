@@ -46,7 +46,7 @@ public abstract class FormYourNotesBean <T extends FormYourNotesData> {
 		return parent > 0;
 	}
 
-	public abstract void addData(T data);
+	public abstract void setData(T data);
 
 	public abstract T getData();
 	

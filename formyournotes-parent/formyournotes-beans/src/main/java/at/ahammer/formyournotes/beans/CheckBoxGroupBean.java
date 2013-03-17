@@ -11,6 +11,8 @@ public class CheckBoxGroupBean extends FormYourNotesBean<CheckBoxGroupData> {
 
 	private List<CheckBoxBean> checkBoxes = new ArrayList<CheckBoxBean>();
 
+	private CheckBoxGroupData data = new CheckBoxGroupData();
+	
 	public CheckBoxGroupBean() {
 		super();
 	}
@@ -32,13 +34,13 @@ public class CheckBoxGroupBean extends FormYourNotesBean<CheckBoxGroupData> {
 	}
 
 	@Override
-	public void addData(CheckBoxGroupData data) {
+	public void setData(CheckBoxGroupData data) {
 		// nothing
 	}
 
 	@Override
 	public CheckBoxGroupData getData() {
-		return new CheckBoxGroupData();
+		return data;
 	}
 
 	@Override
