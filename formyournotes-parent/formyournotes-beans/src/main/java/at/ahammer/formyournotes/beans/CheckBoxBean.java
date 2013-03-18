@@ -39,7 +39,13 @@ public class CheckBoxBean extends FormYourNotesBean<CheckBoxData> {
 	}
 
 	@Override
+	public void clearData() {
+		data = new CheckBoxData();
+	}
+
+	@Override
 	public boolean canBeParent() {
 		return false;
 	}
+
 }

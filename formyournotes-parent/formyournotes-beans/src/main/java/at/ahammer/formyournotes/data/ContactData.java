@@ -15,6 +15,11 @@ public class ContactData extends FormYourNotesData {
 	public ContactData() {
 		super();
 	}
+	
+	public ContactData(String displayName, int formId) {
+		super(formId);
+		this.displayName = displayName;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -63,4 +68,70 @@ public class ContactData extends FormYourNotesData {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result
+				+ ((displayName == null) ? 0 : displayName.hashCode());
+		result = prime * result + ((emails == null) ? 0 : emails.hashCode());
+		result = prime * result
+				+ ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result
+				+ ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((phones == null) ? 0 : phones.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContactData other = (ContactData) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (displayName == null) {
+			if (other.displayName != null)
+				return false;
+		} else if (!displayName.equals(other.displayName))
+			return false;
+		if (emails == null) {
+			if (other.emails != null)
+				return false;
+		} else if (!emails.equals(other.emails))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (phones == null) {
+			if (other.phones != null)
+				return false;
+		} else if (!phones.equals(other.phones))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ContactData [firstName=" + firstName + ", lastName=" + lastName
+				+ ", displayName=" + displayName + ", phones=" + phones
+				+ ", emails=" + emails + ", address=" + address + "]";
+	}
+
 }

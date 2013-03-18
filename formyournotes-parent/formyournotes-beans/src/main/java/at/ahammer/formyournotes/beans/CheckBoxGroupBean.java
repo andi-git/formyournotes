@@ -44,6 +44,11 @@ public class CheckBoxGroupBean extends FormYourNotesBean<CheckBoxGroupData> {
 	}
 
 	@Override
+	public void clearData() {
+		data = new CheckBoxGroupData();
+	}
+	
+	@Override
 	public boolean canBeParent() {
 		return false;
 	}

@@ -38,6 +38,11 @@ public class EditTextBean extends FormYourNotesBean<EditTextData> {
 	}
 
 	@Override
+	public void clearData() {
+		data = new EditTextData();
+	}
+	
+	@Override
 	public boolean canBeParent() {
 		return false;
 	}

@@ -5,9 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import at.ahammer.formyournotes.data.CheckBoxData;
+import at.ahammer.formyournotes.data.ContactData;
+import at.ahammer.formyournotes.data.EditTextData;
+import at.ahammer.formyournotes.data.FormData;
+
 public class FormBean {
 
-	private String name;
+	private int id = -1;
+	private String name = "unknown";
 	// work here with concrete classes, otherwise GSON has problems!
 	private List<CheckBoxBean> checkBoxBeans = new ArrayList<CheckBoxBean>();
 	private List<CheckBoxGroupBean> checkBoxGroupBeans = new ArrayList<CheckBoxGroupBean>();
@@ -16,9 +22,23 @@ public class FormBean {
 	private List<GroupBean> groupBeans = new ArrayList<GroupBean>();
 
 	// TODO cache for ranking - bean
-	
+
 	public FormBean() {
 		super();
+	}
+
+	public FormBean(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -183,7 +203,7 @@ public class FormBean {
 		items.addAll(groupBeans);
 		return items;
 	}
-	
+
 	public List<FormYourNotesBean<?>> getAllTopLevelItemsSortedByRank() {
 		List<FormYourNotesBean<?>> topLevelItems = new ArrayList<FormYourNotesBean<?>>();
 		for (FormYourNotesBean<?> item : getAllItems()) {
@@ -194,11 +214,11 @@ public class FormBean {
 		sortByRank(topLevelItems);
 		return topLevelItems;
 	}
-	
+
 	public List<FormYourNotesBean<?>> getAllChildren(FormYourNotesBean<?> bean) {
 		return getAllChildren(bean.getId());
 	}
-	
+
 	public List<FormYourNotesBean<?>> getAllChildren(int id) {
 		List<FormYourNotesBean<?>> children = new ArrayList<FormYourNotesBean<?>>();
 		for (FormYourNotesBean<?> item : getAllItems()) {
@@ -208,5 +228,60 @@ public class FormBean {
 		}
 		sortByRank(children);
 		return children;
+	}
+
+	private void clearData() {
+		for (CheckBoxBean checkBoxBean : checkBoxBeans) {
+			checkBoxBean.clearData();
+		}
+		for (CheckBoxGroupBean checkBoxGroupBean : checkBoxGroupBeans) {
+			checkBoxGroupBean.clearData();
+		}
+		for (ContactBean contactBean : contactBeans) {
+			contactBean.clearData();
+		}
+		for (EditTextBean editTextBean : editTextBeans) {
+			editTextBean.clearData();
+		}
+		for (GroupBean groupBean : groupBeans) {
+			groupBean.clearData();
+		}
+	}
+
+	public void setData(FormData formData) {
+		clearData();
+		for (CheckBoxData checkBoxData : formData.getCheckBoxData()) {
+			getById(checkBoxData.getFormId(), CheckBoxBean.class).setData(
+					checkBoxData);
+		}
+		for (ContactData contactData : formData.getContactData()) {
+			getById(contactData.getFormId(), ContactBean.class).setData(
+					contactData);
+		}
+		for (EditTextData editTextData : formData.getEditTextData()) {
+			getById(editTextData.getFormId(), EditTextBean.class).setData(
+					editTextData);
+		}
+	}
+
+	public <T> T getById(int id, Class<T> clazz) {
+		FormYourNotesBean<?> bean = null;
+		for (FormYourNotesBean<?> currentBean : getAllItems()) {
+			if (currentBean.getId() > 0 && currentBean.getId() == id) {
+				bean = currentBean;
+				break;
+			}
+		}
+		if (bean == null) {
+			throw new RuntimeException("Can't find item in form with id " + id);
+		}
+		if (clazz == bean.getClass()) {
+			@SuppressWarnings("unchecked")
+			T result = (T) bean;
+			return result;
+		} else {
+			throw new RuntimeException("Can't cast " + bean.getClass() + " to "
+					+ clazz);
+		}
 	}
 }

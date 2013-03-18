@@ -50,8 +50,10 @@ public abstract class FormYourNotesBean <T extends FormYourNotesData> {
 
 	public abstract T getData();
 	
-	public abstract boolean canBeParent();
+	public abstract void clearData();
 	
+	public abstract boolean canBeParent();
+
 	public boolean isTopLevelElement() {
 		return parent == 0;
 	}

@@ -31,6 +31,11 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 	}
 
 	@Override
+	public void clearData() {
+		data = new GroupData();
+	}
+	
+	@Override
 	public boolean canBeParent() {
 		return true;
 	}

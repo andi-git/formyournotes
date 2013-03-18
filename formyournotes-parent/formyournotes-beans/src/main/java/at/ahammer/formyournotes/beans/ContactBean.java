@@ -80,6 +80,11 @@ public class ContactBean extends FormYourNotesBean<ContactData> {
 	}
 
 	@Override
+	public void clearData() {
+		data = new ContactData();
+	}
+	
+	@Override
 	public boolean canBeParent() {
 		return false;
 	}
