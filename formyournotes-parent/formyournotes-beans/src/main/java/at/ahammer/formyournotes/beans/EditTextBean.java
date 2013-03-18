@@ -11,6 +11,11 @@ public class EditTextBean extends FormYourNotesBean<EditTextData> {
 		super();
 	}
 
+	public EditTextBean(String discription) {
+		super();
+		this.discription = discription;
+	}
+
 	public String getDiscription() {
 		return discription;
 	}

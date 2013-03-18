@@ -1,5 +1,6 @@
 package at.ahammer.formyournotes.beans;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.Assert;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
 import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
 import at.ahammer.formyournotes.beanserializer.SerializationException;
+import at.ahammer.formyournotes.data.FormData;
 
 public class TestHebammenFormular {
 
@@ -62,9 +64,14 @@ public class TestHebammenFormular {
 
 	@Test
 	public void testHebammenFormularJSON() throws SerializationException {
-		System.out.println(serializer.serialize(hebammenFormular.getForm()));
-		System.out.println(serializer.serialize(hebammenFormular.getData1()));
-		System.out.println(serializer.serialize(hebammenFormular.getData2()));
-	}
+		FormBean hebammenFormular = serializer.deserialize(new File(ClassLoader.getSystemResource("").getFile(), "form_1.json"), FormBean.class);
+		FormData hebammenData1 = serializer.deserialize(new File(ClassLoader.getSystemResource("").getFile(), "data_1_1.json"), FormData.class);
+		FormData hebammenData2 = serializer.deserialize(new File(ClassLoader.getSystemResource("").getFile(), "data_1_2.json"), FormData.class);
 
+		System.out.println(serializer.serialize(hebammenFormular));
+		System.out.println(serializer.serialize(hebammenFormular.setData(hebammenData1)));
+		System.out.println(serializer.serialize(hebammenFormular.setData(hebammenData2)));
+		System.out.println(serializer.serialize(hebammenData1));
+		System.out.println(serializer.serialize(hebammenData2));
+	}
 }

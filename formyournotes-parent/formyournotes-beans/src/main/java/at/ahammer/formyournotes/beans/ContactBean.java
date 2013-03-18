@@ -13,6 +13,11 @@ public class ContactBean extends FormYourNotesBean<ContactData> {
 		super();
 	}
 
+	public ContactBean(String discription) {
+		super();
+		this.discription = discription;
+	}
+
 	public String getDiscription() {
 		return discription;
 	}

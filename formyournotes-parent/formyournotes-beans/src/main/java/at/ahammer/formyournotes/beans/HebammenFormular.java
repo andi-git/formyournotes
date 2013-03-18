@@ -33,7 +33,7 @@ public class HebammenFormular {
 	}
 
 	private FormData createData1() {
-		FormData data = new FormData(1, "Miriam Musterfrau");
+		FormData data = new FormData(1, 1, "Miriam Musterfrau");
 		data.add(new ContactData("Miriam Musterfrau", 2));
 		data.add(new EditTextData("01.01.1980", 3));
 		data.add(new EditTextData("0000010180", 4));
@@ -44,7 +44,7 @@ public class HebammenFormular {
 	}
 
 	private FormData createData2() {
-		FormData data = new FormData(2, "Petra Ahammer");
+		FormData data = new FormData(1, 2, "Petra Ahammer");
 		data.add(new ContactData("Petra Ahammer", 2));
 		data.add(new EditTextData("31.10.1978", 3));
 		data.add(new EditTextData("0000311078", 4));

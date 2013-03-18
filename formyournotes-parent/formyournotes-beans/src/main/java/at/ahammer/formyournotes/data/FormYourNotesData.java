@@ -4,26 +4,26 @@ import at.ahammer.formyournotes.beans.FormYourNotesBean;
 
 public class FormYourNotesData {
 
-	private int formId = -1;
+	private int itemId = -1;
 
 	public FormYourNotesData() {
 		super();
 	}
 
-	public FormYourNotesData(int formId) {
+	public FormYourNotesData(int itemId) {
 		super();
-		this.formId = formId;
+		this.itemId = itemId;
 	}
 
-	public int getFormId() {
-		return formId;
+	public int getItemId() {
+		return itemId;
 	}
 
-	public void setFormId(int formId) {
-		this.formId = formId;
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 
-	public void setFormId(FormYourNotesBean<?> formBean) {
-		this.formId = formBean.getId();
+	public void setItemId(FormYourNotesBean<?> formBean) {
+		this.itemId = formBean.getId();
 	}
 }

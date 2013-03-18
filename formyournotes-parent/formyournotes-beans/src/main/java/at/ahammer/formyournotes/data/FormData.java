@@ -6,7 +6,8 @@ import java.util.List;
 
 public class FormData {
 
-	private int id = -1;
+	private int formId = -1;
+	private int dataId = -1;
 	private String name = "unknown";
 	private final List<CheckBoxData> checkBoxDataList = new ArrayList<CheckBoxData>();
 	private final List<ContactData> contactDataList = new ArrayList<ContactData>();
@@ -16,9 +17,10 @@ public class FormData {
 		super();
 	}
 
-	public FormData(int id, String name) {
+	public FormData(int formId, int dataId, String name) {
 		super();
-		this.id = id;
+		this.formId = formId;
+		this.dataId = dataId;
 		this.name = name;
 	}
 
@@ -63,13 +65,21 @@ public class FormData {
 		editTextDataList.remove(editTextData);
 		return getEditTextData();
 	}
-
-	public int getId() {
-		return id;
+	
+	public int getFormId() {
+		return formId;
+	}
+	
+	public void setFormId(int formId) {
+		this.formId = formId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getDataId() {
+		return dataId;
+	}
+
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 
 	public String getName() {

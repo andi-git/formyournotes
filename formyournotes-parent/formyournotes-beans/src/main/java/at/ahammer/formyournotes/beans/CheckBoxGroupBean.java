@@ -17,6 +17,11 @@ public class CheckBoxGroupBean extends FormYourNotesBean<CheckBoxGroupData> {
 		super();
 	}
 
+	public CheckBoxGroupBean(String discription) {
+		super();
+		this.discription = discription;
+	}
+
 	public String getDiscription() {
 		return discription;
 	}

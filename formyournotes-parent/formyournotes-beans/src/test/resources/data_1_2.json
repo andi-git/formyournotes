@@ -1,0 +1,37 @@
+{
+  "formId": 1,
+  "dataId": 2,
+  "name": "Petra Ahammer",
+  "checkBoxDataList": [
+    {
+      "checked": true,
+      "itemId": 6
+    }
+  ],
+  "contactDataList": [
+    {
+      "displayName": "Petra Ahammer",
+      "phones": [],
+      "emails": [],
+      "itemId": 2
+    }
+  ],
+  "editTextDataList": [
+    {
+      "value": "31.10.1978",
+      "itemId": 3
+    },
+    {
+      "value": "0000311078",
+      "itemId": 4
+    },
+    {
+      "value": "KFA",
+      "itemId": 5
+    },
+    {
+      "value": "Hebamme",
+      "itemId": 7
+    }
+  ]
+}

@@ -12,6 +12,11 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 		super();
 	}
 
+	public GroupBean(String name) {
+		super();
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -39,6 +39,10 @@ public class FormBean {
 
 	public void setId(int id) {
 		this.id = id;
+		// set id of form to all containing data
+		for (FormYourNotesBean<?> bean : getAllItems()) {
+			bean.getData().setItemId(id);
+		}
 	}
 
 	public String getName() {
@@ -248,20 +252,21 @@ public class FormBean {
 		}
 	}
 
-	public void setData(FormData formData) {
+	public FormBean setData(FormData formData) {
 		clearData();
 		for (CheckBoxData checkBoxData : formData.getCheckBoxData()) {
-			getById(checkBoxData.getFormId(), CheckBoxBean.class).setData(
+			getById(checkBoxData.getItemId(), CheckBoxBean.class).setData(
 					checkBoxData);
 		}
 		for (ContactData contactData : formData.getContactData()) {
-			getById(contactData.getFormId(), ContactBean.class).setData(
+			getById(contactData.getItemId(), ContactBean.class).setData(
 					contactData);
 		}
 		for (EditTextData editTextData : formData.getEditTextData()) {
-			getById(editTextData.getFormId(), EditTextBean.class).setData(
+			getById(editTextData.getItemId(), EditTextBean.class).setData(
 					editTextData);
 		}
+		return this;
 	}
 
 	public <T> T getById(int id, Class<T> clazz) {

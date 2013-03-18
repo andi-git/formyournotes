@@ -1,0 +1,79 @@
+{
+  "id": 1,
+  "name": "Hebammen Formular",
+  "checkBoxBeans": [
+    {
+      "discription": "Zusatzversicherung",
+      "data": {
+        "checked": false,
+        "formId": -1
+      },
+      "id": 6,
+      "rank": 6,
+      "parent": 1
+    }
+  ],
+  "checkBoxGroupBeans": [],
+  "contactBeans": [
+    {
+      "discription": "Mutter",
+      "data": {
+        "phones": [],
+        "emails": [],
+        "formId": -1
+      },
+      "id": 2,
+      "rank": 2,
+      "parent": 1
+    }
+  ],
+  "editTextBeans": [
+    {
+      "discription": "Geburtsdatum",
+      "data": {
+        "formId": -1
+      },
+      "id": 3,
+      "rank": 3,
+      "parent": 1
+    },
+    {
+      "discription": "Versicherungsnummer",
+      "data": {
+        "formId": -1
+      },
+      "id": 4,
+      "rank": 4,
+      "parent": 1
+    },
+    {
+      "discription": "Krankenkasse",
+      "data": {
+        "formId": -1
+      },
+      "id": 5,
+      "rank": 5,
+      "parent": 1
+    },
+    {
+      "discription": "Beruf",
+      "data": {
+        "formId": -1
+      },
+      "id": 7,
+      "rank": 7,
+      "parent": 1
+    }
+  ],
+  "groupBeans": [
+    {
+      "name": "Personendaten Mutter",
+      "data": {
+        "formId": -1
+      },
+      "id": 1,
+      "rank": 1,
+      "parent": 0
+    }
+  ]
+}
