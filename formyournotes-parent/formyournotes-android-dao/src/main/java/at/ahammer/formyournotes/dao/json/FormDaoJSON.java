@@ -1,6 +1,8 @@
 package at.ahammer.formyournotes.dao.json;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
@@ -15,9 +17,9 @@ public class FormDaoJSON implements FormDao {
 	private final FileHelper<RequiredDataForm> fileHelper;
 
 	private final BeanSerializer serializer;
-	
+
 	private final DataDao dataDao;
-	
+
 	// TODO caching
 
 	public FormDaoJSON(File directory) {
@@ -31,8 +33,7 @@ public class FormDaoJSON implements FormDao {
 		try {
 			RequiredDataForm requiredData = new RequiredDataForm(formId);
 			if (fileHelper.isAvailable(requiredData)) {
-				return serializer.deserialize(
-						fileHelper.getFile(requiredData),
+				return serializer.deserialize(fileHelper.getFile(requiredData),
 						FormBean.class);
 			} else {
 				return null;
@@ -48,7 +49,7 @@ public class FormDaoJSON implements FormDao {
 		formBean.setData(dataDao.read(formId, dataId));
 		return formBean;
 	}
-	
+
 	@Override
 	public FormBean save(FormBean formBean) throws DaoException {
 		try {
@@ -87,5 +88,18 @@ public class FormDaoJSON implements FormDao {
 			result = file.delete();
 		}
 		return result;
+	}
+
+	@Override
+	public List<FormBean> all() throws DaoException {
+		List<FormBean> allFormBeans = new ArrayList<FormBean>();
+		for (File file : fileHelper.getAllFiles()) {
+			try {
+				allFormBeans.add(serializer.deserialize(file, FormBean.class));
+			} catch (SerializationException e) {
+				throw new DaoException(e);
+			}
+		}
+		return allFormBeans;
 	}
 }

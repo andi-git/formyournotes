@@ -14,5 +14,7 @@ public interface DataDao {
 
 	boolean delete(FormData formData) throws DaoException;
 	
-	List<FormDao> allDataForForm(int formId) throws DaoException;
+	List<FormData> all() throws DaoException;
+	
+	List<FormData> allDataForForm(int formId) throws DaoException;
 }

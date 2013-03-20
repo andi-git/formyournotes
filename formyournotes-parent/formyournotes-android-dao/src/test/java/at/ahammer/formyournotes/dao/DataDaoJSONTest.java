@@ -1,6 +1,7 @@
 package at.ahammer.formyournotes.dao;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,5 +64,11 @@ public class DataDaoJSONTest {
 		Assert.assertNull(dataRead);
 		dataRead = dataDao.update(data);
 		Assert.assertNull(dataRead);
+	}
+	
+	@Test
+	public void testDataForForm() throws DaoException {
+		List<FormData> formDatas = dataDao.allDataForForm(1);
+		Assert.assertEquals(2, formDatas.size());
 	}
 }

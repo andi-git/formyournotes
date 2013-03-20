@@ -1,6 +1,7 @@
 package at.ahammer.formyournotes.dao.json;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
@@ -8,7 +9,6 @@ import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
 import at.ahammer.formyournotes.beanserializer.SerializationException;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
-import at.ahammer.formyournotes.dao.FormDao;
 import at.ahammer.formyournotes.data.FormData;
 
 public class DataDaoJSON implements DataDao {
@@ -96,8 +96,27 @@ public class DataDaoJSON implements DataDao {
 	}
 
 	@Override
-	public List<FormDao> allDataForForm(int formId) throws DaoException {
-		// FIXME implement!
-		return null;
+	public List<FormData> allDataForForm(int formId) throws DaoException {
+		// TODO: caching, no full-select
+		List<FormData> allDataForForm = new ArrayList<FormData>();
+		for (FormData formData : all()) {
+			if (formData.getFormId() == formId) {
+				allDataForForm.add(formData);
+			}
+		}
+		return allDataForForm;
+	}
+
+	@Override
+	public List<FormData> all() throws DaoException {
+		List<FormData> allFormData = new ArrayList<FormData>();
+		for (File file : fileHelper.getAllFiles()) {
+			try {
+				allFormData.add(serializer.deserialize(file, FormData.class));
+			} catch (SerializationException e) {
+				throw new DaoException(e);
+			}
+		}
+		return allFormData;
 	}
 }
