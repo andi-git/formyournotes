@@ -14,10 +14,10 @@ public class ViewHelper {
 
 	public static final Typeface TEXT_TYPE = Typeface.SANS_SERIF;
 	public static final int TEXT_COLOR = Color.WHITE;
-	public static final int TEXT_SIZE = 20;
+	public static final int TEXT_SIZE = 16;
 	public static final Typeface HEADER_TYPE = TEXT_TYPE;
 	public static final int HEADER_COLOR = TEXT_COLOR;
-	public static final int HEADER_SIZE = 24;
+	public static final int HEADER_SIZE = 20;
 
 	public void setTextSize(TextView view) {
 		view.setTextSize(TEXT_SIZE);

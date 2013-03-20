@@ -2,7 +2,7 @@ package at.ahammer.formyournotes.logging;
 
 public enum LogTag {
 
-	FYN("FYN");
+	FYN("FormYourNotes");
 	
 	final String tag;
 	

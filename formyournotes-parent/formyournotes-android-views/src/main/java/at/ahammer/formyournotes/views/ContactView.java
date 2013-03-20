@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class ContactView extends LinearLayout {
 	private ViewHelper viewHelper = new ViewHelper();
 	private final TextView viewText;
 	private final TextView viewColon;
-	private final TextView viewName;
+	private final EditText viewName;
 	private final Button chooseButton;
 	private final Button actionButton;
 	private View.OnClickListener chooseButtonOnClickListener;
@@ -40,8 +41,8 @@ public class ContactView extends LinearLayout {
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 
-		viewName = viewHelper.newDefaultTextView(context);
-		viewName.setText("---");
+		viewName = viewHelper.newDefaultEditText(context);
+		viewName.setText(contactBean.getDisplayName());
 
 		displayNames = contactDao.getAllDisplayNames(context);
 		chooseContactDialog = createChooseContactDialog(context, displayNames);
