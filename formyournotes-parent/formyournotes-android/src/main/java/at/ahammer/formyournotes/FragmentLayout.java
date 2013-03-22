@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -50,48 +51,87 @@ public class FragmentLayout extends ActionBarActivity {
 		setContentView(R.layout.fragment_layout);
 		getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+		FYNContext.INSTANCE.setFormId(1);
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main, menu);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main, menu);
 
-        // Calling super after populating the menu is necessary here to ensure that the
-        // action bar helpers have a chance to handle this event.
-        return super.onCreateOptionsMenu(menu);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
-                break;
+		// Calling super after populating the menu is necessary here to ensure
+		// that the
+		// action bar helpers have a chance to handle this event.
+		return super.onCreateOptionsMenu(menu);
+	}
 
-            case R.id.menu_refresh:
-                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
-                getActionBarHelper().setRefreshActionItemState(true);
-                getWindow().getDecorView().postDelayed(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                getActionBarHelper().setRefreshActionItemState(false);
-                            }
-                        }, 1000);
-                break;
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
+			break;
 
-            case R.id.menu_search:
-                Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
-                break;
+		// case R.id.menu_refresh:
+		// Toast.makeText(this, "Fake refreshing...",
+		// Toast.LENGTH_SHORT).show();
+		// getActionBarHelper().setRefreshActionItemState(true);
+		// getWindow().getDecorView().postDelayed(
+		// new Runnable() {
+		// @Override
+		// public void run() {
+		// getActionBarHelper().setRefreshActionItemState(false);
+		// }
+		// }, 1000);
+		// break;
+		//
+		// case R.id.menu_search:
+		// Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
+		// break;
+		//
+		// case R.id.menu_share:
+		// Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+		// break;
+		case R.id.menu_save:
+			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.menu_add_item:
+			AddItemDialog addItemDialog = new AddItemDialog(this);
+			addItemDialog.show();
+			break;
+		case R.id.menu_delete_item:
+			DeleteItemDialog deleteItemDialog = new DeleteItemDialog(this);
+			deleteItemDialog.show();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-            case R.id.menu_share:
-                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    
+	public static class FragmentLayoutIntentBuilder extends IntentBuilder {
+
+		public final static String MESSAGE = "at.ahammer.formyournotes.MESSAGE";
+
+		public String message;
+
+		public FragmentLayoutIntentBuilder(Context context) {
+			super(FragmentLayout.class, context);
+		}
+
+		public IntentBuilder setMessage(String message) {
+			this.message = message;
+			return this;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		@Override
+		public void fillIntent(Intent intent) {
+			intent.putExtra(MESSAGE, message);
+		}
+	}
+
 	/**
 	 * This is a secondary activity, to show what the user has selected when the
 	 * screen is not large enough to show it all in one activity.
@@ -136,7 +176,8 @@ public class FragmentLayout extends ActionBarActivity {
 			super.onActivityCreated(savedInstanceState);
 
 			// TODO ugly!
-			DataDao dataDao = new DataDaoJSON(getActivity().getFilesDir());
+			DataDao dataDao = new DataDaoJSON(
+					new FileHelper(getActivity()).getStorage());
 			List<FormData> formDataList = new ArrayList<FormData>();
 			List<String> sortedNames = new ArrayList<String>();
 			try {
@@ -275,7 +316,8 @@ public class FragmentLayout extends ActionBarActivity {
 			}
 
 			// TODO ugly!
-			DataDao dataDao = new DataDaoJSON(getActivity().getFilesDir());
+			DataDao dataDao = new DataDaoJSON(
+					new FileHelper(getActivity()).getStorage());
 			List<FormData> formDataList = new ArrayList<FormData>();
 			List<String> sortedNames = new ArrayList<String>();
 			try {
@@ -286,40 +328,42 @@ public class FragmentLayout extends ActionBarActivity {
 			for (FormData formData : formDataList) {
 				sortedNames.add(formData.getName());
 			}
-			Collections.sort(sortedNames);
-			String selectedName = sortedNames.get(getShownIndex());
-			FormBean currentFormBean = new FormBean();
-			for (FormData formData : formDataList) {
-				if (formData.getName().equals(selectedName)) {
-					FormDao formDao = new FormDaoJSON(getActivity()
-							.getFilesDir());
-					try {
-						currentFormBean = formDao.readWithData(
-								formData.getFormId(), formData.getDataId());
-					} catch (DaoException e) {
-						throw new RuntimeException(e);
-					}
-					break;
-				}
-			}
-			Log.i(LogTag.FYN.getTag(),
-					"current formBean: " + currentFormBean.getId() + ", "
-							+ currentFormBean.getName());
-
-			ViewHelper viewHelper = new ViewHelper();
 			ScrollView scroller = new ScrollView(getActivity());
+			if (!sortedNames.isEmpty()) {
+				Collections.sort(sortedNames);
+				String selectedName = sortedNames.get(getShownIndex());
+				FormBean currentFormBean = new FormBean();
+				for (FormData formData : formDataList) {
+					if (formData.getName().equals(selectedName)) {
+						FormDao formDao = new FormDaoJSON(new FileHelper(
+								getActivity()).getStorage());
+						try {
+							currentFormBean = formDao.readWithData(
+									formData.getFormId(), formData.getDataId());
+							FYNContext.INSTANCE.setDataId(formData.getDataId());
+						} catch (DaoException e) {
+							throw new RuntimeException(e);
+						}
+						break;
+					}
+				}
+				Log.i(LogTag.FYN.getTag(),
+						"current formBean: " + currentFormBean.getId() + ", "
+								+ currentFormBean.getName());
 
-			scroller.setLayoutParams(viewHelper.getLinearLayoutParam());
-			LinearLayout layout = new LinearLayout(getActivity());
-			layout.setLayoutParams(viewHelper.getLinearLayoutParam());
-			MyR myR = new MyR();
-			myR.getDrawable()
-					.setBorderTopElement(R.drawable.border_top_element);
-			new BeanViewMapper().add(getActivity(), layout, myR,
-					currentFormBean);
-			Log.i(LogTag.FYN.getTag(), "layout: " + layout);
-			scroller.addView(layout);
+				ViewHelper viewHelper = new ViewHelper();
 
+				scroller.setLayoutParams(viewHelper.getLinearLayoutParam());
+				LinearLayout layout = new LinearLayout(getActivity());
+				layout.setLayoutParams(viewHelper.getLinearLayoutParam());
+				MyR myR = new MyR();
+				myR.getDrawable().setBorderTopElement(
+						R.drawable.border_top_element);
+				new BeanViewMapper().add(getActivity(), layout, myR,
+						currentFormBean);
+				Log.i(LogTag.FYN.getTag(), "layout: " + layout);
+				scroller.addView(layout);
+			}
 			return scroller;
 		}
 	}

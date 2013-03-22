@@ -91,8 +91,8 @@ public class HelloAndroidActivity extends Activity {
 		// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 		// Log.i("FormYourNotes", "contact id 61: " + displayName);
 
-		// this.setContentView(R.layout.list_layout);
 		// listView = (ListView) findViewById(R.id.my_list);
+		// this.setContentView(R.layout.list_layout);
 		// dataSource = new ArrayList<MyData>();
 		// adapter = new MyListAdapter(this, R.layout.item_layout, dataSource);
 		// listView.setAdapter(adapter);

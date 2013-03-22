@@ -1,9 +1,9 @@
 package at.ahammer.formyournotes;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,10 +15,13 @@ public class DefaultDataDeployer {
 
 	private boolean deployed = false;
 
-	private Context context;
+	private final Context context;
+
+	private final FileHelper fileHelper;
 
 	public DefaultDataDeployer(Context context) {
 		this.context = context;
+		this.fileHelper = new FileHelper(context);
 		deployed = checkIfDefaultDataIsDeployed();
 		if (!deployed) {
 			deployFiles();
@@ -40,21 +43,28 @@ public class DefaultDataDeployer {
 	private void copyFile(String fileName) throws IOException {
 		InputStream inputStream = context.getAssets().open(fileName,
 				Context.MODE_PRIVATE);
-		OutputStream outputStream = context.openFileOutput(fileName,
-				Context.MODE_PRIVATE);
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
+		FileOutputStream outputStream = new FileOutputStream(new File(
+				fileHelper.getStorage(), fileName));
+		try {
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = inputStream.read(buffer)) > 0) {
+				outputStream.write(buffer, 0, length);
+			}
+			outputStream.flush();
+		} finally {
+			if (outputStream != null) {
+				outputStream.close();
+			}
+			if (inputStream != null) {
+				inputStream.close();
+			}
 		}
-		outputStream.flush();
-		outputStream.close();
-		inputStream.close();
 	}
 
 	private boolean checkIfDefaultDataIsDeployed() {
 		Log.i(LogTag.FYN.getTag(), "check if " + FILENAME_DEPLOYED + " exists");
-		boolean exists = new File(context.getFilesDir(), FILENAME_DEPLOYED)
+		boolean exists = new File(fileHelper.getStorage(), FILENAME_DEPLOYED)
 				.exists();
 		if (exists) {
 			Log.i(LogTag.FYN.getTag(), "default-files exists");
@@ -62,5 +72,9 @@ public class DefaultDataDeployer {
 			Log.i(LogTag.FYN.getTag(), "default-files don't exist");
 		}
 		return exists;
+	}
+
+	public boolean isDeployed() {
+		return deployed;
 	}
 }
