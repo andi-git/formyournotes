@@ -13,12 +13,17 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
+import at.ahammer.formyournotes.actionbar.ActionBarActivity;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
@@ -36,15 +41,57 @@ import at.ahammer.formyournotes.views.ViewHelper;
  * This sample provides a different layout (and activity flow) when run in
  * landscape.
  */
-public class FragmentLayout extends Activity {
+public class FragmentLayout extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		new DefaultDataDeployer(this);
 		setContentView(R.layout.fragment_layout);
+		getWindow().getDecorView().setSystemUiVisibility(
+				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 	}
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+
+        // Calling super after populating the menu is necessary here to ensure that the
+        // action bar helpers have a chance to handle this event.
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_refresh:
+                Toast.makeText(this, "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                getActionBarHelper().setRefreshActionItemState(true);
+                getWindow().getDecorView().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                getActionBarHelper().setRefreshActionItemState(false);
+                            }
+                        }, 1000);
+                break;
+
+            case R.id.menu_search:
+                Toast.makeText(this, "Tapped search", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_share:
+                Toast.makeText(this, "Tapped share", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
 	/**
 	 * This is a secondary activity, to show what the user has selected when the
 	 * screen is not large enough to show it all in one activity.
@@ -101,15 +148,13 @@ public class FragmentLayout extends Activity {
 				sortedNames.add(formData.getName());
 			}
 			Collections.sort(sortedNames);
-			
-			
+
 			// Populate list with our static array of titles.
 			// setListAdapter(new ArrayAdapter<String>(getActivity(),
 			// android.R.layout.simple_list_item_activated_1,
 			// Shakespeare.TITLES));
 			setListAdapter(new ArrayAdapter<String>(getActivity(),
-					android.R.layout.simple_list_item_activated_1,
-					sortedNames));
+					android.R.layout.simple_list_item_activated_1, sortedNames));
 
 			// Check to see if we have a frame in which to embed the details
 			// fragment directly in the containing UI.
@@ -246,29 +291,35 @@ public class FragmentLayout extends Activity {
 			FormBean currentFormBean = new FormBean();
 			for (FormData formData : formDataList) {
 				if (formData.getName().equals(selectedName)) {
-					FormDao formDao = new FormDaoJSON(getActivity().getFilesDir());
+					FormDao formDao = new FormDaoJSON(getActivity()
+							.getFilesDir());
 					try {
-						currentFormBean = formDao.readWithData(formData.getFormId(), formData.getDataId());
+						currentFormBean = formDao.readWithData(
+								formData.getFormId(), formData.getDataId());
 					} catch (DaoException e) {
 						throw new RuntimeException(e);
 					}
 					break;
 				}
 			}
-			Log.i(LogTag.FYN.getTag(), "current formBean: " + currentFormBean.getId() + ", " + currentFormBean.getName());
-			
+			Log.i(LogTag.FYN.getTag(),
+					"current formBean: " + currentFormBean.getId() + ", "
+							+ currentFormBean.getName());
+
 			ViewHelper viewHelper = new ViewHelper();
 			ScrollView scroller = new ScrollView(getActivity());
-			
+
 			scroller.setLayoutParams(viewHelper.getLinearLayoutParam());
 			LinearLayout layout = new LinearLayout(getActivity());
 			layout.setLayoutParams(viewHelper.getLinearLayoutParam());
 			MyR myR = new MyR();
-			myR.getDrawable().setBorderTopElement(R.drawable.border_top_element);
-			new BeanViewMapper().add(getActivity(), layout, myR, currentFormBean);
+			myR.getDrawable()
+					.setBorderTopElement(R.drawable.border_top_element);
+			new BeanViewMapper().add(getActivity(), layout, myR,
+					currentFormBean);
 			Log.i(LogTag.FYN.getTag(), "layout: " + layout);
 			scroller.addView(layout);
-			
+
 			return scroller;
 		}
 	}
