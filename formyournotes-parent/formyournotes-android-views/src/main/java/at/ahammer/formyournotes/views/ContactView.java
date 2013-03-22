@@ -11,8 +11,8 @@ import android.content.DialogInterface;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -26,8 +26,8 @@ public class ContactView extends LinearLayout {
 	private final TextView viewText;
 	private final TextView viewColon;
 	private final EditText viewName;
-	private final Button chooseButton;
-	private final Button actionButton;
+	private final ImageButton chooseButton;
+	private final ImageButton actionButton;
 	private View.OnClickListener chooseButtonOnClickListener;
 	private Dialog chooseContactDialog;
 	private List<String> displayNames = new ArrayList<String>();
@@ -49,12 +49,15 @@ public class ContactView extends LinearLayout {
 		displayNames = contactDao.getAllDisplayNames(context);
 		chooseContactDialog = createChooseContactDialog(context, displayNames);
 		chooseButtonOnClickListener = createChooseButtonOnClickListener(context);
-		chooseButton = viewHelper.newDefaultButton(context);
-		chooseButton.setText("Choose");
+		chooseButton = new ImageButton(context);
+		chooseButton.setImageResource(r.getDrawable().getButtonEdit());
 		chooseButton.setOnClickListener(chooseButtonOnClickListener);
+		chooseButton.setBackground(null);
+		chooseButton.setBackground(null);
 
-		actionButton = viewHelper.newDefaultButton(context);
-		actionButton.setText("Action");
+		actionButton = new ImageButton(context);
+		actionButton.setImageResource(r.getDrawable().getButtonDown());
+		actionButton.setBackground(null);
 		actionButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override

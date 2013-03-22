@@ -14,6 +14,8 @@ public class MyR {
 
 	public static final class Drawable {
 		private int borderTopElement;
+		private int buttonEdit;
+		private int buttonDown;
 
 		public int getBorderTopElement() {
 			return borderTopElement;
@@ -23,5 +25,20 @@ public class MyR {
 			this.borderTopElement = borderTopElement;
 		}
 
+		public int getButtonEdit() {
+			return buttonEdit;
+		}
+
+		public void setButtonEdit(int buttonEdit) {
+			this.buttonEdit = buttonEdit;
+		}
+
+		public int getButtonDown() {
+			return buttonDown;
+		}
+
+		public void setButtonDown(int buttonDown) {
+			this.buttonDown = buttonDown;
+		}
 	}
 }

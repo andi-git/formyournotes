@@ -360,6 +360,10 @@ public class FragmentLayout extends ActionBarActivity {
 				MyR myR = new MyR();
 				myR.getDrawable().setBorderTopElement(
 						R.drawable.border_top_element);
+				myR.getDrawable().setButtonEdit(
+						R.drawable.button_edit);
+				myR.getDrawable().setButtonDown(
+						R.drawable.button_down);
 
 				FormYourNotesController.INSTANCE.getCurrentFormView(
 						currentFormBean, getActivity(), myR).addToView(layout);
