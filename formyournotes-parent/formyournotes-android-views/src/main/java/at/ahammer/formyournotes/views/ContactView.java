@@ -8,6 +8,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,7 @@ public class ContactView extends LinearLayout {
 
 		viewName = viewHelper.newDefaultEditText(context);
 		viewName.setText(contactBean.getDisplayName());
+		viewName.addTextChangedListener(new ContactWatcher(contactBean));
 
 		displayNames = contactDao.getAllDisplayNames(context);
 		chooseContactDialog = createChooseContactDialog(context, displayNames);
@@ -128,6 +130,23 @@ public class ContactView extends LinearLayout {
 					"choose: " + which + " - " + displayNames.get(which));
 			contactView.setName(displayNames.get(which));
 			dialog.dismiss();
+		}
+	}
+
+	public static class ContactWatcher extends AbstractTextWatcher {
+
+		private final ContactBean contactBean;
+
+		public ContactWatcher(ContactBean contactBean) {
+			this.contactBean = contactBean;
+		}
+
+		@Override
+		public void afterTextChanged(Editable editable) {
+			Log.i("FormYourNotes",
+					"set value of " + contactBean.getDiscription() + " to '"
+							+ editable.toString() + "'");
+			contactBean.getData().setDisplayName(editable.toString());
 		}
 	}
 }

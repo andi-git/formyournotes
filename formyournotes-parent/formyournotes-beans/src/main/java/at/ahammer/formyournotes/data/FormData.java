@@ -65,11 +65,11 @@ public class FormData {
 		editTextDataList.remove(editTextData);
 		return getEditTextData();
 	}
-	
+
 	public int getFormId() {
 		return formId;
 	}
-	
+
 	public void setFormId(int formId) {
 		this.formId = formId;
 	}
@@ -88,5 +88,13 @@ public class FormData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "FormData [formId=" + formId + ", dataId=" + dataId + ", name="
+				+ name + ", checkBoxDataList=" + checkBoxDataList
+				+ ", contactDataList=" + contactDataList
+				+ ", editTextDataList=" + editTextDataList + "]";
 	}
 }

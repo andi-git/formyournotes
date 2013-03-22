@@ -69,6 +69,21 @@ public class ContactData extends FormYourNotesData {
 		this.address = address;
 	}
 
+	public void setData(ContactData data) {
+		firstName = data.getFirstName();
+		lastName = data.getLastName();
+		displayName = data.getDisplayName();
+		phones = new ArrayList<String>();
+		for (String phone : data.getPhones()) {
+			phones.add(phone);
+		}
+		emails = new ArrayList<String>();
+		for (String email : data.getEmails()) {
+			emails.add(email);
+		}
+		address = data.getAddress();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

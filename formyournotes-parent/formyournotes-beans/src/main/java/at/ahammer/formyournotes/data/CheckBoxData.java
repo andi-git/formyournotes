@@ -21,6 +21,10 @@ public class CheckBoxData extends FormYourNotesData {
 		this.checked = checked;
 	}
 
+	public void setData(CheckBoxData data) {
+		this.checked = data.isChecked();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

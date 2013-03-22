@@ -35,17 +35,17 @@ public class DeleteItemDialog {
 				R.layout.dialog_delete_item, null);
 		builder.setView(viewToInflate)
 				.setTitle(R.string.title_delete_item)
-				.setMessage("Delete '" + FYNContext.INSTANCE
-						.currentFormData(activity).getName() + "'?")
+				.setMessage("Delete '" + FormYourNotesController.INSTANCE
+						.getCurrentFormData(activity).getName() + "'?")
 				// Add action buttons
 				.setPositiveButton(R.string.delete,
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								FormData currentData = FYNContext.INSTANCE
-										.currentFormData(activity);
+								FormData currentData = FormYourNotesController.INSTANCE
+										.getCurrentFormData(activity);
 								try {
-									FYNContext.INSTANCE.getDataDao(activity)
+									FormYourNotesController.INSTANCE.getDataDao(activity)
 											.delete(currentData);
 									Toast.makeText(activity,
 											"delete '" + currentData.getName() + "'",

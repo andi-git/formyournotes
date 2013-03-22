@@ -10,7 +10,6 @@ import at.ahammer.formyournotes.beans.GroupBean;
 
 public class GroupView extends LinearLayout {
 
-	private BeanViewMapper beanViewMapper = new BeanViewMapper();
 	private ViewHelper viewHelper = new ViewHelper();
 	private final TextView viewName;
 
@@ -24,8 +23,7 @@ public class GroupView extends LinearLayout {
 		viewName.setText(groupBean.getName());
 		addView(viewName, viewHelper.getLinearLayoutParamFirstInRow());
 		for (FormYourNotesBean<?> child : formBean.getAllChildren(groupBean)) {
-			View view = beanViewMapper
-					.getView(getContext(), r, formBean, child);
+			View view = FormView.getView(formBean, context, r, child);
 			addView(view, viewHelper.getLinearLayoutParamFirstInRow());
 		}
 	}

@@ -14,6 +14,7 @@ public class FormBean {
 
 	private int id = -1;
 	private String name = "unknown";
+	private FormData addedData = new FormData();
 	// work here with concrete classes, otherwise GSON has problems!
 	private List<CheckBoxBean> checkBoxBeans = new ArrayList<CheckBoxBean>();
 	private List<CheckBoxGroupBean> checkBoxGroupBeans = new ArrayList<CheckBoxGroupBean>();
@@ -235,6 +236,7 @@ public class FormBean {
 	}
 
 	private void clearData() {
+		addedData = new FormData();
 		for (CheckBoxBean checkBoxBean : checkBoxBeans) {
 			checkBoxBean.clearData();
 		}
@@ -254,6 +256,7 @@ public class FormBean {
 
 	public FormBean setData(FormData formData) {
 		clearData();
+		addedData = formData;
 		for (CheckBoxData checkBoxData : formData.getCheckBoxData()) {
 			getById(checkBoxData.getItemId(), CheckBoxBean.class).setData(
 					checkBoxData);
@@ -267,6 +270,24 @@ public class FormBean {
 					editTextData);
 		}
 		return this;
+	}
+
+	public FormData getData() {
+		if (addedData != null) {
+			for (CheckBoxData checkBoxData : addedData.getCheckBoxData()) {
+				checkBoxData.setData(getById(checkBoxData.getItemId(),
+						CheckBoxBean.class).getData());
+			}
+			for (ContactData contactData : addedData.getContactData()) {
+				contactData.setData(getById(contactData.getItemId(),
+						ContactBean.class).getData());
+			}
+			for (EditTextData editTextData : addedData.getEditTextData()) {
+				editTextData.setData(getById(editTextData.getItemId(),
+						EditTextBean.class).getData());
+			}
+		}
+		return addedData;
 	}
 
 	public <T> T getById(int id, Class<T> clazz) {

@@ -53,7 +53,7 @@ public class AddItemDialog {
 								String value = editText.getText().toString();
 								try {
 									FormData formData = new FormData();
-									formData.setFormId(FYNContext.INSTANCE
+									formData.setFormId(FormYourNotesController.INSTANCE
 											.getFormId());
 									formData.setName(value);
 									dataDao.save(formData);

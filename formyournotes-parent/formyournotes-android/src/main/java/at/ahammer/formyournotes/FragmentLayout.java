@@ -33,7 +33,6 @@ import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
-import at.ahammer.formyournotes.views.BeanViewMapper;
 import at.ahammer.formyournotes.views.MyR;
 import at.ahammer.formyournotes.views.ViewHelper;
 
@@ -51,7 +50,7 @@ public class FragmentLayout extends ActionBarActivity {
 		setContentView(R.layout.fragment_layout);
 		getWindow().getDecorView().setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-		FYNContext.INSTANCE.setFormId(1);
+		FormYourNotesController.INSTANCE.setFormId(1);
 	}
 
 	@Override
@@ -94,6 +93,7 @@ public class FragmentLayout extends ActionBarActivity {
 		// break;
 		case R.id.menu_save:
 			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+			FormYourNotesController.INSTANCE.updateFormData(this);
 			break;
 		case R.id.menu_add_item:
 			AddItemDialog addItemDialog = new AddItemDialog(this);
@@ -340,7 +340,8 @@ public class FragmentLayout extends ActionBarActivity {
 						try {
 							currentFormBean = formDao.readWithData(
 									formData.getFormId(), formData.getDataId());
-							FYNContext.INSTANCE.setDataId(formData.getDataId());
+							FormYourNotesController.INSTANCE.setDataId(formData
+									.getDataId());
 						} catch (DaoException e) {
 							throw new RuntimeException(e);
 						}
@@ -359,8 +360,9 @@ public class FragmentLayout extends ActionBarActivity {
 				MyR myR = new MyR();
 				myR.getDrawable().setBorderTopElement(
 						R.drawable.border_top_element);
-				new BeanViewMapper().add(getActivity(), layout, myR,
-						currentFormBean);
+
+				FormYourNotesController.INSTANCE.getCurrentFormView(
+						currentFormBean, getActivity(), myR).addToView(layout);
 				Log.i(LogTag.FYN.getTag(), "layout: " + layout);
 				scroller.addView(layout);
 			}

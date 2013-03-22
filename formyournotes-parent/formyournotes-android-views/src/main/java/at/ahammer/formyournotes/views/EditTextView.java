@@ -1,6 +1,8 @@
 package at.ahammer.formyournotes.views;
 
 import android.content.Context;
+import android.text.Editable;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class EditTextView extends LinearLayout {
 		viewName.setText(editTextBean.getDiscription());
 		viewText = viewHelper.newDefaultEditText(context);
 		viewText.setText(editTextBean.getValue());
+		viewText.addTextChangedListener(new EditTextWatcher(editTextBean));
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 		addView(viewName, viewHelper.getLinearLayoutParam());
@@ -43,5 +46,22 @@ public class EditTextView extends LinearLayout {
 
 	public void setText(String text) {
 		viewText.setText(text);
+	}
+
+	public static class EditTextWatcher extends AbstractTextWatcher {
+
+		private final EditTextBean editTextBean;
+
+		public EditTextWatcher(EditTextBean editTextBean) {
+			this.editTextBean = editTextBean;
+		}
+
+		@Override
+		public void afterTextChanged(Editable editable) {
+			Log.i("FormYourNotes",
+					"set value of " + editTextBean.getDiscription() + " to '"
+							+ editable.toString() + "'");
+			editTextBean.getData().setValue(editable.toString());
+		}
 	}
 }
