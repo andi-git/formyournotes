@@ -29,7 +29,9 @@ public class FormData {
 	}
 
 	public List<CheckBoxData> add(CheckBoxData checkBoxData) {
-		checkBoxDataList.add(checkBoxData);
+		if (checkBoxData.isFilled()) {
+			checkBoxDataList.add(checkBoxData);
+		}
 		return getCheckBoxData();
 	}
 
@@ -38,12 +40,18 @@ public class FormData {
 		return getCheckBoxData();
 	}
 
+	public void clearCheckBoxData() {
+		checkBoxDataList.clear();
+	}
+
 	public List<ContactData> getContactData() {
 		return Collections.unmodifiableList(contactDataList);
 	}
 
 	public List<ContactData> add(ContactData contactData) {
-		contactDataList.add(contactData);
+		if (contactData.isFilled()) {
+			contactDataList.add(contactData);
+		}
 		return getContactData();
 	}
 
@@ -52,18 +60,28 @@ public class FormData {
 		return getContactData();
 	}
 
+	public void clearContactData() {
+		contactDataList.clear();
+	}
+
 	public List<EditTextData> getEditTextData() {
 		return Collections.unmodifiableList(editTextDataList);
 	}
 
 	public List<EditTextData> add(EditTextData editTextData) {
-		editTextDataList.add(editTextData);
+		if (editTextData.isFilled()) {
+			editTextDataList.add(editTextData);
+		}
 		return getEditTextData();
 	}
 
 	public List<EditTextData> remove(EditTextData editTextData) {
 		editTextDataList.remove(editTextData);
 		return getEditTextData();
+	}
+
+	public void clearEditTextData() {
+		editTextDataList.clear();
 	}
 
 	public int getFormId() {

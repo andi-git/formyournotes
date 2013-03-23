@@ -61,6 +61,7 @@ public class EditTextView extends LinearLayout {
 			Log.i("FormYourNotes",
 					"set value of " + editTextBean.getDiscription() + " to '"
 							+ editable.toString() + "'");
+			editTextBean.getData().setItemId(editTextBean);
 			editTextBean.getData().setValue(editable.toString());
 		}
 	}

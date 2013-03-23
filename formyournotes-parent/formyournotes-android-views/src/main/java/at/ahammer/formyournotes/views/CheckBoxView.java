@@ -55,6 +55,7 @@ public class CheckBoxView extends LinearLayout {
 			Log.i("FormYourNotes",
 					"set value of " + checkBoxBean.getDiscription() + " to '"
 							+ isChecked + "'");
+			checkBoxBean.getData().setItemId(checkBoxBean);
 			checkBoxBean.getData().setChecked(isChecked);
 		}
 	}

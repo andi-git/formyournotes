@@ -274,17 +274,17 @@ public class FormBean {
 
 	public FormData getData() {
 		if (addedData != null) {
-			for (CheckBoxData checkBoxData : addedData.getCheckBoxData()) {
-				checkBoxData.setData(getById(checkBoxData.getItemId(),
-						CheckBoxBean.class).getData());
+			addedData.clearCheckBoxData();
+			addedData.clearContactData();
+			addedData.clearEditTextData();
+			for (CheckBoxBean checkBoxBean : checkBoxBeans) {
+				addedData.add(checkBoxBean.getData());
 			}
-			for (ContactData contactData : addedData.getContactData()) {
-				contactData.setData(getById(contactData.getItemId(),
-						ContactBean.class).getData());
+			for (ContactBean contactBean : contactBeans) {
+				addedData.add(contactBean.getData());
 			}
-			for (EditTextData editTextData : addedData.getEditTextData()) {
-				editTextData.setData(getById(editTextData.getItemId(),
-						EditTextBean.class).getData());
+			for (EditTextBean editTextBean : editTextBeans) {
+				addedData.add(editTextBean.getData());
 			}
 		}
 		return addedData;

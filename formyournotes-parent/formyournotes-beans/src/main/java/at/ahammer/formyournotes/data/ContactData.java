@@ -70,6 +70,7 @@ public class ContactData extends FormYourNotesData {
 	}
 
 	public void setData(ContactData data) {
+		super.setData(data);
 		firstName = data.getFirstName();
 		lastName = data.getLastName();
 		displayName = data.getDisplayName();

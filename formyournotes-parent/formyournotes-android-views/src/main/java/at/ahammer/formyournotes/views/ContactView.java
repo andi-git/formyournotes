@@ -149,6 +149,7 @@ public class ContactView extends LinearLayout {
 			Log.i("FormYourNotes",
 					"set value of " + contactBean.getDiscription() + " to '"
 							+ editable.toString() + "'");
+			contactBean.getData().setItemId(contactBean);
 			contactBean.getData().setDisplayName(editable.toString());
 		}
 	}

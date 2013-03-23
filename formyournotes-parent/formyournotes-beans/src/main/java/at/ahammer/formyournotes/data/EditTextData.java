@@ -22,9 +22,10 @@ public class EditTextData extends FormYourNotesData {
 	}
 
 	public void setData(EditTextData data) {
+		super.setData(data);
 		this.value = data.getValue();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -22,6 +22,7 @@ public class CheckBoxData extends FormYourNotesData {
 	}
 
 	public void setData(CheckBoxData data) {
+		super.setData(data);
 		this.checked = data.isChecked();
 	}
 	

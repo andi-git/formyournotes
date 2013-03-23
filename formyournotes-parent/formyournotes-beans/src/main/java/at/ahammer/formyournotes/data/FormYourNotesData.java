@@ -26,4 +26,12 @@ public class FormYourNotesData {
 	public void setItemId(FormYourNotesBean<?> formBean) {
 		this.itemId = formBean.getId();
 	}
+
+	public void setData(FormYourNotesData data) {
+		this.itemId = data.getItemId();
+	}
+
+	public boolean isFilled() {
+		return itemId > 0;
+	}
 }
