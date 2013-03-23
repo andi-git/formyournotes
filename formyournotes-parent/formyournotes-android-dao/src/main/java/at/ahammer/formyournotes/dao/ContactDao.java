@@ -175,4 +175,28 @@ public class ContactDao {
 		cursor.close();
 		return displayNames;
 	}
+
+	public Contact getContactByDisplayName(Context context, String displayName) {
+		Contact contact = new Contact();
+		String[] projection = new String[] { NAME_CONTACT_ID };
+		String selection = DATA_MIMETYPE + " = ? AND " + NAME_DISPLAY_NAME
+				+ " = ?";
+		String[] selectionArgs = new String[] { NAME_CONTENT_ITEM_TYPE,
+				displayName };
+		String sortOrder = NAME_DISPLAY_NAME;
+		Cursor cursor = context.getContentResolver().query(DATA_CONTENT_URI,
+				projection, selection, selectionArgs, sortOrder);
+		if (cursor != null && cursor.isBeforeFirst() && !cursor.isAfterLast()) {
+			cursor.moveToNext();
+			contact.setId(cursor.getInt(cursor.getColumnIndex(NAME_CONTACT_ID)));
+		}
+		cursor.close();
+		if (contact.getId() > 0) {
+			addName(context, contact);
+			addPhones(context, contact);
+			addEmails(context, contact);
+			addAddress(context, contact);
+		}
+		return contact;
+	}
 }

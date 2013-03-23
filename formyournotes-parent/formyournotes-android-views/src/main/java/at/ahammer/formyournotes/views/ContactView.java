@@ -1,15 +1,20 @@
 package at.ahammer.formyournotes.views;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Editable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,6 +23,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.dao.Contact;
 import at.ahammer.formyournotes.dao.ContactDao;
 
 public class ContactView extends LinearLayout {
@@ -44,7 +50,7 @@ public class ContactView extends LinearLayout {
 
 		viewName = viewHelper.newDefaultEditText(context);
 		viewName.setText(contactBean.getDisplayName());
-		viewName.addTextChangedListener(new ContactWatcher(contactBean));
+		viewName.addTextChangedListener(new ContactWatcher(contactBean, context));
 
 		displayNames = contactDao.getAllDisplayNames(context);
 		chooseContactDialog = createChooseContactDialog(context, displayNames);
@@ -58,17 +64,8 @@ public class ContactView extends LinearLayout {
 		actionButton = new ImageButton(context);
 		actionButton.setImageResource(r.getDrawable().getButtonDown());
 		actionButton.setBackground(null);
-		actionButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				PopupMenu popup = new PopupMenu(context, view);
-				popup.getMenu().add("Call");
-				popup.getMenu().add("Email");
-				popup.getMenu().add("Navi");
-				popup.show();
-			}
-		});
+		actionButton.setOnClickListener(new ActionOnClickListener(viewName,
+				context));
 
 		addView(viewText, viewHelper.getLinearLayoutParam());
 		addView(viewColon, viewHelper.getLinearLayoutParam());
@@ -140,17 +137,150 @@ public class ContactView extends LinearLayout {
 
 		private final ContactBean contactBean;
 
-		public ContactWatcher(ContactBean contactBean) {
+		private final Context context;
+
+		private final ContactDao contactDao;
+
+		public ContactWatcher(ContactBean contactBean, Context context) {
 			this.contactBean = contactBean;
+			this.context = context;
+			this.contactDao = new ContactDao();
 		}
 
 		@Override
 		public void afterTextChanged(Editable editable) {
+			String displayName = editable.toString();
 			Log.i("FormYourNotes",
 					"set value of " + contactBean.getDiscription() + " to '"
-							+ editable.toString() + "'");
+							+ displayName + "'");
 			contactBean.getData().setItemId(contactBean);
-			contactBean.getData().setDisplayName(editable.toString());
+			contactBean.getData().setDisplayName(displayName);
+
+			Contact contact = contactDao.getContactByDisplayName(context,
+					displayName);
+			if (contact != null && contact.getId() > 0) {
+				Log.i("FormYourNotes", "contact for '" + displayName + "':\n"
+						+ contact.toString());
+				contactBean.getData().setFirstName(contact.getFirstName());
+				contactBean.getData().setLastName(contact.getLastName());
+				contactBean.getData().setAddress(contact.getAddress());
+				contactBean.getData().getPhones().clear();
+				for (String phone : contact.getPhones()) {
+					contactBean.getData().getPhones().add(phone);
+				}
+				contactBean.getData().getEmails().clear();
+				for (String email : contact.getEmails()) {
+					contactBean.getData().getEmails().add(email);
+				}
+			} else {
+				Log.i("FormYourNotes", "unable to find contact for "
+						+ displayName);
+			}
+		}
+	}
+
+	public static class ActionOnClickListener implements View.OnClickListener {
+
+		private final EditText viewName;
+
+		private final Context context;
+
+		public ActionOnClickListener(EditText viewName, Context context) {
+			this.viewName = viewName;
+			this.context = context;
+		}
+
+		@Override
+		public void onClick(View view) {
+			String displayName = viewName.getText().toString();
+			ContactDao contactDao = new ContactDao();
+			Contact contact = contactDao.getContactByDisplayName(context,
+					displayName);
+			PopupMenu popupMenu = new PopupMenu(context, view);
+
+			Set<String> menuPhoneItems = new HashSet<String>();
+			Set<String> menuEmailItems = new HashSet<String>();
+			Set<String> menuAddressItems = new HashSet<String>();
+			if (contact != null && contact.getId() > 0) {
+				Log.i("FormYourNotes", "contact for '" + displayName + "':\n"
+						+ contact.toString());
+				for (String phone : contact.getPhones()) {
+					if (phone != null && !"".equals(phone)) {
+						popupMenu.getMenu().add(phone);
+						menuPhoneItems.add(phone);
+					}
+				}
+				for (String email : contact.getEmails()) {
+					if (email != null && !"".equals(email)) {
+						popupMenu.getMenu().add(email);
+						menuEmailItems.add(email);
+					}
+				}
+				if (contact.getAddress() != null
+						&& !"".equals(contact.getAddress())) {
+					popupMenu.getMenu().add(contact.getAddress());
+					menuAddressItems.add(contact.getAddress());
+				}
+			} else {
+				Log.i("FormYourNotes", "unable to find contact for "
+						+ displayName);
+			}
+			popupMenu
+					.setOnMenuItemClickListener(new ActionOnMenuItemClickListener(
+							context, menuPhoneItems, menuEmailItems,
+							menuAddressItems));
+			popupMenu.show();
+		}
+	}
+
+	public static class ActionOnMenuItemClickListener implements
+			PopupMenu.OnMenuItemClickListener {
+
+		private final Context context;
+		private final Set<String> phones = new HashSet<String>();
+		private final Set<String> emails = new HashSet<String>();
+		private final Set<String> addresses = new HashSet<String>();
+
+		public ActionOnMenuItemClickListener(Context context,
+				Set<String> phones, Set<String> emails, Set<String> addresses) {
+			this.context = context;
+			this.phones.addAll(phones);
+			this.emails.addAll(emails);
+			this.addresses.addAll(addresses);
+		}
+
+		@Override
+		public boolean onMenuItemClick(MenuItem menuItem) {
+			Log.i("FormYourNotes", "click menu item " + menuItem.getTitle());
+			if (phones.contains(menuItem.getTitle())) {
+				String phone = menuItem.getTitle().toString();
+				Log.i("FormYourNotes", "menu item is a phone: " + phone);
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("tel:" + phone));
+				context.startActivity(Intent.createChooser(intent,
+						"Start call..."));
+			} else if (emails.contains(menuItem.getTitle())) {
+				String email = menuItem.getTitle().toString();
+				Log.i("FormYourNotes",
+						"menu item is an email: " + email);
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_EMAIL,
+						new String[] { email });
+				intent.putExtra(Intent.EXTRA_SUBJECT, "my subject");
+				intent.putExtra(Intent.EXTRA_TEXT, "body text");
+				context.startActivity(Intent.createChooser(intent,
+						"Send mail..."));
+			} else if (addresses.contains(menuItem.getTitle())) {
+				String address = menuItem.getTitle().toString();
+				Log.i("FormYourNotes",
+						"menu item is an address: " + address);
+				Intent intent = new Intent(Intent.ACTION_VIEW,
+					    Uri.parse("google.navigation:q=" + address));
+				context.startActivity(Intent.createChooser(intent,
+						"Naviagte to..."));
+			}
+			return false;
 		}
 	}
 }
