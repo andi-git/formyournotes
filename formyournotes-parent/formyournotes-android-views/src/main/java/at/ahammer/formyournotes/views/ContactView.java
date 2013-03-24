@@ -206,8 +206,12 @@ public class ContactView extends LinearLayout {
 						+ contact.toString());
 				for (String phone : contact.getPhones()) {
 					if (phone != null && !"".equals(phone)) {
-						popupMenu.getMenu().add(phone);
-						menuPhoneItems.add(phone);
+						String phoneTel = "Tel: " + phone;
+						popupMenu.getMenu().add(phoneTel);
+						menuPhoneItems.add(phoneTel);
+						String phoneSms = "SMS: " + phone;
+						popupMenu.getMenu().add(phoneSms);
+						menuPhoneItems.add(phoneSms);
 					}
 				}
 				for (String email : contact.getEmails()) {
@@ -255,10 +259,21 @@ public class ContactView extends LinearLayout {
 			if (phones.contains(menuItem.getTitle())) {
 				String phone = menuItem.getTitle().toString();
 				Log.i("FormYourNotes", "menu item is a phone: " + phone);
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("tel:" + phone));
-				context.startActivity(Intent.createChooser(intent,
-						"Start call..."));
+				if (phone.startsWith("Tel: ")) {
+					Log.i("FormYourNotes", "menu item is a phone tel: " + phone);
+					phone = phone.substring(5);
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse("tel:" + phone));
+					context.startActivity(Intent.createChooser(intent,
+							"Start call..."));
+				} else if (phone.startsWith("SMS: ")) {
+					phone = phone.substring(5);
+					Log.i("FormYourNotes", "menu item is a phone sms: " + phone);
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse("sms:" + phone));
+					context.startActivity(Intent.createChooser(intent,
+							"Start SMS..."));
+				}
 			} else if (emails.contains(menuItem.getTitle())) {
 				String email = menuItem.getTitle().toString();
 				Log.i("FormYourNotes",
