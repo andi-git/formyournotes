@@ -23,7 +23,7 @@ public class AddItemDialog {
 
 	public AddItemDialog(Activity activity) {
 		alertDialog = create(activity);
-		dataDao = new DataDaoJSON(new FileHelper(activity).getStorage());
+		dataDao = new DataDaoJSON(FYNFileHelper.getExternalStorage(activity));
 	}
 
 	public void show() {

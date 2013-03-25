@@ -1,4 +1,4 @@
-package at.ahammer.formyournotes.dao;
+package at.ahammer.formyournotes.contact;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -32,6 +32,7 @@ import at.ahammer.formyournotes.dao.FormDao;
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
+import at.ahammer.formyournotes.intent.IntentBuilder;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.MyR;
 import at.ahammer.formyournotes.views.ViewHelper;
@@ -42,6 +43,10 @@ import at.ahammer.formyournotes.views.ViewHelper;
  * landscape.
  */
 public class FragmentLayout extends ActionBarActivity {
+
+	public FragmentLayout() {
+		super(FYNActionBarHelper.INSTANCE.getActionBarR());
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +182,7 @@ public class FragmentLayout extends ActionBarActivity {
 
 			// TODO ugly!
 			DataDao dataDao = new DataDaoJSON(
-					new FileHelper(getActivity()).getStorage());
+					FYNFileHelper.getExternalStorage(getActivity()));
 			List<FormData> formDataList = new ArrayList<FormData>();
 			List<String> sortedNames = new ArrayList<String>();
 			try {
@@ -317,7 +322,7 @@ public class FragmentLayout extends ActionBarActivity {
 
 			// TODO ugly!
 			DataDao dataDao = new DataDaoJSON(
-					new FileHelper(getActivity()).getStorage());
+					FYNFileHelper.getExternalStorage(getActivity()));
 			List<FormData> formDataList = new ArrayList<FormData>();
 			List<String> sortedNames = new ArrayList<String>();
 			try {
@@ -335,8 +340,8 @@ public class FragmentLayout extends ActionBarActivity {
 				FormBean currentFormBean = new FormBean();
 				for (FormData formData : formDataList) {
 					if (formData.getName().equals(selectedName)) {
-						FormDao formDao = new FormDaoJSON(new FileHelper(
-								getActivity()).getStorage());
+						FormDao formDao = new FormDaoJSON(
+								FYNFileHelper.getExternalStorage(getActivity()));
 						try {
 							currentFormBean = formDao.readWithData(
 									formData.getFormId(), formData.getDataId());
@@ -360,10 +365,8 @@ public class FragmentLayout extends ActionBarActivity {
 				MyR myR = new MyR();
 				myR.getDrawable().setBorderTopElement(
 						R.drawable.border_top_element);
-				myR.getDrawable().setButtonEdit(
-						R.drawable.button_edit);
-				myR.getDrawable().setButtonDown(
-						R.drawable.button_down);
+				myR.getDrawable().setButtonEdit(R.drawable.button_edit);
+				myR.getDrawable().setButtonDown(R.drawable.button_down);
 
 				FormYourNotesController.INSTANCE.getCurrentFormView(
 						currentFormBean, getActivity(), myR).addToView(layout);

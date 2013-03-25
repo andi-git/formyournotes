@@ -17,11 +17,8 @@ public class DefaultDataDeployer {
 
 	private final Context context;
 
-	private final FileHelper fileHelper;
-
 	public DefaultDataDeployer(Context context) {
 		this.context = context;
-		this.fileHelper = new FileHelper(context);
 		deployed = checkIfDefaultDataIsDeployed();
 		if (!deployed) {
 			deployFiles();
@@ -44,7 +41,7 @@ public class DefaultDataDeployer {
 		InputStream inputStream = context.getAssets().open(fileName,
 				Context.MODE_PRIVATE);
 		FileOutputStream outputStream = new FileOutputStream(new File(
-				fileHelper.getStorage(), fileName));
+				FYNFileHelper.getExternalStorage(context), fileName));
 		try {
 			byte[] buffer = new byte[1024];
 			int length;
@@ -64,7 +61,7 @@ public class DefaultDataDeployer {
 
 	private boolean checkIfDefaultDataIsDeployed() {
 		Log.i(LogTag.FYN.getTag(), "check if " + FILENAME_DEPLOYED + " exists");
-		boolean exists = new File(fileHelper.getStorage(), FILENAME_DEPLOYED)
+		boolean exists = new File(FYNFileHelper.getExternalStorage(context), FILENAME_DEPLOYED)
 				.exists();
 		if (exists) {
 			Log.i(LogTag.FYN.getTag(), "default-files exists");

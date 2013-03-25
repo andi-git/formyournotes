@@ -1,4 +1,4 @@
-package at.ahammer.formyournotes;
+package at.ahammer.formyournotes.file;
 
 import java.io.File;
 
@@ -10,8 +10,8 @@ public class FileHelper {
 
 	private final File externalStorage;
 
-	public FileHelper(Context context) {
-		externalStorage = new File(context.getExternalFilesDir(null), "fyn");
+	public FileHelper(Context context, String directory) {
+		externalStorage = new File(context.getExternalFilesDir(null), directory);
 		Log.i(LogTag.FYN.getTag(), "external storage is: " + externalStorage);
 		if (!externalStorage.exists()) {
 			Log.i(LogTag.FYN.getTag(), "external storage doesn't exist");
@@ -20,7 +20,7 @@ public class FileHelper {
 		}
 	}
 
-	public File getStorage() {
+	public File getExternalStorage() {
 		return externalStorage;
 	}
 }

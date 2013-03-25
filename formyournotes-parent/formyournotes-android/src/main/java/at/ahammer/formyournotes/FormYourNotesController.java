@@ -1,7 +1,5 @@
 package at.ahammer.formyournotes;
 
-import java.io.File;
-
 import android.content.Context;
 import android.util.Log;
 import at.ahammer.formyournotes.beans.FormBean;
@@ -130,14 +128,11 @@ public enum FormYourNotesController {
 	}
 
 	public DataDao getDataDao(Context context) {
-		return new DataDaoJSON(getExternalStorage(context));
+		return new DataDaoJSON(FYNFileHelper.getExternalStorage(context));
 	}
 
 	public FormDao getFormDao(Context context) {
-		return new FormDaoJSON(getExternalStorage(context));
+		return new FormDaoJSON(FYNFileHelper.getExternalStorage(context));
 	}
 
-	public File getExternalStorage(Context context) {
-		return new FileHelper(context).getStorage();
-	}
 }

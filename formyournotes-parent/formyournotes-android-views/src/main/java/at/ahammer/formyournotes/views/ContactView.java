@@ -10,8 +10,6 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.Editable;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,8 +21,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.FormBean;
-import at.ahammer.formyournotes.dao.Contact;
-import at.ahammer.formyournotes.dao.ContactDao;
+import at.ahammer.formyournotes.contact.Contact;
+import at.ahammer.formyournotes.contact.ContactDao;
+import at.ahammer.formyournotes.email.EMailIntent;
+import at.ahammer.formyournotes.maps.NaviIntent;
+import at.ahammer.formyournotes.phone.PhoneIntent;
+import at.ahammer.formyournotes.phone.PhoneIntent.Type;
 
 public class ContactView extends LinearLayout {
 
@@ -262,38 +264,20 @@ public class ContactView extends LinearLayout {
 				if (phone.startsWith("Tel: ")) {
 					Log.i("FormYourNotes", "menu item is a phone tel: " + phone);
 					phone = phone.substring(5);
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse("tel:" + phone));
-					context.startActivity(Intent.createChooser(intent,
-							"Start call..."));
+					new PhoneIntent(context, phone, Type.TELEPHONE).perform();
 				} else if (phone.startsWith("SMS: ")) {
 					phone = phone.substring(5);
 					Log.i("FormYourNotes", "menu item is a phone sms: " + phone);
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse("sms:" + phone));
-					context.startActivity(Intent.createChooser(intent,
-							"Start SMS..."));
+					new PhoneIntent(context, phone, Type.SMS).perform();
 				}
 			} else if (emails.contains(menuItem.getTitle())) {
 				String email = menuItem.getTitle().toString();
-				Log.i("FormYourNotes",
-						"menu item is an email: " + email);
-				Intent intent = new Intent(Intent.ACTION_SEND);
-				intent.setType("text/plain");
-				intent.putExtra(Intent.EXTRA_EMAIL,
-						new String[] { email });
-				intent.putExtra(Intent.EXTRA_SUBJECT, "my subject");
-				intent.putExtra(Intent.EXTRA_TEXT, "body text");
-				context.startActivity(Intent.createChooser(intent,
-						"Send mail..."));
+				Log.i("FormYourNotes", "menu item is an email: " + email);
+				new EMailIntent(context, email).perform();
 			} else if (addresses.contains(menuItem.getTitle())) {
 				String address = menuItem.getTitle().toString();
-				Log.i("FormYourNotes",
-						"menu item is an address: " + address);
-				Intent intent = new Intent(Intent.ACTION_VIEW,
-					    Uri.parse("google.navigation:q=" + address));
-				context.startActivity(Intent.createChooser(intent,
-						"Naviagte to..."));
+				Log.i("FormYourNotes", "menu item is an address: " + address);
+				new NaviIntent(context, address).perform();
 			}
 			return false;
 		}

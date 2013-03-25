@@ -16,6 +16,7 @@
 
 package at.ahammer.formyournotes.actionbar;
 
+import android.R;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,13 +40,13 @@ public abstract class ActionBarHelper {
      * given activity. Depending on which device the app is running, either a basic helper or
      * Honeycomb-specific helper will be returned.
      */
-    public static ActionBarHelper createInstance(Activity activity) {
+    public static ActionBarHelper createInstance(Activity activity, ActionBarR actionBarR) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            return new ActionBarHelperICS(activity);
+            return new ActionBarHelperICS(activity, actionBarR);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return new ActionBarHelperHoneycomb(activity);
+            return new ActionBarHelperHoneycomb(activity, actionBarR);
         } else {
-            return new ActionBarHelperBase(activity);
+            return new ActionBarHelperBase(activity, actionBarR);
         }
     }
 

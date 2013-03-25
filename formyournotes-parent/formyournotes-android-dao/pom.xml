@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>at.ahammer.formyournotes</groupId>
+			<artifactId>formyournotes-android-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>at.ahammer.formyournotes</groupId>
 			<artifactId>formyournotes-beans</artifactId>
 			<version>${project.version}</version>
 		</dependency>

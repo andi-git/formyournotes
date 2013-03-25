@@ -1,4 +1,4 @@
-package at.ahammer.formyournotes;
+package at.ahammer.formyournotes.intent;
 
 import android.app.Activity;
 import android.content.Context;

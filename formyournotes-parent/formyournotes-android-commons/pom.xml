@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.ahammer.formyournotes</groupId>
-	<artifactId>formyournotes-android-views</artifactId>
+	<artifactId>formyournotes-android-commons</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>formyournotes: Android-Views Project</name>
+	<name>formyournotes: Android-Commons Project</name>
 
 	<parent>
 		<groupId>at.ahammer.formyournotes</groupId>
@@ -19,21 +19,6 @@
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>at.ahammer.formyournotes</groupId>
-			<artifactId>formyournotes-beans</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>at.ahammer.formyournotes</groupId>
-			<artifactId>formyournotes-android-dao</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>at.ahammer.formyournotes</groupId>
-			<artifactId>formyournotes-android-commons</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
