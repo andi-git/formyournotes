@@ -119,4 +119,16 @@ public class DataDaoJSON implements DataDao {
 		}
 		return allFormData;
 	}
+
+	@Override
+	public FormData readByDisplayName(int formId, String name) throws DaoException {
+		FormData result = null;
+		for (FormData formData : allDataForForm(formId)) {
+			if (formData.getName().equals(name)) {
+				result = formData;
+				break;
+			}
+		}
+		return result;
+	}
 }

@@ -17,4 +17,6 @@ public interface DataDao {
 	List<FormData> all() throws DaoException;
 	
 	List<FormData> allDataForForm(int formId) throws DaoException;
+
+	FormData readByDisplayName(int formId, String name) throws DaoException;
 }

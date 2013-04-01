@@ -71,4 +71,11 @@ public class DataDaoJSONTest {
 		List<FormData> formDatas = dataDao.allDataForForm(1);
 		Assert.assertEquals(2, formDatas.size());
 	}
+	
+	@Test
+	public void testReadByDisplayName() throws DaoException {
+		FormData formData = dataDao.readByDisplayName(1, "Petra Ahammer");
+		Assert.assertEquals("Petra Ahammer", formData.getName());
+		Assert.assertEquals(2, formData.getDataId());
+	}
 }
