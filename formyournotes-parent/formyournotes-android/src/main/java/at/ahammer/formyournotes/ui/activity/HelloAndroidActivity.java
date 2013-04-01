@@ -23,7 +23,7 @@ public class HelloAndroidActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LogTag.FYN.getTag(), "onCreate");
-		setContentView(R.layout.main);
+		setContentView(R.layout.form_detail);
 
 		// LinearLayout layout = (LinearLayout)
 		// findViewById(R.id.formyournotelayout);

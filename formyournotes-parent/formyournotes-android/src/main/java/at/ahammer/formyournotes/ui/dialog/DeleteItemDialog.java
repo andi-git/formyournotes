@@ -3,16 +3,13 @@ package at.ahammer.formyournotes.ui.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
-import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.data.FormData;
-import at.ahammer.formyournotes.logging.LogTag;
-import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntentBuilder;
-import at.ahammer.formyournotes.util.FormYourNotesController;
+import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntent;
+import at.ahammer.formyournotes.util.FYNController;
 
 public class DeleteItemDialog {
 
@@ -37,47 +34,54 @@ public class DeleteItemDialog {
 				R.layout.dialog_delete_item, null);
 		builder.setView(viewToInflate)
 				.setTitle(R.string.title_delete_item)
-				.setMessage("Delete '" + FormYourNotesController.INSTANCE
-						.getCurrentFormData(activity).getName() + "'?")
+				.setMessage(
+						"Delete '"
+								+ FYNController.INSTANCE.getCurrentFormData(
+										activity).getName() + "'?")
 				// Add action buttons
 				.setPositiveButton(R.string.delete,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								FormData currentData = FormYourNotesController.INSTANCE
-										.getCurrentFormData(activity);
-								try {
-									FormYourNotesController.INSTANCE.getDataDao(activity)
-											.delete(currentData);
-									Toast.makeText(activity,
-											"delete '" + currentData.getName() + "'",
-											Toast.LENGTH_SHORT).show();
-									activity.finish();
-									activity.startActivity(new FormFragmentLayoutIntentBuilder(
-											activity).//
-											setMessage("here goes a message").//
-											build());
-								} catch (DaoException e) {
-									Log.e(LogTag.FYN.getTag(), e.getMessage(),
-											e);
-									Toast.makeText(
-											activity,
-											"exception occurs on deleting"
-													+ currentData.getName(),
-											Toast.LENGTH_SHORT).show();
-								}
-							}
-						})
+						new OnPositiveButtonClick(activity))
 				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								Toast.makeText(activity, R.string.cancel,
-										Toast.LENGTH_SHORT).show();
-							}
-						});
+						new OnNegativeButtonClick(activity));
 		return builder.create();
 	}
-	
-	
+
+	private static class OnNegativeButtonClick implements
+			DialogInterface.OnClickListener {
+
+		private final Activity activity;
+
+		private OnNegativeButtonClick(Activity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			Toast.makeText(activity, R.string.cancel, Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	private static class OnPositiveButtonClick implements
+			DialogInterface.OnClickListener {
+
+		private final Activity activity;
+
+		private OnPositiveButtonClick(Activity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			FormData currentData = FYNController.INSTANCE
+					.getCurrentFormData(activity);
+			FYNController.INSTANCE.delete(activity, currentData);
+			Toast.makeText(activity, "delete '" + currentData.getName() + "'",
+					Toast.LENGTH_SHORT).show();
+			activity.finish();
+			activity.startActivity(new FormFragmentLayoutIntent(activity).//
+					setMessage("here goes a message").//
+					build());
+		}
+	}
 }

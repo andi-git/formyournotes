@@ -9,24 +9,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
-import at.ahammer.formyournotes.dao.DaoException;
-import at.ahammer.formyournotes.dao.DataDao;
-import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
-import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntentBuilder;
-import at.ahammer.formyournotes.util.FYNFileHelper;
-import at.ahammer.formyournotes.util.FormYourNotesController;
+import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntent;
+import at.ahammer.formyournotes.util.FYNController;
 
 public class AddItemDialog {
 
 	private AlertDialog alertDialog;
 
-	private DataDao dataDao;
-
 	public AddItemDialog(Activity activity) {
 		alertDialog = create(activity);
-		dataDao = new DataDaoJSON(FYNFileHelper.getExternalStorage(activity));
 	}
 
 	public void show() {
@@ -46,46 +39,52 @@ public class AddItemDialog {
 				.setTitle(R.string.title_add_item)
 				// Add action buttons
 				.setPositiveButton(R.string.add,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								EditText editText = (EditText) viewToInflate
-										.findViewById(R.id.itemName);
-								Log.i(LogTag.FYN.getTag(), "EditText: "
-										+ editText);
-								String value = editText.getText().toString();
-								try {
-									FormData formData = new FormData();
-									formData.setFormId(FormYourNotesController.INSTANCE
-											.getFormId());
-									formData.setName(value);
-									dataDao.save(formData);
-									Toast.makeText(activity, "add " + value,
-											Toast.LENGTH_SHORT).show();
-									activity.finish();
-									activity.startActivity(new FormFragmentLayoutIntentBuilder(
-											activity).//
-											setMessage("here goes a message").//
-											build());
-								} catch (DaoException e) {
-									Log.e(LogTag.FYN.getTag(), e.getMessage(),
-											e);
-									Toast.makeText(
-											activity,
-											"exception occurs on adding"
-													+ value, Toast.LENGTH_SHORT)
-											.show();
-								}
-							}
-						})
+						new OnPositivButtonClick(viewToInflate, activity))
 				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								Toast.makeText(activity, R.string.cancel,
-										Toast.LENGTH_SHORT).show();
-							}
-						});
+						new OnNegativeButtonClick(activity));
 		return builder.create();
+	}
+
+	private static class OnNegativeButtonClick implements
+			DialogInterface.OnClickListener {
+		private final Activity activity;
+
+		private OnNegativeButtonClick(Activity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			Toast.makeText(activity, R.string.cancel, Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	private static class OnPositivButtonClick implements
+			DialogInterface.OnClickListener {
+		private final View viewToInflate;
+		private final Activity activity;
+
+		private OnPositivButtonClick(View viewToInflate, Activity activity) {
+			this.viewToInflate = viewToInflate;
+			this.activity = activity;
+		}
+
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			EditText editText = (EditText) viewToInflate
+					.findViewById(R.id.itemName);
+			Log.i(LogTag.FYN.getTag(), "EditText: " + editText);
+			String value = editText.getText().toString();
+			FormData formData = new FormData();
+			formData.setFormId(FYNController.INSTANCE.getFormId());
+			formData.setName(value);
+			FYNController.INSTANCE.saveFormData(activity, formData);
+			Toast.makeText(activity, "add " + value, Toast.LENGTH_SHORT).show();
+			activity.finish();
+			activity.startActivity(new FormFragmentLayoutIntent(activity).//
+					setMessage("here goes a message").//
+					build());
+		}
 	}
 }

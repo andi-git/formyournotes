@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import at.ahammer.formyournotes.intent.IntentBuilder;
+import at.ahammer.formyournotes.logging.LogTag;
 
 /**
  * This is a secondary activity, to show what the user has selected when the
@@ -14,20 +16,27 @@ public class FormActivityDetail extends FormActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
-
+		
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// If the screen is now in landscape mode, we can show the
-			// dialog in-line with the list so we don't need this
-			// activity.
+			// If the screen is now in landscape mode, we can show the dialog
+			// in-line with the list so we don't need this activity.
 			finish();
 			return;
 		}
-
+		
 		if (savedInstanceState == null) {
+			FormActivityDetailIntent intent = new FormActivityDetailIntent(this)
+					.addValues(getIntent());
+			Log.i(LogTag.FYN.getTag(),
+					"onCreate of DetailsActivity with index: "
+							+ intent.getIndex() + " and name: "
+							+ intent.getName());
 			// During initial setup, plug in the details fragment.
 			FormFragmentDetail details = new FormFragmentDetail();
-			details.setArguments(getIntent().getExtras());
+			details.setArguments(intent.asBundle());
+			// details.setArguments(getIntent().getExtras());
 			getFragmentManager().beginTransaction()
 					.add(android.R.id.content, details).commit();
 		}
@@ -69,6 +78,35 @@ public class FormActivityDetail extends FormActivity {
 
 		public String getName() {
 			return name;
+		}
+
+		@Override
+		public FormActivityDetailIntent addValues(Intent intent) {
+			index = intent.getExtras().getInt(INDEX);
+			name = intent.getExtras().getString(NAME);
+			return this;
+		}
+
+		@Override
+		public FormActivityDetailIntent addValues(Bundle bundle) {
+			index = bundle.getInt(FormActivityDetailIntent.INDEX, 0);
+			name = bundle.getString(FormActivityDetailIntent.NAME, "");
+			return this;
+		}
+
+		@Override
+		public Bundle asBundle() {
+			Bundle bundle = new Bundle();
+			bundle.putInt(INDEX, index);
+			bundle.putString(NAME, name);
+			return bundle;
+		}
+
+		@Override
+		public Bundle fillBundle(Bundle bundle) {
+			bundle.putInt(INDEX, index);
+			bundle.putString(NAME, name);
+			return bundle;
 		}
 	}
 }

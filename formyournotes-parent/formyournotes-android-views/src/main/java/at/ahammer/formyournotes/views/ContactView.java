@@ -41,7 +41,7 @@ public class ContactView extends LinearLayout {
 	private List<String> displayNames = new ArrayList<String>();
 	private ContactDao contactDao = new ContactDao();
 
-	public ContactView(final Context context, MyR r, FormBean formBean,
+	public ContactView(final Context context, FormR r, FormBean formBean,
 			ContactBean contactBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
@@ -69,11 +69,11 @@ public class ContactView extends LinearLayout {
 		actionButton.setOnClickListener(new ActionOnClickListener(viewName,
 				context));
 
-		addView(viewText, viewHelper.getLinearLayoutParam());
-		addView(viewColon, viewHelper.getLinearLayoutParam());
-		addView(viewName, viewHelper.getLinearLayoutParam());
-		addView(chooseButton, viewHelper.getLinearLayoutParam());
-		addView(actionButton, viewHelper.getLinearLayoutParam());
+		addView(viewText, viewHelper.getLinearLayoutParamWrap());
+		addView(viewColon, viewHelper.getLinearLayoutParamWrap());
+		addView(viewName, viewHelper.getLinearLayoutParamWrap());
+		addView(chooseButton, viewHelper.getLinearLayoutParamWrap());
+		addView(actionButton, viewHelper.getLinearLayoutParamWrap());
 	}
 
 	private View.OnClickListener createChooseButtonOnClickListener(

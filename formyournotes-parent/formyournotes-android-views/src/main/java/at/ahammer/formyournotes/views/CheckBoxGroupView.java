@@ -18,7 +18,7 @@ public class CheckBoxGroupView extends LinearLayout {
 	private final TextView viewColon;
 	private final List<CheckBoxView> checkBoxes = new ArrayList<CheckBoxView>();
 	
-	public CheckBoxGroupView(Context context, MyR r, FormBean formBean, CheckBoxGroupBean checkBoxGroupBean) {
+	public CheckBoxGroupView(Context context, FormR r, FormBean formBean, CheckBoxGroupBean checkBoxGroupBean) {
 		super(context);
 		setOrientation(VERTICAL);
 		viewName = viewHelper.newDefaultTextView(context);
@@ -28,7 +28,7 @@ public class CheckBoxGroupView extends LinearLayout {
 		for (CheckBoxBean checkBoxBean : checkBoxGroupBean.getCheckBoxes()) {
 			checkBoxes.add(new CheckBoxView(context, r, formBean, checkBoxBean));
 		}
-		addView(addRow(context, viewName, viewColon), viewHelper.getLinearLayoutParam());
+		addView(addRow(context, viewName, viewColon), viewHelper.getLinearLayoutParamWrap());
 //		addView(viewName, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 //				LayoutParams.WRAP_CONTENT));
 //		addView(viewColon, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -36,7 +36,7 @@ public class CheckBoxGroupView extends LinearLayout {
 		for (CheckBoxView checkBoxView : checkBoxes) {
 			TextView viewBlank = viewHelper.newDefaultTextView(context);
 			viewBlank.setText("    ");
-			addView(addRow(context, viewBlank, checkBoxView), viewHelper.getLinearLayoutParam());
+			addView(addRow(context, viewBlank, checkBoxView), viewHelper.getLinearLayoutParamWrap());
 		}
 	}
 	

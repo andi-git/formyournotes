@@ -13,7 +13,7 @@ public class CheckBoxView extends LinearLayout {
 	private ViewHelper viewHelper = new ViewHelper();
 	private final CheckBox checkBox;
 
-	public CheckBoxView(Context context, MyR r, FormBean formBean,
+	public CheckBoxView(Context context, FormR r, FormBean formBean,
 			CheckBoxBean checkBoxBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
@@ -21,7 +21,7 @@ public class CheckBoxView extends LinearLayout {
 		checkBox.setText(checkBoxBean.getDiscription());
 		checkBox.setChecked(checkBoxBean.isChecked());
 		checkBox.setOnCheckedChangeListener(new CheckBoxWatcher(checkBoxBean));
-		addView(checkBox, viewHelper.getLinearLayoutParam());
+		addView(checkBox, viewHelper.getLinearLayoutParamWrap());
 	}
 
 	public boolean isChecked() {

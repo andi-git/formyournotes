@@ -17,7 +17,7 @@ import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.FormR;
 import at.ahammer.formyournotes.views.FormView;
 
-public enum FormYourNotesController {
+public enum FYNController {
 
 	INSTANCE;
 
@@ -50,8 +50,8 @@ public enum FormYourNotesController {
 	}
 
 	public FormView getCurrentFormView(FormBean formBean, Context context,
-			FormR myR) {
-		formView = new FormView(formBean, context, myR);
+			FormR formR) {
+		formView = new FormView(formBean, context, formR);
 		return formView;
 	}
 
@@ -131,32 +131,33 @@ public enum FormYourNotesController {
 		return formBean;
 	}
 
-	public DataDao getDataDao(Context context) {
+	private DataDao getDataDao(Context context) {
 		return new DataDaoJSON(FYNFileHelper.getExternalStorage(context));
 	}
 
-	public FormDao getFormDao(Context context) {
+	private FormDao getFormDao(Context context) {
 		return new FormDaoJSON(FYNFileHelper.getExternalStorage(context));
 	}
 
 	public List<FormData> allDataForCurrentForm(Context context) {
 		return allDataForForm(context, getFormId());
 	}
-	
+
 	public List<FormData> allDataForForm(Context context, int formId) {
 		List<FormData> formDataList = new ArrayList<FormData>();
 		try {
 			formDataList.addAll(getDataDao(context).allDataForForm(formId));
 		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error on loading all data from by id " + formId, e);
+			Log.e(LogTag.FYN.getTag(), "error on loading all data from by id "
+					+ formId, e);
 		}
 		return formDataList;
 	}
-	
+
 	public List<String> allDataNamesForCurrentForm(Context context) {
 		return allDataNamesForForm(context, getFormId());
 	}
-	
+
 	public List<String> allDataNamesForForm(Context context, int formId) {
 		List<FormData> formDataList = allDataForForm(context, formId);
 		List<String> dataNames = new ArrayList<String>();
@@ -166,16 +167,29 @@ public enum FormYourNotesController {
 		Collections.sort(dataNames);
 		return dataNames;
 	}
-	
+
 	public FormData getCurrentDataByName(Context context, String name) {
 		FormData formData = new FormData();
 		try {
-			Log.i(LogTag.FYN.getTag(), "search current form " + formId + " by name: " + name);
+			Log.i(LogTag.FYN.getTag(), "search current form " + formId
+					+ " by name: " + name);
 			formData = getDataDao(context).readByDisplayName(getFormId(), name);
-			Log.i(LogTag.FYN.getTag(), "found " + formData.getDataId() + ", " + formData.getName());
+			Log.i(LogTag.FYN.getTag(), "found " + formData.getDataId() + ", "
+					+ formData.getName());
 		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error on reading from data by name " + name, e);
+			Log.e(LogTag.FYN.getTag(), "error on reading from data by name "
+					+ name, e);
 		}
 		return formData;
+	}
+
+	public boolean delete(Context context, FormData formData) {
+		boolean deleted = false;
+		try {
+			getDataDao(context).delete(formData);
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error on deletin data: " + formData, e);
+		}
+		return deleted;
 	}
 }

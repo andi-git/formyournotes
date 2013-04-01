@@ -9,14 +9,14 @@ import at.ahammer.formyournotes.actionbar.ActionBarActivity;
 import at.ahammer.formyournotes.ui.dialog.AddItemDialog;
 import at.ahammer.formyournotes.ui.dialog.DeleteItemDialog;
 import at.ahammer.formyournotes.util.FYNActionBarHelper;
-import at.ahammer.formyournotes.util.FormYourNotesController;
+import at.ahammer.formyournotes.util.FYNController;
 
 public class FormActivity extends ActionBarActivity {
 
 	public FormActivity() {
 		super(FYNActionBarHelper.INSTANCE.getActionBarR());
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
@@ -34,7 +34,7 @@ public class FormActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_save:
 			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-			FormYourNotesController.INSTANCE.updateFormData(this);
+			FYNController.INSTANCE.updateFormData(this);
 			break;
 		case R.id.menu_add_item:
 			AddItemDialog addItemDialog = new AddItemDialog(this);

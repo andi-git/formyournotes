@@ -1,6 +1,5 @@
 package at.ahammer.formyournotes.util;
 
-import android.app.Activity;
 import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.actionbar.ActionBarR;
 import at.ahammer.formyournotes.actionbar.ActionBarR.Attribute;
@@ -25,6 +24,7 @@ public enum FYNActionBarHelper {
 	}
 
 	public ActionBarR createActionBarR() {
+
 		int actionbarLayoutCompat = R.layout.actionbar_compat;
 		int actionbarLayoutIndeterminateProgress = R.layout.actionbar_indeterminate_progress;
 
@@ -68,9 +68,5 @@ public enum FYNActionBarHelper {
 
 		return new ActionBarR(layout, drawable, attribute, id, dimension,
 				stirng);
-	}
-	
-	public void onOptionsItemSelected(Activity activity) {
-		
 	}
 }

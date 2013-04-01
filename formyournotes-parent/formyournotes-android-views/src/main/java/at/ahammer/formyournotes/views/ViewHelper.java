@@ -93,9 +93,16 @@ public class ViewHelper {
 		return layoutParams;
 	}
 
-	public LinearLayout.LayoutParams getLinearLayoutParam() {
+	public LinearLayout.LayoutParams getLinearLayoutParamWrap() {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0, 0, 0, 0);
+		return layoutParams;
+	}
+
+	public LinearLayout.LayoutParams getLinearLayoutParamMatch() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		layoutParams.setMargins(0, 0, 0, 0);
 		return layoutParams;
 	}

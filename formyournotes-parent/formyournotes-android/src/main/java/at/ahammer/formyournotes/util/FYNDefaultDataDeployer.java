@@ -1,4 +1,4 @@
-package at.ahammer.formyournotes;
+package at.ahammer.formyournotes.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import android.content.Context;
 import android.util.Log;
 import at.ahammer.formyournotes.logging.LogTag;
 
-public class DefaultDataDeployer {
+public class FYNDefaultDataDeployer {
 
 	public static final String FILENAME_DEPLOYED = "deployed.idx";
 
@@ -17,7 +17,7 @@ public class DefaultDataDeployer {
 
 	private final Context context;
 
-	public DefaultDataDeployer(Context context) {
+	public FYNDefaultDataDeployer(Context context) {
 		this.context = context;
 		deployed = checkIfDefaultDataIsDeployed();
 		if (!deployed) {

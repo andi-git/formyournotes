@@ -16,7 +16,7 @@ public class EditTextView extends LinearLayout {
 	private final TextView viewColon;
 	private final EditText viewText;
 
-	public EditTextView(Context context, MyR r, FormBean formBean,
+	public EditTextView(Context context, FormR r, FormBean formBean,
 			EditTextBean editTextBean) {
 		super(context);
 		setOrientation(HORIZONTAL);
@@ -27,9 +27,9 @@ public class EditTextView extends LinearLayout {
 		viewText.addTextChangedListener(new EditTextWatcher(editTextBean));
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
-		addView(viewName, viewHelper.getLinearLayoutParam());
-		addView(viewColon, viewHelper.getLinearLayoutParam());
-		addView(viewText, viewHelper.getLinearLayoutParam());
+		addView(viewName, viewHelper.getLinearLayoutParamWrap());
+		addView(viewColon, viewHelper.getLinearLayoutParamWrap());
+		addView(viewText, viewHelper.getLinearLayoutParamWrap());
 	}
 
 	public String getName() {

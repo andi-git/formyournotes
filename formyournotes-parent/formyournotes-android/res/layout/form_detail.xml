@@ -4,7 +4,7 @@
     android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:id="@+id/formyournotelayout"
+        android:id="@+id/form_layout_detail"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >

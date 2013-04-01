@@ -5,16 +5,17 @@
     android:baselineAligned="false" >
 
     <fragment
-        android:id="@+id/titles"
+        android:id="@+id/form_fragment_list"
         android:layout_width="0px"
         android:layout_height="fill_parent"
         android:layout_weight="0.5"
-        class="at.ahammer.formyournotes.FragmentLayout$TitlesFragment" />
+        class="at.ahammer.formyournotes.ui.activity.FormFragmentList" />
 
     <FrameLayout
-        android:id="@+id/details"
+        android:id="@+id/form_fragment_detail"
         android:layout_width="0px"
         android:layout_height="fill_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1" 
+        android:layout_margin="5dp"/>
 
 </LinearLayout>

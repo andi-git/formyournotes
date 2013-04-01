@@ -3,9 +3,9 @@
     android:layout_height="match_parent" >
 
     <fragment
-        android:id="@+id/titles"
+        android:id="@+id/form_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="at.ahammer.formyournotes.FragmentLayout$TitlesFragment" />
+        class="at.ahammer.formyournotes.ui.activity.FormFragmentList" />
 
 </FrameLayout>

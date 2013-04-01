@@ -13,12 +13,13 @@ public class GroupView extends LinearLayout {
 	private ViewHelper viewHelper = new ViewHelper();
 	private final TextView viewName;
 
-	public GroupView(Context context, MyR r, FormBean formBean,
+	public GroupView(Context context, FormR r, FormBean formBean,
 			GroupBean groupBean) {
 		super(context);
 		setOrientation(VERTICAL);
 		setBackground(getResources().getDrawable(
 				r.getDrawable().getBorderTopElement()));
+		setLayoutParams(viewHelper.getLinearLayoutParamMatch());
 		viewName = viewHelper.newHeaderTextView(context);
 		viewName.setText(groupBean.getName());
 		addView(viewName, viewHelper.getLinearLayoutParamFirstInRow());

@@ -20,11 +20,11 @@ public class FormView {
 
 	private final FormBean formBean;
 
-	public FormView(FormBean formBean, Context context, MyR myR) {
+	public FormView(FormBean formBean, Context context, FormR formR) {
 		this.formBean = formBean;
 		for (FormYourNotesBean<?> topLevelElement : formBean
 				.getAllTopLevelItemsSortedByRank()) {
-			topLevelElements.add(getView(formBean, context, myR, topLevelElement));
+			topLevelElements.add(getView(formBean, context, formR, topLevelElement));
 		}
 	}
 
@@ -34,21 +34,21 @@ public class FormView {
 		}
 	}
 
-	public static View getView(FormBean formBean, Context context, MyR myR, FormYourNotesBean<?> currentBean) {
+	public static View getView(FormBean formBean, Context context, FormR formR, FormYourNotesBean<?> currentBean) {
 		if (currentBean instanceof EditTextBean) {
-			return new EditTextView(context, myR, formBean,
+			return new EditTextView(context, formR, formBean,
 					(EditTextBean) currentBean);
 		} else if (currentBean instanceof CheckBoxGroupBean) {
-			return new CheckBoxGroupView(context, myR, formBean,
+			return new CheckBoxGroupView(context, formR, formBean,
 					(CheckBoxGroupBean) currentBean);
 		} else if (currentBean instanceof CheckBoxBean) {
-			return new CheckBoxView(context, myR, formBean,
+			return new CheckBoxView(context, formR, formBean,
 					(CheckBoxBean) currentBean);
 		} else if (currentBean instanceof ContactBean) {
-			return new ContactView(context, myR, formBean,
+			return new ContactView(context, formR, formBean,
 					(ContactBean) currentBean);
 		} else if (currentBean instanceof GroupBean) {
-			return new GroupView(context, myR, formBean,
+			return new GroupView(context, formR, formBean,
 					(GroupBean) currentBean);
 		}
 		throw new RuntimeException("View for " + currentBean.getClass()
