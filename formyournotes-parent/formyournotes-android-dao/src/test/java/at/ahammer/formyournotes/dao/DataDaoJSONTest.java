@@ -26,7 +26,8 @@ public class DataDaoJSONTest {
 	@Test
 	public void testReadForm() throws DaoException {
 		FormData data = dataDao.read(1, 1);
-		Assert.assertEquals("Miriam Musterfrau", data.getContactData().get(0).getDisplayName());
+		Assert.assertEquals("Miriam Musterfrau", data.getContactData().get(0)
+				.getDisplayName());
 	}
 
 	@Test(expected = DaoException.class)
@@ -40,24 +41,29 @@ public class DataDaoJSONTest {
 		data.add(new EditTextData("MyValue", 1));
 		FormData savedData = dataDao.save(data);
 		Assert.assertTrue(data.getDataId() > 0);
-		File savedFile = new File(ClassLoader.getSystemResource("").getFile(), "form_" + savedData.getFormId() + "_" + savedData.getDataId() + ".json");
+		File savedFile = new File(ClassLoader.getSystemResource("").getFile(),
+				"form_" + savedData.getFormId() + "_" + savedData.getDataId()
+						+ ".json");
 		Assert.assertNotNull(savedFile);
-		
-		FormData dataRead = dataDao.read(savedData.getFormId(), savedData.getDataId());
+
+		FormData dataRead = dataDao.read(savedData.getFormId(),
+				savedData.getDataId());
 		Assert.assertEquals(savedData.getFormId(), dataRead.getFormId());
 		Assert.assertEquals(savedData.getDataId(), dataRead.getDataId());
 		Assert.assertEquals("MyData", dataRead.getName());
-		Assert.assertEquals("MyValue", dataRead.getEditTextData().get(0).getValue());
-		
+		Assert.assertEquals("MyValue", dataRead.getEditTextData().get(0)
+				.getValue());
+
 		data.setName("MyUpdatedData");
 		dataDao.update(data);
-		
+
 		dataRead = dataDao.read(data.getFormId(), data.getDataId());
 		Assert.assertEquals(savedData.getFormId(), dataRead.getFormId());
 		Assert.assertEquals(savedData.getDataId(), dataRead.getDataId());
 		Assert.assertEquals("MyUpdatedData", dataRead.getName());
-		Assert.assertEquals("MyValue", dataRead.getEditTextData().get(0).getValue());
-		
+		Assert.assertEquals("MyValue", dataRead.getEditTextData().get(0)
+				.getValue());
+
 		boolean deleted = dataDao.delete(data);
 		Assert.assertTrue(deleted);
 		dataRead = dataDao.read(data.getFormId(), data.getDataId());
@@ -65,17 +71,38 @@ public class DataDaoJSONTest {
 		dataRead = dataDao.update(data);
 		Assert.assertNull(dataRead);
 	}
-	
+
 	@Test
 	public void testDataForForm() throws DaoException {
 		List<FormData> formDatas = dataDao.allDataForForm(1);
 		Assert.assertEquals(2, formDatas.size());
 	}
-	
+
 	@Test
 	public void testReadByDisplayName() throws DaoException {
 		FormData formData = dataDao.readByDisplayName(1, "Petra Ahammer");
 		Assert.assertEquals("Petra Ahammer", formData.getName());
 		Assert.assertEquals(2, formData.getDataId());
+	}
+
+	@Test
+	public void testSaveDuplicateName() throws DaoException {
+		FormData data = new FormData(1, -1, "MyData");
+		data.add(new EditTextData("MyValue", 1));
+		FormData savedData = dataDao.save(data);
+		Assert.assertTrue(data.getDataId() > 0);
+		File savedFile = new File(ClassLoader.getSystemResource("").getFile(),
+				"form_" + savedData.getFormId() + "_" + savedData.getDataId()
+						+ ".json");
+		Assert.assertNotNull(savedFile);
+		data = new FormData(1, -1, "MyData");
+		data.add(new EditTextData("MyNewValue", 1));
+		try {
+			savedData = dataDao.save(data);
+			Assert.fail("here should be an " + DaoException.class.getSimpleName() + " thrown");
+		} catch (DaoException e) {
+			// nothing
+		}
+		dataDao.delete(savedData);
 	}
 }

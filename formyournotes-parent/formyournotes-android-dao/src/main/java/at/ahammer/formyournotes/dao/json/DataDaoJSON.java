@@ -48,6 +48,9 @@ public class DataDaoJSON implements DataDao {
 		checkFormExists(formData.getFormId());
 		try {
 			int nextId = fileHelper.calculateNextIdOfStandardizedString();
+			if (readByDisplayName(formData.getFormId(), formData.getName()) != null) {
+				throw new DaoException("formData for name '" + formData.getName() + "' already exists");
+			}
 			File nextFile = fileHelper
 					.createNextFile(new RequiredDataDataInsert(formData
 							.getFormId()));

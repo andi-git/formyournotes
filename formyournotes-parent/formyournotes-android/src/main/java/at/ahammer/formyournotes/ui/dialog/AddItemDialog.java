@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
+import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntent;
@@ -79,8 +80,14 @@ public class AddItemDialog {
 			FormData formData = new FormData();
 			formData.setFormId(FYNController.INSTANCE.getFormId());
 			formData.setName(value);
-			FYNController.INSTANCE.saveFormData(activity, formData);
-			Toast.makeText(activity, "add " + value, Toast.LENGTH_SHORT).show();
+			try {
+				FYNController.INSTANCE.saveFormData(activity, formData);
+				Toast.makeText(activity, "add " + value, Toast.LENGTH_SHORT)
+						.show();
+			} catch (DaoException e) {
+				Toast.makeText(activity, "error: " + e.getMessage(),
+						Toast.LENGTH_SHORT).show();
+			}
 			activity.finish();
 			activity.startActivity(new FormFragmentLayoutIntent(activity).//
 					setMessage("here goes a message").//

@@ -111,12 +111,13 @@ public enum FYNController {
 		return formData;
 	}
 
-	public FormData saveFormData(Context context, FormData formData) {
+	public FormData saveFormData(Context context, FormData formData) throws DaoException {
 		DataDao dataDao = getDataDao(context);
 		try {
 			dataDao.save(formData);
 		} catch (DaoException e) {
 			Log.e(LogTag.FYN.getTag(), "error on saving data-bean", e);
+			throw new DaoException(e);
 		}
 		return formData;
 	}
