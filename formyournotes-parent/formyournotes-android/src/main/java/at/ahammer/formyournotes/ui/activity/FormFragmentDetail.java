@@ -1,5 +1,7 @@
 package at.ahammer.formyournotes.ui.activity;
 
+import java.util.List;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -76,11 +78,20 @@ public class FormFragmentDetail extends Fragment {
 
 		ScrollView scroller = new ScrollView(getActivity());
 
-		if (formActivityDetailIntent.getName() != null
-				&& !"".equals(formActivityDetailIntent.getName())) {
+		String displayName = formActivityDetailIntent.getName();
+		// ISSUE 2: if there is no display-name (e.g. on startup) choose name
+		// via index
+		if (displayName == null || "".equals(displayName)) {
+			List<String> allNamesSorted = FYNController.INSTANCE
+					.allDataNamesForCurrentForm(getActivity());
+			if (!allNamesSorted.isEmpty()) {
+				displayName = allNamesSorted.get(getShownIndex());
+			}
+		}
 
+		if (displayName != null && !"".equals(displayName)) {
 			FormData formData = FYNController.INSTANCE.getCurrentDataByName(
-					getActivity(), formActivityDetailIntent.getName());
+					getActivity(), displayName);
 			FYNController.INSTANCE.setDataId(formData.getDataId());
 
 			FormBean currentFormBean = FYNController.INSTANCE
