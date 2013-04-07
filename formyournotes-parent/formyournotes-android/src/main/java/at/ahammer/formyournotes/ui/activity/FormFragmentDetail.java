@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
@@ -111,5 +112,12 @@ public class FormFragmentDetail extends Fragment {
 			scroller.addView(layout, viewHelper.getLinearLayoutParamMatch());
 		}
 		return scroller;
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Toast.makeText(getActivity(), "Save Form Data", Toast.LENGTH_SHORT).show();
+		FYNController.INSTANCE.updateFormData(getActivity());
 	}
 }
