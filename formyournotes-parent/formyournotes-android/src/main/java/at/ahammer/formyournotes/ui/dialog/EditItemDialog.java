@@ -79,18 +79,23 @@ public class EditItemDialog {
 					.findViewById(R.id.name_to_change_to);
 			Log.i(LogTag.FYN.getTag(), "EditText: " + editText);
 			String value = editText.getText().toString();
-			try {
-				FYNController.INSTANCE.updateFormData(activity, value);
-				Toast.makeText(activity, "add " + value, Toast.LENGTH_SHORT)
-						.show();
-			} catch (DaoException e) {
-				Toast.makeText(activity, "error: " + e.getMessage(),
-						Toast.LENGTH_SHORT).show();
+			if (value != null && !"".equals(value)) {
+				try {
+					FYNController.INSTANCE.updateFormData(activity, value);
+					Toast.makeText(activity, "add " + value, Toast.LENGTH_SHORT)
+							.show();
+				} catch (DaoException e) {
+					Toast.makeText(activity, "error: " + e.getMessage(),
+							Toast.LENGTH_SHORT).show();
+				}
+				activity.finish();
+				activity.startActivity(new FormFragmentLayoutIntent(activity).//
+						setMessage("here goes a message").//
+						build());
+			} else {
+				Toast.makeText(activity, "Error: name must not be empty!",
+						Toast.LENGTH_LONG).show();
 			}
-			activity.finish();
-			activity.startActivity(new FormFragmentLayoutIntent(activity).//
-					setMessage("here goes a message").//
-					build());
 		}
 	}
 }
