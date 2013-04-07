@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.ahammer.formyournotes.beans.FileWriteType;
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
 import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
 import at.ahammer.formyournotes.beanserializer.SerializationException;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
+import at.ahammer.formyournotes.dao.UserActivityDao;
 import at.ahammer.formyournotes.data.FormData;
 
 public class DataDaoJSON implements DataDao {
@@ -18,6 +20,8 @@ public class DataDaoJSON implements DataDao {
 	private final FileHelper<RequiredDataForm> fileHelperForm;
 
 	private final BeanSerializer serializer;
+	
+	private final UserActivityDao userActivityDao;
 
 	// TODO caching
 
@@ -25,6 +29,7 @@ public class DataDaoJSON implements DataDao {
 		fileHelper = new FileHelperData(directory);
 		fileHelperForm = new FileHelperForm(directory);
 		serializer = new JSONBeanSerializer();
+		userActivityDao = new UserActivityDaoJSON(directory);
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class DataDaoJSON implements DataDao {
 							.getFormId()));
 			formData.setDataId(nextId);
 			serializer.serialize(formData, nextFile);
+			userActivityDao.addFileWriteActivity(nextFile.getName(), FileWriteType.SAVE);
 			return formData;
 		} catch (SerializationException e) {
 			throw new DaoException(e);
@@ -69,6 +75,7 @@ public class DataDaoJSON implements DataDao {
 					.getFormId(), formData.getDataId()));
 			if (file != null) {
 				serializer.serialize(formData, file);
+				userActivityDao.addFileWriteActivity(file.getName(), FileWriteType.UPDATE);
 				return formData;
 			} else {
 				return null;
@@ -86,6 +93,7 @@ public class DataDaoJSON implements DataDao {
 				.getFormId(), formData.getDataId()));
 		if (file != null) {
 			result = file.delete();
+			userActivityDao.addFileWriteActivity(file.getName(), FileWriteType.DELETE);
 		}
 		return result;
 	}

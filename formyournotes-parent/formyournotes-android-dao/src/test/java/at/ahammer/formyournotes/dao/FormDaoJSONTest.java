@@ -2,6 +2,7 @@ package at.ahammer.formyournotes.dao;
 
 import java.io.File;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
+import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 
 public class FormDaoJSONTest {
 
@@ -17,12 +19,29 @@ public class FormDaoJSONTest {
 
 	private FormDao formDao;
 
+	private UserActivityDao userActivityDao;
+
 	@Before
 	public void setUp() {
 		resourceDir = new File(ClassLoader.getSystemResource("").getFile());
 		formDao = new FormDaoJSON(resourceDir);
+		userActivityDao = new UserActivityDaoJSON(resourceDir);
+		try {
+			userActivityDao.create();
+		} catch (DaoException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
+	@After
+	public void tearDown() {
+		try {
+			userActivityDao.delete();
+		} catch (DaoException e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
 	@Test
 	public void testReadForm() throws DaoException {
 		FormBean form = formDao.read(1);
@@ -57,6 +76,8 @@ public class FormDaoJSONTest {
 		Assert.assertNull(formBeanRead);
 		formBeanRead = formDao.update(formBean);
 		Assert.assertNull(formBeanRead);
+		
+		Assert.assertEquals(3, userActivityDao.getUserActivity().getFileWriteActivities().size());
 	}
 
 	@Test

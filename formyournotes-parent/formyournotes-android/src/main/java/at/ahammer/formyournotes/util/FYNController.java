@@ -65,14 +65,15 @@ public enum FYNController {
 		}
 	}
 
-	public void updateFormData(Context context, String newName) throws DaoException {
+	public void updateFormData(Context context, String newName)
+			throws DaoException {
 		Log.i(LogTag.FYN.getTag(), "update form data with new name");
 		if (formView != null) {
 			formView.getFormBean().getData().setName(newName);
 			updateFormData(context);
 		}
 	}
-	
+
 	public FormBean getCurrentFormBean(Context context) {
 		FormDao formDao = getFormDao(context);
 		FormBean result = new FormBean();
@@ -106,21 +107,25 @@ public enum FYNController {
 		return result;
 	}
 
-	private FormData updateFormData(Context context, FormData formData) throws DaoException {
-		Log.i(LogTag.FYN.getTag(),
-				"update form data for " + formData.getDataId() + ", "
-						+ formData.getName());
-		DataDao dataDao = getDataDao(context);
-		try {
-			formView.getFormBean().setData(dataDao.update(formData));
-		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error on updating data-bean", e);
-			throw new DaoException(e);
+	private FormData updateFormData(Context context, FormData formData)
+			throws DaoException {
+		if (formData != null) {
+			Log.i(LogTag.FYN.getTag(),
+					"update form data for " + formData.getDataId() + ", "
+							+ formData.getName());
+			DataDao dataDao = getDataDao(context);
+			try {
+				formView.getFormBean().setData(dataDao.update(formData));
+			} catch (DaoException e) {
+				Log.e(LogTag.FYN.getTag(), "error on updating data-bean", e);
+				throw new DaoException(e);
+			}
 		}
 		return formData;
 	}
 
-	public FormData saveFormData(Context context, FormData formData) throws DaoException {
+	public FormData saveFormData(Context context, FormData formData)
+			throws DaoException {
 		DataDao dataDao = getDataDao(context);
 		try {
 			dataDao.save(formData);

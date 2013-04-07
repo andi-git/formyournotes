@@ -31,6 +31,7 @@ public class FYNDefaultDataDeployer {
 			copyFile("form_1.json");
 			copyFile("data_1_1.json");
 			copyFile("data_1_2.json");
+			copyFile("useractivity.json");
 			copyFile("deployed.idx");
 		} catch (IOException e) {
 			throw new RuntimeException(e);

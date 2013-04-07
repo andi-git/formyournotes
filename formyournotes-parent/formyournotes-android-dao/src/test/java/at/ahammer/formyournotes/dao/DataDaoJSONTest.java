@@ -5,11 +5,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
+import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.EditTextData;
 import at.ahammer.formyournotes.data.FormData;
 
@@ -19,12 +21,29 @@ public class DataDaoJSONTest {
 
 	private DataDao dataDao;
 
+	private UserActivityDao userActivityDao;
+
 	@Before
 	public void setUp() {
 		resourceDir = new File(ClassLoader.getSystemResource("").getFile());
 		dataDao = new DataDaoJSON(resourceDir);
+		userActivityDao = new UserActivityDaoJSON(resourceDir);
+		try {
+			userActivityDao.create();
+		} catch (DaoException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
+	@After
+	public void tearDown() {
+		try {
+			userActivityDao.delete();
+		} catch (DaoException e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
 	@Test
 	public void testReadForm() throws DaoException {
 		FormData data = dataDao.read(1, 1);
@@ -72,6 +91,8 @@ public class DataDaoJSONTest {
 		Assert.assertNull(dataRead);
 		dataRead = dataDao.update(data);
 		Assert.assertNull(dataRead);
+		
+		Assert.assertEquals(3, userActivityDao.getUserActivity().getFileWriteActivities().size());
 	}
 
 	@Test
