@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.ui.activity.FormActivityDetail.FormActivityDetailIntent;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNFormHelper;
+import at.ahammer.formyournotes.util.FYNViewHelper;
 import at.ahammer.formyournotes.views.ViewHelper;
 
 /**
@@ -117,7 +117,6 @@ public class FormFragmentDetail extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Toast.makeText(getActivity(), "Save Form Data", Toast.LENGTH_SHORT).show();
-		FYNController.INSTANCE.updateFormData(getActivity());
+		FYNViewHelper.INSTANCE.saveCurrentForm(getActivity());
 	}
 }

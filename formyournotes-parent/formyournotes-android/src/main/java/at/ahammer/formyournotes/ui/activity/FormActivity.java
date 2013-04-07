@@ -8,8 +8,9 @@ import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.actionbar.ActionBarActivity;
 import at.ahammer.formyournotes.ui.dialog.AddItemDialog;
 import at.ahammer.formyournotes.ui.dialog.DeleteItemDialog;
+import at.ahammer.formyournotes.ui.dialog.EditItemDialog;
 import at.ahammer.formyournotes.util.FYNActionBarHelper;
-import at.ahammer.formyournotes.util.FYNController;
+import at.ahammer.formyournotes.util.FYNViewHelper;
 
 public class FormActivity extends ActionBarActivity {
 
@@ -33,12 +34,15 @@ public class FormActivity extends ActionBarActivity {
 			Toast.makeText(this, "Tapped home", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.menu_save:
-			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-			FYNController.INSTANCE.updateFormData(this);
+			FYNViewHelper.INSTANCE.saveCurrentForm(this);
 			break;
 		case R.id.menu_add_item:
 			AddItemDialog addItemDialog = new AddItemDialog(this);
 			addItemDialog.show();
+			break;
+		case R.id.menu_edit_item:
+			EditItemDialog editItemDialog = new EditItemDialog(this);
+			editItemDialog.show();
 			break;
 		case R.id.menu_delete_item:
 			DeleteItemDialog deleteItemDialog = new DeleteItemDialog(this);

@@ -48,9 +48,7 @@ public class DataDaoJSON implements DataDao {
 		checkFormExists(formData.getFormId());
 		try {
 			int nextId = fileHelper.calculateNextIdOfStandardizedString();
-			if (readByDisplayName(formData.getFormId(), formData.getName()) != null) {
-				throw new DaoException("formData for name '" + formData.getName() + "' already exists");
-			}
+			checkIfFormNameAlreadyExists(formData);
 			File nextFile = fileHelper
 					.createNextFile(new RequiredDataDataInsert(formData
 							.getFormId()));
@@ -66,6 +64,7 @@ public class DataDaoJSON implements DataDao {
 	public FormData update(FormData formData) throws DaoException {
 		checkFormExists(formData.getFormId());
 		try {
+			checkIfFormNameAlreadyExistsInOtherData(formData);
 			File file = fileHelper.getFile(new RequiredDataData(formData
 					.getFormId(), formData.getDataId()));
 			if (file != null) {
@@ -133,5 +132,20 @@ public class DataDaoJSON implements DataDao {
 			}
 		}
 		return result;
+	}
+	
+	private void checkIfFormNameAlreadyExists(FormData formData)
+			throws DaoException {
+		if (readByDisplayName(formData.getFormId(), formData.getName()) != null) {
+			throw new DaoException("formData for name '" + formData.getName() + "' already exists");
+		}
+	}
+
+	private void checkIfFormNameAlreadyExistsInOtherData(FormData formData)
+			throws DaoException {
+		FormData formDataReadByDisplayName = readByDisplayName(formData.getFormId(), formData.getName());
+		if (formDataReadByDisplayName != null && formDataReadByDisplayName.getDataId() != formData.getDataId()) {
+			throw new DaoException("formData for name '" + formData.getName() + "' already exists");
+		}
 	}
 }

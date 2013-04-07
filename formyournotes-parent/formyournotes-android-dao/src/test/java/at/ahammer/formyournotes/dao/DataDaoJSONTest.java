@@ -87,22 +87,73 @@ public class DataDaoJSONTest {
 
 	@Test
 	public void testSaveDuplicateName() throws DaoException {
-		FormData data = new FormData(1, -1, "MyData");
-		data.add(new EditTextData("MyValue", 1));
-		FormData savedData = dataDao.save(data);
-		Assert.assertTrue(data.getDataId() > 0);
-		File savedFile = new File(ClassLoader.getSystemResource("").getFile(),
-				"form_" + savedData.getFormId() + "_" + savedData.getDataId()
-						+ ".json");
-		Assert.assertNotNull(savedFile);
-		data = new FormData(1, -1, "MyData");
-		data.add(new EditTextData("MyNewValue", 1));
+		FormData savedData = null;
 		try {
+			FormData data = new FormData(1, -1, "MyData");
+			data.add(new EditTextData("MyValue", 1));
 			savedData = dataDao.save(data);
-			Assert.fail("here should be an " + DaoException.class.getSimpleName() + " thrown");
-		} catch (DaoException e) {
-			// nothing
+			Assert.assertTrue(data.getDataId() > 0);
+			File savedFile = new File(ClassLoader.getSystemResource("")
+					.getFile(), "form_" + savedData.getFormId() + "_"
+					+ savedData.getDataId() + ".json");
+			Assert.assertNotNull(savedFile);
+			data = new FormData(1, -1, "MyData");
+			data.add(new EditTextData("MyNewValue", 1));
+			try {
+				savedData = dataDao.save(data);
+				Assert.fail("here should be an "
+						+ DaoException.class.getSimpleName() + " thrown");
+			} catch (DaoException e) {
+				System.out.println(e.getMessage());
+			}
+		} finally {
+			if (savedData != null) {
+				dataDao.delete(savedData);
+
+			}
 		}
-		dataDao.delete(savedData);
+	}
+
+	@Test
+	public void testUpdateDuplicateName() throws DaoException {
+		FormData savedData1 = null;
+		FormData savedData2 = null;
+		try {
+			FormData myData1 = new FormData(1, -1, "MyData1");
+			myData1.add(new EditTextData("MyValue", 1));
+			savedData1 = dataDao.save(myData1);
+			Assert.assertTrue(myData1.getDataId() > 0);
+			File savedFile1 = new File(ClassLoader.getSystemResource("")
+					.getFile(), "form_" + savedData1.getFormId() + "_"
+					+ savedData1.getDataId() + ".json");
+			Assert.assertNotNull(savedFile1);
+
+			FormData myData2 = new FormData(1, -2, "MyData2");
+			myData2.add(new EditTextData("MyValue", 1));
+			savedData2 = dataDao.save(myData2);
+			Assert.assertTrue(myData2.getDataId() > 0);
+			File savedFile2 = new File(ClassLoader.getSystemResource("")
+					.getFile(), "form_" + savedData2.getFormId() + "_"
+					+ savedData2.getDataId() + ".json");
+			Assert.assertNotNull(savedFile2);
+
+			savedData2.setName("MyData2");
+			savedData2 = dataDao.update(savedData2);
+			try {
+				savedData2.setName("MyData1");
+				savedData2 = dataDao.update(savedData2);
+				Assert.fail("here should be an "
+						+ DaoException.class.getSimpleName() + " thrown");
+			} catch (DaoException e) {
+				System.out.println(e.getMessage());
+			}
+		} finally {
+			if (savedData1 != null) {
+				dataDao.delete(savedData1);
+			}
+			if (savedData2 != null) {
+				dataDao.delete(savedData2);
+			}
+		}
 	}
 }
