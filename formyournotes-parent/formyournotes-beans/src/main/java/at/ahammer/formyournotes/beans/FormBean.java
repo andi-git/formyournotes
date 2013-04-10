@@ -21,6 +21,7 @@ public class FormBean {
 	private List<ContactBean> contactBeans = new ArrayList<ContactBean>();
 	private List<EditTextBean> editTextBeans = new ArrayList<EditTextBean>();
 	private List<GroupBean> groupBeans = new ArrayList<GroupBean>();
+	private boolean dataChanged = false;
 
 	// TODO cache for ranking - bean
 
@@ -236,6 +237,7 @@ public class FormBean {
 	}
 
 	private void clearData() {
+		dataChanged = false;
 		addedData = new FormData();
 		for (CheckBoxBean checkBoxBean : checkBoxBeans) {
 			checkBoxBean.clearData();
@@ -256,6 +258,7 @@ public class FormBean {
 
 	public FormBean setData(FormData formData) {
 		clearData();
+		dataChanged = false;
 		addedData = formData;
 		for (CheckBoxData checkBoxData : formData.getCheckBoxData()) {
 			getById(checkBoxData.getItemId(), CheckBoxBean.class).setData(
@@ -309,5 +312,24 @@ public class FormBean {
 			throw new RuntimeException("Can't cast " + bean.getClass() + " to "
 					+ clazz);
 		}
+	}
+
+	public boolean possibleDataChange(Object oldValue, Object newValue) {
+		dataChanged = (oldValue == null && newValue != null)
+				|| !oldValue.equals(newValue);
+		return dataChanged;
+	}
+
+	public boolean possibleDataChange(boolean oldValue, boolean newValue) {
+		dataChanged = !oldValue == newValue;
+		return dataChanged;
+	}
+
+	public boolean hasDataChanged() {
+		return dataChanged;
+	}
+
+	public void setDataChange(boolean dataChanged) {
+		this.dataChanged = dataChanged;
 	}
 }

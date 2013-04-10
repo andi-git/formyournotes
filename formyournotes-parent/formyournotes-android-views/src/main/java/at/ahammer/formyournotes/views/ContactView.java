@@ -24,6 +24,7 @@ import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.contact.Contact;
 import at.ahammer.formyournotes.contact.ContactDao;
 import at.ahammer.formyournotes.email.EMailIntent;
+import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.maps.NaviIntent;
 import at.ahammer.formyournotes.phone.PhoneIntent;
 import at.ahammer.formyournotes.phone.PhoneIntent.Type;
@@ -52,7 +53,7 @@ public class ContactView extends LinearLayout {
 
 		viewName = viewHelper.newDefaultEditText(context);
 		viewName.setText(contactBean.getDisplayName());
-		viewName.addTextChangedListener(new ContactWatcher(contactBean, context));
+		viewName.addTextChangedListener(new ContactWatcher(contactBean, formBean, context));
 
 		displayNames = contactDao.getAllDisplayNames(context);
 		chooseContactDialog = createChooseContactDialog(context, displayNames);
@@ -143,10 +144,13 @@ public class ContactView extends LinearLayout {
 
 		private final ContactDao contactDao;
 
-		public ContactWatcher(ContactBean contactBean, Context context) {
+		private final FormBean formBean;
+		
+		public ContactWatcher(ContactBean contactBean, FormBean formBean, Context context) {
 			this.contactBean = contactBean;
 			this.context = context;
 			this.contactDao = new ContactDao();
+			this.formBean = formBean;
 		}
 
 		@Override
@@ -155,6 +159,8 @@ public class ContactView extends LinearLayout {
 			Log.i("FormYourNotes",
 					"set value of " + contactBean.getDiscription() + " to '"
 							+ displayName + "'");
+			formBean.setDataChange(true);
+			Log.i(LogTag.FYN.getTag(), "data changed because of contact-change");
 			contactBean.getData().setItemId(contactBean);
 			contactBean.getData().setDisplayName(displayName);
 

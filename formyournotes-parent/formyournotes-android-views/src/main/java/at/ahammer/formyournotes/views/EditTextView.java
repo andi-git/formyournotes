@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.logging.LogTag;
 
 public class EditTextView extends LinearLayout {
 
@@ -24,7 +25,8 @@ public class EditTextView extends LinearLayout {
 		viewName.setText(editTextBean.getDiscription());
 		viewText = viewHelper.newDefaultEditText(context);
 		viewText.setText(editTextBean.getValue());
-		viewText.addTextChangedListener(new EditTextWatcher(editTextBean));
+		viewText.addTextChangedListener(new EditTextWatcher(editTextBean,
+				formBean));
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 		addView(viewName, viewHelper.getLinearLayoutParamWrap());
@@ -52,8 +54,11 @@ public class EditTextView extends LinearLayout {
 
 		private final EditTextBean editTextBean;
 
-		public EditTextWatcher(EditTextBean editTextBean) {
+		private final FormBean formBean;
+
+		public EditTextWatcher(EditTextBean editTextBean, FormBean formBean) {
 			this.editTextBean = editTextBean;
+			this.formBean = formBean;
 		}
 
 		@Override
@@ -62,6 +67,13 @@ public class EditTextView extends LinearLayout {
 					"set value of " + editTextBean.getDiscription() + " to '"
 							+ editable.toString() + "'");
 			editTextBean.getData().setItemId(editTextBean);
+			if (formBean.possibleDataChange(editTextBean.getData().getValue(),
+					editable.toString())) {
+				Log.i(LogTag.FYN.getTag(),
+						"data changed from "
+								+ editTextBean.getData().getValue() + " to "
+								+ editable.toString());
+			}
 			editTextBean.getData().setValue(editable.toString());
 		}
 	}

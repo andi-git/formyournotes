@@ -55,14 +55,17 @@ public enum FYNController {
 		return formView;
 	}
 
-	public void updateFormData(Context context) throws DaoException {
+	public boolean updateFormData(Context context) throws DaoException {
+		boolean updated = false;
 		Log.i(LogTag.FYN.getTag(), "update form data");
-		if (formView != null) {
+		if (formView != null && formView.getFormBean().hasDataChanged()) {
 			FormData data = formView.getFormBean().getData();
 			Log.i(LogTag.FYN.getTag(), "update data " + data.getDataId() + ", "
 					+ data.getName());
 			updateFormData(context, data);
+			updated = true;
 		}
+		return updated;
 	}
 
 	public void updateFormData(Context context, String newName)

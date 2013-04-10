@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.logging.LogTag;
 
 public class CheckBoxView extends LinearLayout {
 
@@ -20,7 +21,8 @@ public class CheckBoxView extends LinearLayout {
 		checkBox = viewHelper.newDefaultCheckBox(context);
 		checkBox.setText(checkBoxBean.getDiscription());
 		checkBox.setChecked(checkBoxBean.isChecked());
-		checkBox.setOnCheckedChangeListener(new CheckBoxWatcher(checkBoxBean));
+		checkBox.setOnCheckedChangeListener(new CheckBoxWatcher(checkBoxBean,
+				formBean));
 		addView(checkBox, viewHelper.getLinearLayoutParamWrap());
 	}
 
@@ -45,8 +47,11 @@ public class CheckBoxView extends LinearLayout {
 
 		private final CheckBoxBean checkBoxBean;
 
-		public CheckBoxWatcher(CheckBoxBean checkBoxBean) {
+		private final FormBean formBean;
+
+		public CheckBoxWatcher(CheckBoxBean checkBoxBean, FormBean formBean) {
 			this.checkBoxBean = checkBoxBean;
+			this.formBean = formBean;
 		}
 
 		@Override
@@ -56,6 +61,13 @@ public class CheckBoxView extends LinearLayout {
 					"set value of " + checkBoxBean.getDiscription() + " to '"
 							+ isChecked + "'");
 			checkBoxBean.getData().setItemId(checkBoxBean);
+			if (formBean.possibleDataChange(checkBoxBean.getData().isChecked(),
+					isChecked)) {
+				Log.i(LogTag.FYN.getTag(), "data changed from "
+						+ checkBoxBean.getData().isChecked() + " to "
+						+ isChecked);
+			}
+
 			checkBoxBean.getData().setChecked(isChecked);
 		}
 	}

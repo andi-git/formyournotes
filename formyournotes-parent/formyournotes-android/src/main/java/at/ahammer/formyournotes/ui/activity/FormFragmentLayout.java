@@ -3,9 +3,13 @@ package at.ahammer.formyournotes.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import at.ahammer.formyournotes.R;
+import at.ahammer.formyournotes.http.NetworkDetector;
+import at.ahammer.formyournotes.http.NetworkDetector.ConnectionType;
 import at.ahammer.formyournotes.intent.IntentBuilder;
+import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNDefaultDataDeployer;
 
@@ -25,8 +29,20 @@ public class FormFragmentLayout extends FormActivity {
 				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		// atm there is only 1 (static) form
 		FYNController.INSTANCE.setFormId(1);
+		Log.i(LogTag.FYN.getTag(),
+				"network any: "
+						+ new NetworkDetector().hasNetworkConnection(this,
+								ConnectionType.ANY));
+		Log.i(LogTag.FYN.getTag(),
+				"network mobile: "
+						+ new NetworkDetector().hasNetworkConnection(this,
+								ConnectionType.MOBILE));
+		Log.i(LogTag.FYN.getTag(),
+				"network wifi: "
+						+ new NetworkDetector().hasNetworkConnection(this,
+								ConnectionType.WIFI));
 	}
-	
+
 	public static class FormFragmentLayoutIntent extends IntentBuilder {
 
 		public final static String MESSAGE = "message";
