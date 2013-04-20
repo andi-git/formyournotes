@@ -43,6 +43,16 @@ public class FormFragmentLayout extends FormActivity {
 								ConnectionType.WIFI));
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	}
+	
 	public static class FormFragmentLayoutIntent extends IntentBuilder {
 
 		public final static String MESSAGE = "message";

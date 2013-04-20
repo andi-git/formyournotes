@@ -1,8 +1,10 @@
 package at.ahammer.formyournotes.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,8 +12,10 @@ import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
 import at.ahammer.formyournotes.dao.FormDao;
+import at.ahammer.formyournotes.dao.UserActivityDao;
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
+import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.FormR;
@@ -157,6 +161,11 @@ public enum FYNController {
 		return new FormDaoJSON(FYNFileHelper.getExternalStorage(context));
 	}
 
+	private UserActivityDao getUserActivityDao(Context context) {
+		return new UserActivityDaoJSON(
+				FYNFileHelper.getExternalStorage(context));
+	}
+
 	public List<FormData> allDataForCurrentForm(Context context) {
 		return allDataForForm(context, getFormId());
 	}
@@ -206,8 +215,21 @@ public enum FYNController {
 		try {
 			getDataDao(context).delete(formData);
 		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error on deletin data: " + formData, e);
+			Log.e(LogTag.FYN.getTag(), "error on deleting data: " + formData, e);
 		}
 		return deleted;
+	}
+
+	public void resetLastSync(Context context) {
+		Calendar past = Calendar.getInstance(TimeZone
+				.getTimeZone("Europe/Berlin"));
+		past.set(Calendar.YEAR, 1970);
+		past.set(Calendar.MONTH, 0);
+		past.set(Calendar.DAY_OF_MONTH, 1);
+		try {
+			getUserActivityDao(context).setLastSync(past);
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error on resetLastSync", e);
+		}
 	}
 }

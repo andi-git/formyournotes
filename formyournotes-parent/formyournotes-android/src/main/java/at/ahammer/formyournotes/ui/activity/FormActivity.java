@@ -8,6 +8,7 @@ import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.actionbar.ActionBarActivity;
 import at.ahammer.formyournotes.ui.dialog.AddItemDialog;
 import at.ahammer.formyournotes.ui.dialog.DeleteItemDialog;
+import at.ahammer.formyournotes.ui.dialog.EditAccountDialog;
 import at.ahammer.formyournotes.ui.dialog.EditItemDialog;
 import at.ahammer.formyournotes.util.FYNActionBarHelper;
 import at.ahammer.formyournotes.util.FYNViewHelper;
@@ -36,17 +37,20 @@ public class FormActivity extends ActionBarActivity {
 		case R.id.menu_save:
 			FYNViewHelper.INSTANCE.saveCurrentForm(this);
 			break;
+		case R.id.menu_sync:
+			Toast.makeText(this, "Synchronize", Toast.LENGTH_SHORT).show();
+			break;
 		case R.id.menu_add_item:
-			AddItemDialog addItemDialog = new AddItemDialog(this);
-			addItemDialog.show();
+			new AddItemDialog(this).show();
 			break;
 		case R.id.menu_edit_item:
-			EditItemDialog editItemDialog = new EditItemDialog(this);
-			editItemDialog.show();
+			new EditItemDialog(this).show();
 			break;
 		case R.id.menu_delete_item:
-			DeleteItemDialog deleteItemDialog = new DeleteItemDialog(this);
-			deleteItemDialog.show();
+			new DeleteItemDialog(this).show();
+			break;
+		case R.id.menu_edit_account:
+			new EditAccountDialog(this).show();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

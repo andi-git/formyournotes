@@ -1,7 +1,6 @@
 package at.ahammer.formyournotes.dao;
 
 import java.io.File;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
@@ -139,15 +138,6 @@ public class DataDaoJSONTest {
 
 	@Test
 	public void testUpdateDuplicateName() throws DaoException, NoSuchAlgorithmException {
-		MessageDigest md5 = MessageDigest.getInstance("MD5");
-        md5.reset();
-        md5.update("bf1942".getBytes());
-        byte[] result = md5.digest();
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0; i<result.length; i++) {
-            hexString.append(Integer.toHexString(0xFF & result[i]));
-        }
-        System.out.println("MD5: " + hexString.toString());
 		FormData savedData1 = null;
 		FormData savedData2 = null;
 		try {
