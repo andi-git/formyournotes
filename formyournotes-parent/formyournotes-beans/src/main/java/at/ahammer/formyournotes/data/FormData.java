@@ -9,6 +9,7 @@ public class FormData {
 	private int formId = -1;
 	private int dataId = -1;
 	private String name = "unknown";
+	private boolean deleted = false;
 	private final List<CheckBoxData> checkBoxDataList = new ArrayList<CheckBoxData>();
 	private final List<ContactData> contactDataList = new ArrayList<ContactData>();
 	private final List<EditTextData> editTextDataList = new ArrayList<EditTextData>();
@@ -108,11 +109,19 @@ public class FormData {
 		this.name = name;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public String toString() {
 		return "FormData [formId=" + formId + ", dataId=" + dataId + ", name="
-				+ name + ", checkBoxDataList=" + checkBoxDataList
-				+ ", contactDataList=" + contactDataList
+				+ name + ", deleted=" + deleted + ", checkBoxDataList="
+				+ checkBoxDataList + ", contactDataList=" + contactDataList
 				+ ", editTextDataList=" + editTextDataList + "]";
 	}
 }

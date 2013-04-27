@@ -20,8 +20,8 @@ public class LastUpdateTest {
 	@Test
 	public void testLastUpdate() throws SerializationException {
 		String stringToDeserialize = "[{\"lastUpdate\":\"1365343870044\"}]";
-		LastUpdate[] lastUpdate = beanSerializer.deserialize(
-				stringToDeserialize, LastUpdate[].class);
+		ServerLastUpdate[] lastUpdate = beanSerializer.deserialize(
+				stringToDeserialize, ServerLastUpdate[].class);
 		Assert.assertTrue(lastUpdate[0].getLastUpdate() >= 1365343870044L);
 	}
 }

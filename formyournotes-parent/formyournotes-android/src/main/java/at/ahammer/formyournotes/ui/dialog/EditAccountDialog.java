@@ -12,6 +12,7 @@ import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNPreferences;
+import at.ahammer.formyournotes.util.FYNPreferences.Account;
 
 public class EditAccountDialog {
 
@@ -19,6 +20,8 @@ public class EditAccountDialog {
 
 	public EditAccountDialog(Activity activity) {
 		alertDialog = create(activity);
+		Account account = FYNPreferences.INSTANCE.getAccount(activity);
+		((EditText) activity.findViewById(R.id.email_input)).setText(account.getEmail());
 	}
 
 	public void show() {
@@ -26,6 +29,7 @@ public class EditAccountDialog {
 	}
 
 	private AlertDialog create(final Activity activity) {
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		// Get the layout inflater
 		LayoutInflater inflater = activity.getLayoutInflater();

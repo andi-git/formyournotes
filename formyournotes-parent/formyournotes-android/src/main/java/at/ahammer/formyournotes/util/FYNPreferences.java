@@ -1,12 +1,13 @@
 package at.ahammer.formyournotes.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import at.ahammer.formyournotes.logging.LogTag;
+import at.ahammer.formyournotes.preferences.PreferencesHelper;
+import at.ahammer.formyournotes.security.MD5Helper;
 
 public enum FYNPreferences {
 
@@ -15,40 +16,25 @@ public enum FYNPreferences {
 	public static final String PREFS_NAME = "FYNPreferences";
 	public static final String PREF_EMAIL = "email";
 	public static final String PREF_PASSWORD = "password";
+	private final MD5Helper md5Helper = new MD5Helper();
+	private final PreferencesHelper preferencesHelper = new PreferencesHelper();
 
 	public void setAccount(Context context, String email, String passwordPlain) {
-		String passwordHash = generateHash(passwordPlain);
+		String passwordHash = md5Helper.generateHash(passwordPlain);
 		Log.i(LogTag.FYN.getTag(), "Save account with email " + email
 				+ " and password " + passwordPlain + " -> " + passwordHash);
-		getPreferences(context).edit().putString(PREF_EMAIL, email);
-		getPreferences(context).edit().putString(PREF_PASSWORD, passwordHash);
+		Map<String, String> preferences = new HashMap<String, String>();
+		preferences.put(PREF_EMAIL, email);
+		preferences.put(PREF_PASSWORD, passwordHash);
+		preferencesHelper.setPreferences(context, PREFS_NAME, preferences);
 	}
 
 	public Account getAccount(Context context) {
 		return new Account( //
-				getPreferences(context).getString(PREF_EMAIL, ""), //
-				getPreferences(context).getString(PREF_PASSWORD, ""));
-	}
-
-	private SharedPreferences getPreferences(Context context) {
-		return context.getSharedPreferences(PREFS_NAME, 0);
-	}
-
-	private String generateHash(String passwordPlain) {
-		MessageDigest md5 = null;
-		try {
-			md5 = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-		md5.reset();
-		md5.update(passwordPlain.getBytes());
-		byte[] result = md5.digest();
-		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < result.length; i++) {
-			hexString.append(Integer.toHexString(0xFF & result[i]));
-		}
-		return hexString.toString();
+				preferencesHelper.getPreferences(context, PREFS_NAME)
+						.getString(PREF_EMAIL, ""), //
+				preferencesHelper.getPreferences(context, PREFS_NAME)
+						.getString(PREF_PASSWORD, ""));
 	}
 
 	public static class Account {
@@ -56,6 +42,12 @@ public enum FYNPreferences {
 		private String email;
 
 		private String passwordHash;
+
+		public Account(String email, String passwordHash) {
+			super();
+			this.email = email;
+			this.passwordHash = passwordHash;
+		}
 
 		public String getEmail() {
 			return email;
@@ -73,10 +65,9 @@ public enum FYNPreferences {
 			this.passwordHash = passwordHash;
 		}
 
-		public Account(String email, String passwordHash) {
-			super();
-			this.email = email;
-			this.passwordHash = passwordHash;
+		public boolean isValid() {
+			return email != null && !"".equals(email) && passwordHash != null
+					&& !"".equals(passwordHash);
 		}
 
 		@Override

@@ -14,9 +14,13 @@ public class UserActivity {
 	}
 
 	public List<FileWriteActivity> getFileWriteActivitiesAfterLastSync() {
+		return getFileWriteActivitiesAfter(lastSync);
+	}
+
+	public List<FileWriteActivity> getFileWriteActivitiesAfter(long timestamp) {
 		List<FileWriteActivity> fileWriteActivitiesAfterLastSync = new ArrayList<FileWriteActivity>();
 		for (FileWriteActivity fileWriteActivity : fileWriteActivities) {
-			if (fileWriteActivity.getTimestamp() >= lastSync) {
+			if (fileWriteActivity.getTimestamp() >= timestamp) {
 				fileWriteActivitiesAfterLastSync.add(fileWriteActivity);
 			}
 		}
@@ -40,9 +44,9 @@ public class UserActivity {
 		this.fileWriteActivities = fileWriteactivities;
 	}
 
-	public FileWriteActivity addActivity(String fileName, FileWriteType type) {
+	public FileWriteActivity addActivity(String fileName, FileWriteType type, String hash) {
 		FileWriteActivity fileWriteActivity = new FileWriteActivity(fileName,
-				type);
+				type, hash);
 		fileWriteActivities.add(fileWriteActivity);
 		return fileWriteActivity;
 	}

@@ -11,16 +11,20 @@ public interface UserActivityDao {
 
 	UserActivity getUserActivity() throws DaoException;
 
-	FileWriteActivity addFileWriteActivity(String fileName, FileWriteType type)
-			throws DaoException;
+	FileWriteActivity addFileWriteActivity(String fileName, FileWriteType type,
+			String hash) throws DaoException;
 
 	UserActivity create() throws DaoException;
 
 	boolean delete() throws DaoException;
-	
+
 	void setLastSync(Calendar calendar) throws DaoException;
-	
-	List<FileWriteActivity> getFileWriteActivitiesAfterLastSync() throws DaoException;
-	
+
+	List<FileWriteActivity> getFileWriteActivitiesAfterLastSync()
+			throws DaoException;
+
 	void deleteFileWriteActivitesBeforeLastSync() throws DaoException;
+
+	List<FileWriteActivity> getFileWriteActivitiesAfter(long timestamp)
+			throws DaoException;
 }

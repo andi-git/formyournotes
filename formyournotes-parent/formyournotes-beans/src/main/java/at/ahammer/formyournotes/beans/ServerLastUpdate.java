@@ -3,14 +3,14 @@ package at.ahammer.formyournotes.beans;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class LastUpdate {
+public class ServerLastUpdate {
 
 	public static final TimeZone TIME_ZONE = TimeZone
 			.getTimeZone("Europe/Berlin");
 
 	private long lastUpdate;
 
-	public LastUpdate() {
+	public ServerLastUpdate() {
 		// nothing
 	}
 

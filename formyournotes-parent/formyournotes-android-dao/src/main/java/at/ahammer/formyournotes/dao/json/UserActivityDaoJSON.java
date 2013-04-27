@@ -42,13 +42,13 @@ public class UserActivityDaoJSON implements UserActivityDao {
 
 	@Override
 	public FileWriteActivity addFileWriteActivity(String fileName,
-			FileWriteType type) throws DaoException {
+			FileWriteType type, String hash) throws DaoException {
 		RequiredDataUserActivity requiredData = new RequiredDataUserActivity();
 		if (fileHelper.isAvailable(requiredData)) {
 			try {
 				UserActivity userActivity = getUserActivity();
 				FileWriteActivity fileWriteActivity = userActivity.addActivity(
-						fileName, type);
+						fileName, type, hash);
 				File file = fileHelper.getFile(requiredData);
 				if (file != null) {
 					serializer.serialize(userActivity, file);
@@ -106,6 +106,12 @@ public class UserActivityDaoJSON implements UserActivityDao {
 	public List<FileWriteActivity> getFileWriteActivitiesAfterLastSync()
 			throws DaoException {
 		return getUserActivity().getFileWriteActivitiesAfterLastSync();
+	}
+
+	@Override
+	public List<FileWriteActivity> getFileWriteActivitiesAfter(long timestamp)
+			throws DaoException {
+		return getUserActivity().getFileWriteActivitiesAfter(timestamp);
 	}
 
 	@Override

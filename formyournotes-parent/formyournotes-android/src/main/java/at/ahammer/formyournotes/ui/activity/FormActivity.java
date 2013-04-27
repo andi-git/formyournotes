@@ -11,6 +11,7 @@ import at.ahammer.formyournotes.ui.dialog.DeleteItemDialog;
 import at.ahammer.formyournotes.ui.dialog.EditAccountDialog;
 import at.ahammer.formyournotes.ui.dialog.EditItemDialog;
 import at.ahammer.formyournotes.util.FYNActionBarHelper;
+import at.ahammer.formyournotes.util.FYNSyncHelper;
 import at.ahammer.formyournotes.util.FYNViewHelper;
 
 public class FormActivity extends ActionBarActivity {
@@ -38,7 +39,7 @@ public class FormActivity extends ActionBarActivity {
 			FYNViewHelper.INSTANCE.saveCurrentForm(this);
 			break;
 		case R.id.menu_sync:
-			Toast.makeText(this, "Synchronize", Toast.LENGTH_SHORT).show();
+			FYNSyncHelper.INSTANCE.performSync(this);
 			break;
 		case R.id.menu_add_item:
 			new AddItemDialog(this).show();

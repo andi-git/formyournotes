@@ -32,6 +32,7 @@ public class FYNDefaultDataDeployer {
 			copyFile("data_1_1.json");
 			copyFile("data_1_2.json");
 			copyFile("useractivity.json");
+			copyFile("filestatus.json");
 			copyFile("deployed.idx");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -42,7 +43,7 @@ public class FYNDefaultDataDeployer {
 		InputStream inputStream = context.getAssets().open(fileName,
 				Context.MODE_PRIVATE);
 		FileOutputStream outputStream = new FileOutputStream(new File(
-				FYNFileHelper.getExternalStorage(context), fileName));
+				FYNFileHelper.INSTANCE.getExternalStorage(context), fileName));
 		try {
 			byte[] buffer = new byte[1024];
 			int length;
@@ -62,7 +63,7 @@ public class FYNDefaultDataDeployer {
 
 	private boolean checkIfDefaultDataIsDeployed() {
 		Log.i(LogTag.FYN.getTag(), "check if " + FILENAME_DEPLOYED + " exists");
-		boolean exists = new File(FYNFileHelper.getExternalStorage(context), FILENAME_DEPLOYED)
+		boolean exists = new File(FYNFileHelper.INSTANCE.getExternalStorage(context), FILENAME_DEPLOYED)
 				.exists();
 		if (exists) {
 			Log.i(LogTag.FYN.getTag(), "default-files exists");

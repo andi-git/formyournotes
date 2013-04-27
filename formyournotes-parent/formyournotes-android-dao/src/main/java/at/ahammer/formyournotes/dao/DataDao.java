@@ -15,8 +15,12 @@ public interface DataDao {
 	boolean delete(FormData formData) throws DaoException;
 	
 	List<FormData> all() throws DaoException;
+
+	List<FormData> allWithDeleted() throws DaoException;
 	
 	List<FormData> allDataForForm(int formId) throws DaoException;
+
+	List<FormData> allDataForFormWithDeleted(int formId) throws DaoException;
 
 	FormData readByDisplayName(int formId, String name) throws DaoException;
 }

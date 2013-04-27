@@ -1,7 +1,6 @@
 package at.ahammer.formyournotes.dao;
 
-import java.io.File;
-
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +11,20 @@ import at.ahammer.formyournotes.dao.json.RequiredDataDataInsert;
 
 public class FileHelperDataTest {
 
-	private File resourceDir;
-
 	private FileHelperData fileHelperData;
+
+	private TestHelper testHelper;
 
 	@Before
 	public void setUp() {
-		resourceDir = new File(ClassLoader.getSystemResource("").getFile());
-		fileHelperData = new FileHelperData(resourceDir);
+		testHelper = new TestHelper();
+		testHelper.createDefaultData();
+		fileHelperData = new FileHelperData(testHelper.getResourceDir());
+	}
+
+	@After
+	public void tearDown() {
+		testHelper.deleteCreatedFiles();
 	}
 
 	@Test
@@ -67,7 +72,8 @@ public class FileHelperDataTest {
 
 	@Test
 	public void testCreateNextFile() {
-		Assert.assertEquals(resourceDir.getAbsolutePath() + "/data_1_3.json",
+		Assert.assertEquals(testHelper.getResourceDir().getAbsolutePath()
+				+ "/data_1_3.json",
 				fileHelperData.createNextFile(new RequiredDataDataInsert(1))
 						.getAbsolutePath());
 	}

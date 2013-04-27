@@ -10,23 +10,28 @@ import org.junit.Before;
 import org.junit.Test;
 
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
+import at.ahammer.formyournotes.dao.json.FileStatusDaoJSON;
 import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.EditTextData;
 import at.ahammer.formyournotes.data.FormData;
 
 public class DataDaoJSONTest {
 
-	private File resourceDir;
-
 	private DataDao dataDao;
 
 	private UserActivityDao userActivityDao;
 
+	private FileStatusDao fileStatusDao;
+
+	private TestHelper testHelper;
+
 	@Before
 	public void setUp() {
-		resourceDir = new File(ClassLoader.getSystemResource("").getFile());
-		dataDao = new DataDaoJSON(resourceDir);
-		userActivityDao = new UserActivityDaoJSON(resourceDir);
+		testHelper = new TestHelper();
+		testHelper.createDefaultData();
+		dataDao = new DataDaoJSON(testHelper.getResourceDir());
+		userActivityDao = new UserActivityDaoJSON(testHelper.getResourceDir());
+		fileStatusDao = new FileStatusDaoJSON(testHelper.getResourceDir());
 		try {
 			userActivityDao.create();
 		} catch (DaoException e) {
@@ -36,13 +41,14 @@ public class DataDaoJSONTest {
 
 	@After
 	public void tearDown() {
+		testHelper.deleteCreatedFiles();
 		try {
 			userActivityDao.delete();
 		} catch (DaoException e) {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testReadForm() throws DaoException {
 		FormData data = dataDao.read(1, 1);
@@ -90,8 +96,11 @@ public class DataDaoJSONTest {
 		Assert.assertNull(dataRead);
 		dataRead = dataDao.update(data);
 		Assert.assertNull(dataRead);
-		
-		Assert.assertEquals(3, userActivityDao.getUserActivity().getFileWriteActivities().size());
+
+		Assert.assertEquals(3, userActivityDao.getUserActivity()
+				.getFileWriteActivities().size());
+
+		Assert.assertEquals(4, fileStatusDao.load().getFiles().size());
 	}
 
 	@Test
@@ -137,7 +146,8 @@ public class DataDaoJSONTest {
 	}
 
 	@Test
-	public void testUpdateDuplicateName() throws DaoException, NoSuchAlgorithmException {
+	public void testUpdateDuplicateName() throws DaoException,
+			NoSuchAlgorithmException {
 		FormData savedData1 = null;
 		FormData savedData2 = null;
 		try {
@@ -169,6 +179,7 @@ public class DataDaoJSONTest {
 			} catch (DaoException e) {
 				System.out.println(e.getMessage());
 			}
+			Assert.assertEquals(5, fileStatusDao.load().getFiles().size());
 		} finally {
 			if (savedData1 != null) {
 				dataDao.delete(savedData1);

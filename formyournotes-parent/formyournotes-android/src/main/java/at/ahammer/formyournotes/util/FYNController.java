@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import android.content.Context;
 import android.util.Log;
+import at.ahammer.formyournotes.beans.FileWriteActivity;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
@@ -154,16 +155,16 @@ public enum FYNController {
 	}
 
 	private DataDao getDataDao(Context context) {
-		return new DataDaoJSON(FYNFileHelper.getExternalStorage(context));
+		return new DataDaoJSON(FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
 	private FormDao getFormDao(Context context) {
-		return new FormDaoJSON(FYNFileHelper.getExternalStorage(context));
+		return new FormDaoJSON(FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
 	private UserActivityDao getUserActivityDao(Context context) {
 		return new UserActivityDaoJSON(
-				FYNFileHelper.getExternalStorage(context));
+				FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
 	public List<FormData> allDataForCurrentForm(Context context) {
@@ -231,5 +232,28 @@ public enum FYNController {
 		} catch (DaoException e) {
 			Log.e(LogTag.FYN.getTag(), "error on resetLastSync", e);
 		}
+	}
+
+	public long getLastSync(Context context) {
+		long lastSync = 0;
+		try {
+			lastSync = getUserActivityDao(context).getUserActivity()
+					.getLastSync();
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error get LastSync", e);
+		}
+		return lastSync;
+	}
+
+	public List<FileWriteActivity> getFileWriteActivitesAfter(Context context,
+			long timestamp) {
+		List<FileWriteActivity> fileWriteActivities = new ArrayList<FileWriteActivity>();
+		try {
+			fileWriteActivities.addAll(getUserActivityDao(context)
+					.getFileWriteActivitiesAfter(timestamp));
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error get LastSync", e);
+		}
+		return fileWriteActivities;
 	}
 }

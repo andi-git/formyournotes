@@ -15,17 +15,18 @@ import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 
 public class FormDaoJSONTest {
 
-	private File resourceDir;
-
 	private FormDao formDao;
 
 	private UserActivityDao userActivityDao;
 
+	private TestHelper testHelper;
+
 	@Before
 	public void setUp() {
-		resourceDir = new File(ClassLoader.getSystemResource("").getFile());
-		formDao = new FormDaoJSON(resourceDir);
-		userActivityDao = new UserActivityDaoJSON(resourceDir);
+		testHelper = new TestHelper();
+		testHelper.createDefaultData();
+		formDao = new FormDaoJSON(testHelper.getResourceDir());
+		userActivityDao = new UserActivityDaoJSON(testHelper.getResourceDir());
 		try {
 			userActivityDao.create();
 		} catch (DaoException e) {
@@ -35,13 +36,14 @@ public class FormDaoJSONTest {
 
 	@After
 	public void tearDown() {
+		testHelper.deleteCreatedFiles();
 		try {
 			userActivityDao.delete();
 		} catch (DaoException e) {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testReadForm() throws DaoException {
 		FormBean form = formDao.read(1);
@@ -56,28 +58,30 @@ public class FormDaoJSONTest {
 		formBean.addEditTextBean(new EditTextBean("MyEditTextBean"));
 		formDao.save(formBean);
 		Assert.assertTrue(formBean.getId() > 0);
-		File savedFile = new File(ClassLoader.getSystemResource("").getFile(), "form_" + formBean.getId() + ".json");
+		File savedFile = new File(ClassLoader.getSystemResource("").getFile(),
+				"form_" + formBean.getId() + ".json");
 		Assert.assertNotNull(savedFile);
-		
+
 		FormBean formBeanRead = formDao.read(formBean.getId());
 		Assert.assertEquals(formBean.getId(), formBeanRead.getId());
 		Assert.assertEquals("MyForm", formBeanRead.getName());
-		
+
 		formBean.setName("MyUpdatedForm");
 		formDao.update(formBean);
-		
+
 		formBeanRead = formDao.read(formBean.getId());
 		Assert.assertEquals(formBean.getId(), formBeanRead.getId());
 		Assert.assertEquals("MyUpdatedForm", formBeanRead.getName());
-		
+
 		boolean deleted = formDao.delete(formBean);
 		Assert.assertTrue(deleted);
 		formBeanRead = formDao.read(formBean.getId());
 		Assert.assertNull(formBeanRead);
 		formBeanRead = formDao.update(formBean);
 		Assert.assertNull(formBeanRead);
-		
-		Assert.assertEquals(3, userActivityDao.getUserActivity().getFileWriteActivities().size());
+
+		Assert.assertEquals(3, userActivityDao.getUserActivity()
+				.getFileWriteActivities().size());
 	}
 
 	@Test

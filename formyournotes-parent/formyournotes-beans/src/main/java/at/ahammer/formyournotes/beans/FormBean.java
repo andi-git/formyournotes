@@ -15,6 +15,7 @@ public class FormBean {
 	private int id = -1;
 	private String name = "unknown";
 	private FormData addedData = new FormData();
+	private boolean deleted = false;
 	// work here with concrete classes, otherwise GSON has problems!
 	private List<CheckBoxBean> checkBoxBeans = new ArrayList<CheckBoxBean>();
 	private List<CheckBoxGroupBean> checkBoxGroupBeans = new ArrayList<CheckBoxGroupBean>();
@@ -331,5 +332,13 @@ public class FormBean {
 
 	public void setDataChange(boolean dataChanged) {
 		this.dataChanged = dataChanged;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

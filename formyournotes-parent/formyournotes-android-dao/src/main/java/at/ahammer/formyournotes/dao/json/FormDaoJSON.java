@@ -11,6 +11,7 @@ import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
 import at.ahammer.formyournotes.beanserializer.SerializationException;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
+import at.ahammer.formyournotes.dao.FileStatusDao;
 import at.ahammer.formyournotes.dao.FormDao;
 import at.ahammer.formyournotes.dao.UserActivityDao;
 
@@ -24,6 +25,10 @@ public class FormDaoJSON implements FormDao {
 
 	private final UserActivityDao userActivityDao;
 
+	private final FileStatusDao fileStatusDao;
+
+	private final MD5Helper md5Helper = new MD5Helper();
+
 	// TODO caching
 
 	public FormDaoJSON(File directory) {
@@ -31,18 +36,22 @@ public class FormDaoJSON implements FormDao {
 		serializer = new JSONBeanSerializer();
 		dataDao = new DataDaoJSON(directory);
 		userActivityDao = new UserActivityDaoJSON(directory);
+		fileStatusDao = new FileStatusDaoJSON(directory);
 	}
 
 	@Override
 	public FormBean read(int formId) throws DaoException {
+		FormBean result = null;
 		try {
 			RequiredDataForm requiredData = new RequiredDataForm(formId);
 			if (fileHelper.isAvailable(requiredData)) {
-				return serializer.deserialize(fileHelper.getFile(requiredData),
-						FormBean.class);
-			} else {
-				return null;
+				FormBean formBean = serializer.deserialize(
+						fileHelper.getFile(requiredData), FormBean.class);
+				if (!formBean.isDeleted()) {
+					result = formBean;
+				}
 			}
+			return result;
 		} catch (SerializationException e) {
 			throw new DaoException(e);
 		}
@@ -62,8 +71,11 @@ public class FormDaoJSON implements FormDao {
 			File nextFile = fileHelper
 					.createNextFile(new RequiredDataFormInsert());
 			formBean.setId(nextId);
-			serializer.serialize(formBean, nextFile);
-			userActivityDao.addFileWriteActivity(nextFile.getName(), FileWriteType.SAVE);
+			String fileContent = serializer.serialize(formBean, nextFile);
+			userActivityDao.addFileWriteActivity(nextFile.getName(),
+					FileWriteType.SAVE, md5Helper.generateHash(fileContent));
+			fileStatusDao.notify(nextFile.getName(),
+					md5Helper.generateHash(fileContent));
 			return formBean;
 		} catch (SerializationException e) {
 			throw new DaoException(e);
@@ -72,16 +84,22 @@ public class FormDaoJSON implements FormDao {
 
 	@Override
 	public FormBean update(FormBean formBean) throws DaoException {
+		FormBean result = null;
 		try {
-			File file = fileHelper.getFile(new RequiredDataForm(formBean
-					.getId()));
-			if (file != null) {
-				serializer.serialize(formBean, file);
-				userActivityDao.addFileWriteActivity(file.getName(), FileWriteType.UPDATE);
-				return formBean;
-			} else {
-				return null;
+			if (!formBean.isDeleted()) {
+				File file = fileHelper.getFile(new RequiredDataForm(formBean
+						.getId()));
+				if (file != null) {
+					String fileContent = serializer.serialize(formBean, file);
+					userActivityDao.addFileWriteActivity(file.getName(),
+							FileWriteType.UPDATE,
+							md5Helper.generateHash(fileContent));
+					fileStatusDao.notify(file.getName(),
+							md5Helper.generateHash(fileContent));
+					result = formBean;
+				}
 			}
+			return result;
 		} catch (SerializationException e) {
 			throw new DaoException(e);
 		}
@@ -89,25 +107,48 @@ public class FormDaoJSON implements FormDao {
 
 	@Override
 	public boolean delete(FormBean formBean) throws DaoException {
-		boolean result = false;
-		File file = fileHelper.getFile(new RequiredDataForm(formBean.getId()));
-		if (file != null) {
-			result = file.delete();
-			userActivityDao.addFileWriteActivity(file.getName(), FileWriteType.DELETE);
+		formBean.setDeleted(true);
+		try {
+			File file = fileHelper.getFile(new RequiredDataForm(formBean
+					.getId()));
+			if (file != null) {
+				String fileContent = serializer.serialize(formBean, file);
+				userActivityDao.addFileWriteActivity(file.getName(),
+						FileWriteType.DELETE,
+						md5Helper.generateHash(fileContent));
+				fileStatusDao.notify(file.getName(),
+						md5Helper.generateHash(fileContent));
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SerializationException e) {
+			throw new DaoException(e);
 		}
-		return result;
 	}
 
 	@Override
 	public List<FormBean> all() throws DaoException {
 		List<FormBean> allFormBeans = new ArrayList<FormBean>();
+		for (FormBean formBean : allWithDeleted()) {
+			if (!formBean.isDeleted()) {
+				allFormBeans.add(formBean);
+			}
+		}
+		return allFormBeans;
+	}
+
+	@Override
+	public List<FormBean> allWithDeleted() throws DaoException {
+		List<FormBean> allFormBeansWithDeleted = new ArrayList<FormBean>();
 		for (File file : fileHelper.getAllFiles()) {
 			try {
-				allFormBeans.add(serializer.deserialize(file, FormBean.class));
+				allFormBeansWithDeleted.add(serializer.deserialize(file,
+						FormBean.class));
 			} catch (SerializationException e) {
 				throw new DaoException(e);
 			}
 		}
-		return allFormBeans;
+		return allFormBeansWithDeleted;
 	}
 }

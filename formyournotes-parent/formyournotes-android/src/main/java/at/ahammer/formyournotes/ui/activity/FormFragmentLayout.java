@@ -12,6 +12,7 @@ import at.ahammer.formyournotes.intent.IntentBuilder;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNDefaultDataDeployer;
+import at.ahammer.formyournotes.util.FYNPreferences;
 
 /**
  * Demonstration of using fragments to implement different activity layouts.
@@ -46,6 +47,7 @@ public class FormFragmentLayout extends FormActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		FYNPreferences.INSTANCE.setAccount(this, "andreas.ahammer@gmail.com", "bf1942");
 	}
 
 	@Override

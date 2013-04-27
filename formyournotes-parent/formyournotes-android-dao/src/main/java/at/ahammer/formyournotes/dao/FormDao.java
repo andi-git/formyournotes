@@ -17,4 +17,6 @@ public interface FormDao {
 	boolean delete(FormBean formBean) throws DaoException;
 	
 	List<FormBean> all() throws DaoException;
+
+	List<FormBean> allWithDeleted() throws DaoException;
 }

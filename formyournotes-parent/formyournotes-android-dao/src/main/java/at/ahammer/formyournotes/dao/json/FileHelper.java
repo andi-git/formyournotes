@@ -80,7 +80,7 @@ public abstract class FileHelper<T> {
 	}
 
 	public int calculateNextIdOfStandardizedString() {
-		int maxId = -1;
+		int maxId = 0;
 		for (File file : getAllFiles()) {
 			String fileName = file.getName();
 			int lastIndexOfSeparator = fileName.lastIndexOf(separator);

@@ -28,19 +28,25 @@ public class HttpConnector {
 		this.url = url;
 	}
 
-	public String doPost(Map<String, String> parameter) {
-		InputStream inputStream = null;
+	public String doPost(Map<String, String> parameter)
+			throws ConnectionException {
 		try {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(url);
-			httppost.setEntity(new UrlEncodedFormEntity(
-					createNameValuePairs(parameter)));
-			HttpResponse response = httpclient.execute(httppost);
-			inputStream = response.getEntity().getContent();
+			InputStream inputStream = null;
+			try {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(url);
+				httppost.setEntity(new UrlEncodedFormEntity(
+						createNameValuePairs(parameter)));
+				HttpResponse response = httpclient.execute(httppost);
+				inputStream = response.getEntity().getContent();
+			} catch (Exception e) {
+				Log.e("android-common",
+						"Error in http connection" + e.toString());
+			}
+			return convertInputStreamToString(inputStream);
 		} catch (Exception e) {
-			Log.e("android-common", "Error in http connection" + e.toString());
+			throw new ConnectionException(e);
 		}
-		return convertInputStreamToString(inputStream);
 	}
 
 	private List<NameValuePair> createNameValuePairs(
