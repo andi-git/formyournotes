@@ -13,6 +13,8 @@ import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNDefaultDataDeployer;
 import at.ahammer.formyournotes.util.FYNPreferences;
+import at.ahammer.formyournotes.util.FYNSyncHelper;
+import at.ahammer.formyournotes.util.FYNViewHelper;
 
 /**
  * Demonstration of using fragments to implement different activity layouts.
@@ -48,11 +50,15 @@ public class FormFragmentLayout extends FormActivity {
 	public void onStart() {
 		super.onStart();
 		FYNPreferences.INSTANCE.setAccount(this, "andreas.ahammer@gmail.com", "bf1942");
+		FYNViewHelper.INSTANCE.saveCurrentForm(this);
+		FYNSyncHelper.INSTANCE.performSync(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		FYNViewHelper.INSTANCE.saveCurrentForm(this);
+		FYNSyncHelper.INSTANCE.performSync(this);
 	}
 	
 	public static class FormFragmentLayoutIntent extends IntentBuilder {

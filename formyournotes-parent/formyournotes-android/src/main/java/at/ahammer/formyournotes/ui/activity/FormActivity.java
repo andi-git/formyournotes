@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.actionbar.ActionBarActivity;
+import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntent;
 import at.ahammer.formyournotes.ui.dialog.AddItemDialog;
 import at.ahammer.formyournotes.ui.dialog.DeleteItemDialog;
 import at.ahammer.formyournotes.ui.dialog.EditAccountDialog;
@@ -39,7 +40,12 @@ public class FormActivity extends ActionBarActivity {
 			FYNViewHelper.INSTANCE.saveCurrentForm(this);
 			break;
 		case R.id.menu_sync:
+			FYNViewHelper.INSTANCE.saveCurrentForm(this);
 			FYNSyncHelper.INSTANCE.performSync(this);
+			finish();
+			startActivity(new FormFragmentLayoutIntent(this).//
+					setMessage("here goes a message").//
+					build());
 			break;
 		case R.id.menu_add_item:
 			new AddItemDialog(this).show();

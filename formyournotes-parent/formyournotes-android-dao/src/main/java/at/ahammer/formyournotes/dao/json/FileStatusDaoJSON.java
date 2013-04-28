@@ -76,8 +76,14 @@ public class FileStatusDaoJSON implements FileStatusDao {
 	@Override
 	public FileStatus save(FileStatus fileStatus) throws DaoException {
 		try {
-			serializer.serialize(fileStatus,
-					fileHelper.getFile(new RequiredDataFileStatus()));
+			RequiredDataFileStatus requiredData = new RequiredDataFileStatus();
+			File file = null;
+			if (!fileHelper.isAvailable(requiredData)) {
+				file = fileHelper.createNextFile(requiredData);
+			} else {
+				file = fileHelper.getFile(requiredData);
+			}
+			serializer.serialize(fileStatus, file);
 		} catch (SerializationException e) {
 			throw new DaoException("error on writing FileStatus", e);
 		}

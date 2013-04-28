@@ -4,6 +4,10 @@ public class SyncException extends Exception {
 
 	private static final long serialVersionUID = 1775155157719951124L;
 
+	public SyncException(String s) {
+		super(s);
+	}
+
 	public SyncException(Throwable t) {
 		super(t);
 	}
