@@ -23,7 +23,7 @@ public class HttpConnectorTest {
 		HttpConnector connector = new HttpConnector(
 				"http://www.eppel-boote.at/fyn/lastUpdate.php");
 		String result = connector.doPost(parameters);
-		System.out.println(result);
+		// System.out.println(result);
 		Assert.assertTrue(!"".equals(result));
 	}
 
@@ -57,10 +57,35 @@ public class HttpConnectorTest {
 				ServerData[].class);
 		Assert.assertEquals(4, serverData.length);
 		Assert.assertEquals(
-				"ServerData [user=2, filename=filename, content=null, timestamp=1365345585091, deleted=0, hash=1234]",
+				"ServerData [user=2, filename=filename, content=null, timestamp=1365345585091, hash=1234]",
 				serverData[0].toString());
 		Assert.assertEquals(
-				"ServerData [user=2, filename=filename2, content=null, timestamp=1365345585095, deleted=1, hash=1235]",
+				"ServerData [user=2, filename=filename2, content=null, timestamp=1365345585095, hash=1235]",
+				serverData[1].toString());
+	}
+
+	@Test
+	public void testItemsForUserWithContent() throws Exception {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("email", "test@user.at");
+		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
+		parameters.put("filenames", "filename,myfilename2");
+		HttpConnector connector = new HttpConnector(
+				"http://www.eppel-boote.at/fyn/itemsForUserWithContent.php");
+		String result = connector.doPost(parameters);
+		// System.out.println(result);
+		BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
+		ServerData[] serverData = jsonBeanSerializer.deserialize(result,
+				ServerData[].class);
+		// for (ServerData item : serverData) {
+		// System.out.println(item);
+		// }
+		Assert.assertEquals(2, serverData.length);
+		Assert.assertEquals(
+				"ServerData [user=2, filename=filename, content=content, timestamp=1365345585091, hash=1234]",
+				serverData[0].toString());
+		Assert.assertEquals(
+				"ServerData [user=2, filename=myFilename2, content=myContent2, timestamp=1234567891, hash=ahash2]",
 				serverData[1].toString());
 	}
 
@@ -68,19 +93,18 @@ public class HttpConnectorTest {
 	public void testAddItems() throws Exception {
 		ServerData serverData1 = new ServerData();
 		serverData1.setContent("myContent");
-		serverData1.setDeleted(false);
 		serverData1.setFilename("myFilename");
 		serverData1.setHash("ahash");
 		serverData1.setTimestamp(1234567890L);
-		
+
 		ServerData serverData2 = new ServerData();
 		serverData2.setContent("myContent2");
-		serverData2.setDeleted(true);
 		serverData2.setFilename("myFilename2");
 		serverData2.setHash("ahash2");
 		serverData2.setTimestamp(1234567891L);
-		
-		ServerData[] serverDataArray = new ServerData[] { serverData1, serverData2 };
+
+		ServerData[] serverDataArray = new ServerData[] { serverData1,
+				serverData2 };
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("email", "test@user.at");
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
@@ -93,4 +117,5 @@ public class HttpConnectorTest {
 		String result = connector.doPost(parameters);
 		Assert.assertEquals("success", result);
 	}
+
 }

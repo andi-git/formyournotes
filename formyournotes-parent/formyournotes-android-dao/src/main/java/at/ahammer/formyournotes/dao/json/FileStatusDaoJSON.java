@@ -35,13 +35,8 @@ public class FileStatusDaoJSON implements FileStatusDao {
 				throw new DaoException(e);
 			}
 		} else {
-			try {
-				result = new FileStatus();
-				serializer.serialize(result,
-						fileHelper.createNextFile(requiredData));
-			} catch (SerializationException e) {
-				throw new DaoException("unable to create FileStatus", e);
-			}
+			result = new FileStatus();
+			save(result);
 		}
 		return result;
 	}
@@ -65,12 +60,7 @@ public class FileStatusDaoJSON implements FileStatusDao {
 						fileName, hash, timestamp);
 				fileStatus.getFiles().add(singleFileStatus);
 			}
-			try {
-				serializer.serialize(fileStatus,
-						fileHelper.getFile(new RequiredDataFileStatus()));
-			} catch (SerializationException e) {
-				throw new DaoException("error on writing FileStatus", e);
-			}
+			save(fileStatus);
 		} else {
 			throw new DaoException("no FileStatus available");
 		}
@@ -81,5 +71,16 @@ public class FileStatusDaoJSON implements FileStatusDao {
 		notify(fileName, hash,
 				Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"))
 						.getTimeInMillis());
+	}
+
+	@Override
+	public FileStatus save(FileStatus fileStatus) throws DaoException {
+		try {
+			serializer.serialize(fileStatus,
+					fileHelper.getFile(new RequiredDataFileStatus()));
+		} catch (SerializationException e) {
+			throw new DaoException("error on writing FileStatus", e);
+		}
+		return fileStatus;
 	}
 }

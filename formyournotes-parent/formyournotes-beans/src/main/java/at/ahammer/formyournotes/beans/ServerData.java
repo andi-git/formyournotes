@@ -10,8 +10,6 @@ public class ServerData {
 
 	private long timestamp;
 
-	private int deleted;
-
 	private String hash;
 
 	public int getUser() {
@@ -46,22 +44,6 @@ public class ServerData {
 		this.timestamp = timestamp;
 	}
 
-	public int deleted() {
-		return deleted;
-	}
-
-	public boolean isDeleted() {
-		return deleted == 1;
-	}
-
-	public void setDeleted(int deleted) {
-		this.deleted = deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted ? 1 : 0;
-	}
-
 	public String getHash() {
 		return hash;
 	}
@@ -75,7 +57,6 @@ public class ServerData {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + deleted;
 		result = prime * result
 				+ ((filename == null) ? 0 : filename.hashCode());
 		result = prime * result + ((hash == null) ? 0 : hash.hashCode());
@@ -98,8 +79,6 @@ public class ServerData {
 				return false;
 		} else if (!content.equals(other.content))
 			return false;
-		if (deleted != other.deleted)
-			return false;
 		if (filename == null) {
 			if (other.filename != null)
 				return false;
@@ -119,9 +98,12 @@ public class ServerData {
 
 	@Override
 	public String toString() {
+		String contentString = content;
+		if (content != null && content.length() > 20) {
+			contentString = contentString.substring(0, 20) + "...";
+		}
 		return "ServerData [user=" + user + ", filename=" + filename
-				+ ", content=" + content + ", timestamp=" + timestamp
-				+ ", deleted=" + deleted + ", hash=" + hash + "]";
+				+ ", content=" + contentString + ", timestamp=" + timestamp
+				+ ", hash=" + hash + "]";
 	}
-
 }

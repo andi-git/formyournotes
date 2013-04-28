@@ -10,4 +10,6 @@ public interface FileStatusDao {
 
 	void notify(String fileName, String hash, long timestamp)
 			throws DaoException;
+	
+	FileStatus save(FileStatus fileStatus) throws DaoException;
 }

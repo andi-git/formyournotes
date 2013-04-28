@@ -8,13 +8,17 @@ import java.util.TimeZone;
 
 import android.content.Context;
 import android.util.Log;
+import at.ahammer.formyournotes.beans.FileStatus;
 import at.ahammer.formyournotes.beans.FileWriteActivity;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.beans.SingleFileStatus;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
+import at.ahammer.formyournotes.dao.FileStatusDao;
 import at.ahammer.formyournotes.dao.FormDao;
 import at.ahammer.formyournotes.dao.UserActivityDao;
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
+import at.ahammer.formyournotes.dao.json.FileStatusDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
 import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
@@ -155,11 +159,18 @@ public enum FYNController {
 	}
 
 	private DataDao getDataDao(Context context) {
-		return new DataDaoJSON(FYNFileHelper.INSTANCE.getExternalStorage(context));
+		return new DataDaoJSON(
+				FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
 	private FormDao getFormDao(Context context) {
-		return new FormDaoJSON(FYNFileHelper.INSTANCE.getExternalStorage(context));
+		return new FormDaoJSON(
+				FYNFileHelper.INSTANCE.getExternalStorage(context));
+	}
+
+	private FileStatusDao getFileStatusDao(Context context) {
+		return new FileStatusDaoJSON(
+				FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
 	private UserActivityDao getUserActivityDao(Context context) {
@@ -255,5 +266,38 @@ public enum FYNController {
 			Log.e(LogTag.FYN.getTag(), "error get LastSync", e);
 		}
 		return fileWriteActivities;
+	}
+
+	public SingleFileStatus getSingleFileStatus(Context context, String fileName) {
+		SingleFileStatus result = null;
+		try {
+			result = getFileStatusDao(context).load().getSingleFileStatus(
+					fileName);
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error on getting singleFileStatus for "
+					+ fileName, e);
+		}
+		return result;
+	}
+
+	public FileStatus getFileStatus(Context context) {
+		FileStatus result = null;
+		try {
+			result = getFileStatusDao(context).load();
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error on getting fileStatus", e);
+		}
+		return result;
+	}
+
+	public FileStatus saveFileStatus(Context context, FileStatus fileStatus)
+			throws DaoException {
+		try {
+			fileStatus = getFileStatusDao(context).save(fileStatus);
+		} catch (DaoException e) {
+			Log.e(LogTag.FYN.getTag(), "error on saveing fileStatus", e);
+			throw e;
+		}
+		return fileStatus;
 	}
 }

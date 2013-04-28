@@ -15,6 +15,30 @@ public class FileStatus {
 		this.files = files;
 	}
 
+	public void setSingleFileStatus(SingleFileStatus singleFileStatus) {
+		int indexToRemove = -1;
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).getFileName()
+					.equals(singleFileStatus.getFileName())) {
+				indexToRemove = i;
+				break;
+			}
+		}
+		if (indexToRemove > -1) {
+			files.remove(indexToRemove);
+		}
+		files.add(singleFileStatus);
+	}
+
+	public SingleFileStatus getSingleFileStatus(String fileName) {
+		for (SingleFileStatus singleFileStatus : files) {
+			if (singleFileStatus.getFileName().equals(fileName)) {
+				return singleFileStatus;
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public String toString() {
 		return "FileStatus [files=" + files + "]";
