@@ -11,15 +11,12 @@ import org.junit.Test;
 
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.dao.json.FileStatusDaoJSON;
-import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.EditTextData;
 import at.ahammer.formyournotes.data.FormData;
 
 public class DataDaoJSONTest {
 
 	private DataDao dataDao;
-
-	private UserActivityDao userActivityDao;
 
 	private FileStatusDao fileStatusDao;
 
@@ -30,23 +27,12 @@ public class DataDaoJSONTest {
 		testHelper = new TestHelper();
 		testHelper.createDefaultData();
 		dataDao = new DataDaoJSON(testHelper.getResourceDir());
-		userActivityDao = new UserActivityDaoJSON(testHelper.getResourceDir());
 		fileStatusDao = new FileStatusDaoJSON(testHelper.getResourceDir());
-		try {
-			userActivityDao.create();
-		} catch (DaoException e) {
-			Assert.fail(e.getMessage());
-		}
 	}
 
 	@After
 	public void tearDown() {
 		testHelper.deleteCreatedFiles();
-		try {
-			userActivityDao.delete();
-		} catch (DaoException e) {
-			Assert.fail(e.getMessage());
-		}
 	}
 
 	@Test
@@ -96,9 +82,6 @@ public class DataDaoJSONTest {
 		Assert.assertNull(dataRead);
 		dataRead = dataDao.update(data);
 		Assert.assertNull(dataRead);
-
-		Assert.assertEquals(3, userActivityDao.getUserActivity()
-				.getFileWriteActivities().size());
 
 		Assert.assertEquals(4, fileStatusDao.load().getFiles().size());
 	}

@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.logging.LogTag;
-import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNPreferences;
 
 public class EditAccountDialog {
@@ -76,7 +75,6 @@ public class EditAccountDialog {
 
 		@Override
 		public void onClick(DialogInterface dialog, int id) {
-			FYNController.INSTANCE.resetLastSync(activity);
 			String email = ((EditText) viewToInflate
 					.findViewById(R.id.email_input)).getText().toString();
 			String password = ((EditText) viewToInflate

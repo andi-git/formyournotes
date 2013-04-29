@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.ahammer.formyournotes.beans.FileWriteType;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
 import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
@@ -13,7 +12,6 @@ import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
 import at.ahammer.formyournotes.dao.FileStatusDao;
 import at.ahammer.formyournotes.dao.FormDao;
-import at.ahammer.formyournotes.dao.UserActivityDao;
 
 public class FormDaoJSON implements FormDao {
 
@@ -22,8 +20,6 @@ public class FormDaoJSON implements FormDao {
 	private final BeanSerializer serializer;
 
 	private final DataDao dataDao;
-
-	private final UserActivityDao userActivityDao;
 
 	private final FileStatusDao fileStatusDao;
 
@@ -35,7 +31,6 @@ public class FormDaoJSON implements FormDao {
 		fileHelper = new FileHelperForm(directory);
 		serializer = new JSONBeanSerializer();
 		dataDao = new DataDaoJSON(directory);
-		userActivityDao = new UserActivityDaoJSON(directory);
 		fileStatusDao = new FileStatusDaoJSON(directory);
 	}
 
@@ -72,8 +67,6 @@ public class FormDaoJSON implements FormDao {
 					.createNextFile(new RequiredDataFormInsert());
 			formBean.setId(nextId);
 			String fileContent = serializer.serialize(formBean, nextFile);
-			userActivityDao.addFileWriteActivity(nextFile.getName(),
-					FileWriteType.SAVE, md5Helper.generateHash(fileContent));
 			fileStatusDao.notify(nextFile.getName(),
 					md5Helper.generateHash(fileContent));
 			return formBean;
@@ -91,9 +84,6 @@ public class FormDaoJSON implements FormDao {
 						.getId()));
 				if (file != null) {
 					String fileContent = serializer.serialize(formBean, file);
-					userActivityDao.addFileWriteActivity(file.getName(),
-							FileWriteType.UPDATE,
-							md5Helper.generateHash(fileContent));
 					fileStatusDao.notify(file.getName(),
 							md5Helper.generateHash(fileContent));
 					result = formBean;
@@ -113,9 +103,6 @@ public class FormDaoJSON implements FormDao {
 					.getId()));
 			if (file != null) {
 				String fileContent = serializer.serialize(formBean, file);
-				userActivityDao.addFileWriteActivity(file.getName(),
-						FileWriteType.DELETE,
-						md5Helper.generateHash(fileContent));
 				fileStatusDao.notify(file.getName(),
 						md5Helper.generateHash(fileContent));
 				return true;

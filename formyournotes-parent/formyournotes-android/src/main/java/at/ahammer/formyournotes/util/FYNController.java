@@ -1,26 +1,21 @@
 package at.ahammer.formyournotes.util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.util.Log;
 import at.ahammer.formyournotes.beans.FileStatus;
-import at.ahammer.formyournotes.beans.FileWriteActivity;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.SingleFileStatus;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.dao.DataDao;
 import at.ahammer.formyournotes.dao.FileStatusDao;
 import at.ahammer.formyournotes.dao.FormDao;
-import at.ahammer.formyournotes.dao.UserActivityDao;
 import at.ahammer.formyournotes.dao.json.DataDaoJSON;
 import at.ahammer.formyournotes.dao.json.FileStatusDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
-import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.views.FormR;
@@ -173,11 +168,6 @@ public enum FYNController {
 				FYNFileHelper.INSTANCE.getExternalStorage(context));
 	}
 
-	private UserActivityDao getUserActivityDao(Context context) {
-		return new UserActivityDaoJSON(
-				FYNFileHelper.INSTANCE.getExternalStorage(context));
-	}
-
 	public List<FormData> allDataForCurrentForm(Context context) {
 		return allDataForForm(context, getFormId());
 	}
@@ -230,42 +220,6 @@ public enum FYNController {
 			Log.e(LogTag.FYN.getTag(), "error on deleting data: " + formData, e);
 		}
 		return deleted;
-	}
-
-	public void resetLastSync(Context context) {
-		Calendar past = Calendar.getInstance(TimeZone
-				.getTimeZone("Europe/Berlin"));
-		past.set(Calendar.YEAR, 1970);
-		past.set(Calendar.MONTH, 0);
-		past.set(Calendar.DAY_OF_MONTH, 1);
-		try {
-			getUserActivityDao(context).setLastSync(past);
-		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error on resetLastSync", e);
-		}
-	}
-
-	public long getLastSync(Context context) {
-		long lastSync = 0;
-		try {
-			lastSync = getUserActivityDao(context).getUserActivity()
-					.getLastSync();
-		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error get LastSync", e);
-		}
-		return lastSync;
-	}
-
-	public List<FileWriteActivity> getFileWriteActivitesAfter(Context context,
-			long timestamp) {
-		List<FileWriteActivity> fileWriteActivities = new ArrayList<FileWriteActivity>();
-		try {
-			fileWriteActivities.addAll(getUserActivityDao(context)
-					.getFileWriteActivitiesAfter(timestamp));
-		} catch (DaoException e) {
-			Log.e(LogTag.FYN.getTag(), "error get LastSync", e);
-		}
-		return fileWriteActivities;
 	}
 
 	public SingleFileStatus getSingleFileStatus(Context context, String fileName) {

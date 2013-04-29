@@ -10,38 +10,28 @@ import org.junit.Test;
 import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.dao.json.FileStatusDaoJSON;
 import at.ahammer.formyournotes.dao.json.FormDaoJSON;
-import at.ahammer.formyournotes.dao.json.UserActivityDaoJSON;
 
 public class FormDaoJSONTest {
 
 	private FormDao formDao;
 
-	private UserActivityDao userActivityDao;
-
 	private TestHelper testHelper;
+
+	private FileStatusDao fileStatusDao;
 
 	@Before
 	public void setUp() {
 		testHelper = new TestHelper();
 		testHelper.createDefaultData();
 		formDao = new FormDaoJSON(testHelper.getResourceDir());
-		userActivityDao = new UserActivityDaoJSON(testHelper.getResourceDir());
-		try {
-			userActivityDao.create();
-		} catch (DaoException e) {
-			Assert.fail(e.getMessage());
-		}
+		fileStatusDao = new FileStatusDaoJSON(testHelper.getResourceDir());
 	}
 
 	@After
 	public void tearDown() {
 		testHelper.deleteCreatedFiles();
-		try {
-			userActivityDao.delete();
-		} catch (DaoException e) {
-			Assert.fail(e.getMessage());
-		}
 	}
 
 	@Test
@@ -80,8 +70,7 @@ public class FormDaoJSONTest {
 		formBeanRead = formDao.update(formBean);
 		Assert.assertNull(formBeanRead);
 
-		Assert.assertEquals(3, userActivityDao.getUserActivity()
-				.getFileWriteActivities().size());
+		Assert.assertEquals(4, fileStatusDao.load().getFiles().size());
 	}
 
 	@Test
