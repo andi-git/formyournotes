@@ -4,12 +4,18 @@ public class FormR {
 
 	private Drawable drawable = new Drawable();
 
+	private Style style = new Style();
+
 	public FormR() {
 		// nothing
 	}
 
 	public Drawable getDrawable() {
 		return drawable;
+	}
+
+	public Style getStyle() {
+		return style;
 	}
 
 	public static final class Drawable {
@@ -39,6 +45,19 @@ public class FormR {
 
 		public void setButtonDown(int buttonDown) {
 			this.buttonDown = buttonDown;
+		}
+	}
+
+	public static final class Style {
+		private int widget_DeviceDefault_Light_Spinner = 16974227;
+
+		public int getWidget_DeviceDefault_Light_Spinner() {
+			return widget_DeviceDefault_Light_Spinner;
+		}
+
+		public void setWidget_DeviceDefault_Light_Spinner(
+				int widget_DeviceDefault_Light_Spinner) {
+			this.widget_DeviceDefault_Light_Spinner = widget_DeviceDefault_Light_Spinner;
 		}
 	}
 }

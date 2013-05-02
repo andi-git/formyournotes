@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import at.ahammer.formyournotes.beans.FileStatus;
@@ -53,9 +54,9 @@ public enum FYNController {
 		formView = null;
 	}
 
-	public FormView getCurrentFormView(FormBean formBean, Context context,
+	public FormView getCurrentFormView(FormBean formBean, Activity activity,
 			FormR formR) {
-		formView = new FormView(formBean, context, formR);
+		formView = new FormView(formBean, activity, formR);
 		return formView;
 	}
 
@@ -143,12 +144,14 @@ public enum FYNController {
 		return formData;
 	}
 
-	public FormBean saveFormBean(Context context, FormBean formBean) {
+	public FormBean saveFormBean(Context context, FormBean formBean)
+			throws DaoException {
 		FormDao formDao = getFormDao(context);
 		try {
 			formDao.save(formBean);
 		} catch (DaoException e) {
 			Log.e(LogTag.FYN.getTag(), "error on saving form-bean", e);
+			throw new DaoException(e);
 		}
 		return formBean;
 	}

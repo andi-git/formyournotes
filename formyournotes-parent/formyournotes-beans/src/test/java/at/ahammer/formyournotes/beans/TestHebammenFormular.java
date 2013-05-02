@@ -18,9 +18,10 @@ public class TestHebammenFormular {
 	private HebammenFormular hebammenFormular;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws SerializationException {
 		serializer = new JSONBeanSerializer();
 		hebammenFormular = new HebammenFormular();
+		System.out.println(serializer.serialize(hebammenFormular));
 	}
 
 	@Test

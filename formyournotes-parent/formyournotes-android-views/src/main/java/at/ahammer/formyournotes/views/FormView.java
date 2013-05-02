@@ -3,9 +3,11 @@ package at.ahammer.formyournotes.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
 import at.ahammer.formyournotes.beans.ContactBean;
@@ -13,6 +15,7 @@ import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.beans.GroupBean;
+import at.ahammer.formyournotes.logging.LogTag;
 
 public class FormView {
 
@@ -20,11 +23,12 @@ public class FormView {
 
 	private final FormBean formBean;
 
-	public FormView(FormBean formBean, Context context, FormR formR) {
+	public FormView(FormBean formBean, Activity activity, FormR formR) {
 		this.formBean = formBean;
 		for (FormYourNotesBean<?> topLevelElement : formBean
 				.getAllTopLevelItemsSortedByRank()) {
-			topLevelElements.add(getView(formBean, context, formR, topLevelElement));
+			topLevelElements.add(getView(formBean, activity, formR,
+					topLevelElement));
 		}
 	}
 
@@ -34,22 +38,27 @@ public class FormView {
 		}
 	}
 
-	public static View getView(FormBean formBean, Context context, FormR formR, FormYourNotesBean<?> currentBean) {
+	public static View getView(FormBean formBean, Activity activity,
+			FormR formR, FormYourNotesBean<?> currentBean) {
+		Log.i(LogTag.FYN.getTag(), "get view for: " + currentBean);
 		if (currentBean instanceof EditTextBean) {
-			return new EditTextView(context, formR, formBean,
+			return new EditTextView(activity, formR, formBean,
 					(EditTextBean) currentBean);
 		} else if (currentBean instanceof CheckBoxGroupBean) {
-			return new CheckBoxGroupView(context, formR, formBean,
+			return new CheckBoxGroupView(activity, formR, formBean,
 					(CheckBoxGroupBean) currentBean);
 		} else if (currentBean instanceof CheckBoxBean) {
-			return new CheckBoxView(context, formR, formBean,
+			return new CheckBoxView(activity, formR, formBean,
 					(CheckBoxBean) currentBean);
 		} else if (currentBean instanceof ContactBean) {
-			return new ContactView(context, formR, formBean,
+			return new ContactView(activity, formR, formBean,
 					(ContactBean) currentBean);
 		} else if (currentBean instanceof GroupBean) {
-			return new GroupView(context, formR, formBean,
+			return new GroupView(activity, formR, formBean,
 					(GroupBean) currentBean);
+		} else if (currentBean instanceof CalendarBean) {
+			return new CalendarView(activity, formR, formBean,
+					(CalendarBean) currentBean);
 		}
 		throw new RuntimeException("View for " + currentBean.getClass()
 				+ " is not registered!");

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
 import at.ahammer.formyournotes.data.EditTextData;
@@ -22,6 +23,7 @@ public class FormBean {
 	private List<ContactBean> contactBeans = new ArrayList<ContactBean>();
 	private List<EditTextBean> editTextBeans = new ArrayList<EditTextBean>();
 	private List<GroupBean> groupBeans = new ArrayList<GroupBean>();
+	private List<CalendarBean> calendarBeans = new ArrayList<CalendarBean>();
 	private boolean dataChanged = false;
 
 	// TODO cache for ranking - bean
@@ -96,6 +98,14 @@ public class FormBean {
 		editTextBeans.add(editTextBean);
 	}
 
+	public List<CalendarBean> getCalendarBeans() {
+		return calendarBeans;
+	}
+
+	public void addCalendarBean(CalendarBean calendarBean) {
+		calendarBeans.add(calendarBean);
+	}
+
 	private void addCommonData(FormYourNotesBean<?> bean, int id, int rank,
 			int parent) {
 		bean.setId(id);
@@ -159,6 +169,22 @@ public class FormBean {
 		return newEditTextBean(id, rank, parent.getId(), discription);
 	}
 
+	public CalendarBean newCalendarBean(int id, int rank, int parent,
+			String discription, CalendarBean.Type type) {
+		CalendarBean calendarBean = new CalendarBean();
+		addCommonData(calendarBean, id, rank, parent);
+		calendarBean.setDiscription(discription);
+		calendarBean.setType(type);
+		addCalendarBean(calendarBean);
+		return calendarBean;
+	}
+
+	public CalendarBean newCalendar(int id, int rank,
+			FormYourNotesBean<?> parent, String discription,
+			CalendarBean.Type type) {
+		return newCalendarBean(id, rank, parent.getId(), discription, type);
+	}
+
 	public GroupBean newGroupBean(int id, int rank, int parent, String name) {
 		GroupBean groupBean = new GroupBean();
 		addCommonData(groupBean, id, rank, parent);
@@ -208,6 +234,7 @@ public class FormBean {
 		items.addAll(contactBeans);
 		items.addAll(editTextBeans);
 		items.addAll(groupBeans);
+		items.addAll(calendarBeans);
 		return items;
 	}
 
@@ -255,6 +282,9 @@ public class FormBean {
 		for (GroupBean groupBean : groupBeans) {
 			groupBean.clearData();
 		}
+		for (CalendarBean calendarBean : calendarBeans) {
+			calendarBean.clearData();
+		}
 	}
 
 	public FormBean setData(FormData formData) {
@@ -273,6 +303,10 @@ public class FormBean {
 			getById(editTextData.getItemId(), EditTextBean.class).setData(
 					editTextData);
 		}
+		for (CalendarData calendarData : formData.getCalendarData()) {
+			getById(calendarData.getItemId(), CalendarBean.class).setData(
+					calendarData);
+		}
 		return this;
 	}
 
@@ -281,6 +315,7 @@ public class FormBean {
 			addedData.clearCheckBoxData();
 			addedData.clearContactData();
 			addedData.clearEditTextData();
+			addedData.clearCalendarData();
 			for (CheckBoxBean checkBoxBean : checkBoxBeans) {
 				addedData.add(checkBoxBean.getData());
 			}
@@ -289,6 +324,9 @@ public class FormBean {
 			}
 			for (EditTextBean editTextBean : editTextBeans) {
 				addedData.add(editTextBean.getData());
+			}
+			for (CalendarBean calendarBean : calendarBeans) {
+				addedData.add(calendarBean.getData());
 			}
 		}
 		return addedData;

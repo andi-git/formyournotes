@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.util.Log;
+import at.ahammer.formyournotes.beans.HebammenFormular;
 import at.ahammer.formyournotes.logging.LogTag;
 
 public class FYNDefaultDataDeployer {
@@ -27,13 +28,20 @@ public class FYNDefaultDataDeployer {
 
 	private void deployFiles() {
 		Log.i(LogTag.FYN.getTag(), "deploying default-files");
+		HebammenFormular hebammenFormular = new HebammenFormular();
 		try {
-			copyFile("form_1.json");
-			copyFile("data_1_1.json");
-			copyFile("data_1_2.json");
-			copyFile("filestatus.json");
+			FYNController.INSTANCE.saveFormBean(context,
+					hebammenFormular.getForm());
+			FYNController.INSTANCE.saveFormData(context,
+					hebammenFormular.getData1());
+			FYNController.INSTANCE.saveFormData(context,
+					hebammenFormular.getData2());
+			// copyFile("form_1.json");
+			// copyFile("data_1_1.json");
+			// copyFile("data_1_2.json");
+			// copyFile("filestatus.json");
 			copyFile("deployed.idx");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -62,8 +70,9 @@ public class FYNDefaultDataDeployer {
 
 	private boolean checkIfDefaultDataIsDeployed() {
 		Log.i(LogTag.FYN.getTag(), "check if " + FILENAME_DEPLOYED + " exists");
-		boolean exists = new File(FYNFileHelper.INSTANCE.getExternalStorage(context), FILENAME_DEPLOYED)
-				.exists();
+		boolean exists = new File(
+				FYNFileHelper.INSTANCE.getExternalStorage(context),
+				FILENAME_DEPLOYED).exists();
 		if (exists) {
 			Log.i(LogTag.FYN.getTag(), "default-files exists");
 		} else {
