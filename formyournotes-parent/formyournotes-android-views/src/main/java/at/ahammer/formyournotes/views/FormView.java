@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
@@ -27,15 +26,15 @@ public class FormView {
 		this.formBean = formBean;
 		for (FormYourNotesBean<?> topLevelElement : formBean
 				.getAllTopLevelItemsSortedByRank()) {
+			Log.i(LogTag.FYN.getTag(), "add " + topLevelElement.getId()
+					+ " to topLevelElement");
 			topLevelElements.add(getView(formBean, activity, formR,
 					topLevelElement));
 		}
 	}
 
-	public void addToView(LinearLayout layout) {
-		for (View topLevelElement : topLevelElements) {
-			layout.addView(topLevelElement);
-		}
+	public List<View> getTopLevelElements() {
+		return topLevelElements;
 	}
 
 	public static View getView(FormBean formBean, Activity activity,

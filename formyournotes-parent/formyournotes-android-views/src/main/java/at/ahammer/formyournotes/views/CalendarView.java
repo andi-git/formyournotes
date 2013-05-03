@@ -19,6 +19,7 @@ public class CalendarView extends LinearLayout {
 	public CalendarView(final Activity activity, FormR r,
 			final FormBean formBean, final CalendarBean calendarBean) {
 		super(activity);
+		setId(calendarBean.getId());
 		setOrientation(HORIZONTAL);
 		viewName = viewHelper.newDefaultTextView(activity);
 		viewName.setText(calendarBean.getDiscription());

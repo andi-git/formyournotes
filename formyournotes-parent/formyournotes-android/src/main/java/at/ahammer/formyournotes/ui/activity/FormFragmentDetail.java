@@ -18,6 +18,7 @@ import at.ahammer.formyournotes.ui.activity.FormActivityDetail.FormActivityDetai
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNFormHelper;
 import at.ahammer.formyournotes.util.FYNViewHelper;
+import at.ahammer.formyournotes.views.FormView;
 import at.ahammer.formyournotes.views.ViewHelper;
 
 /**
@@ -104,11 +105,12 @@ public class FormFragmentDetail extends Fragment {
 
 			scroller.setLayoutParams(viewHelper.getLinearLayoutParamMatch());
 			LinearLayout layout = new LinearLayout(getActivity());
-			layout.setLayoutParams(viewHelper.getLinearLayoutParamMatch());
-
-			FYNController.INSTANCE.getCurrentFormView(currentFormBean,
-					getActivity(), FYNFormHelper.INSTANCE.getFormR())
-					.addToView(layout);
+			layout.setOrientation(LinearLayout.VERTICAL);
+			FormView formView = FYNController.INSTANCE.getCurrentFormView(currentFormBean,
+					getActivity(), FYNFormHelper.INSTANCE.getFormR());
+			for (View view : formView.getTopLevelElements()) {
+				layout.addView(view, viewHelper.getLinearLayoutTopElements());
+			}
 			scroller.addView(layout, viewHelper.getLinearLayoutParamMatch());
 		}
 		return scroller;

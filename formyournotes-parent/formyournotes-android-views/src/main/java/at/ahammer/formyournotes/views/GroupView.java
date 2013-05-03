@@ -16,6 +16,7 @@ public class GroupView extends LinearLayout {
 	public GroupView(Activity activity, FormR r, FormBean formBean,
 			GroupBean groupBean) {
 		super(activity);
+		setId(groupBean.getId());
 		setOrientation(VERTICAL);
 		setBackground(getResources().getDrawable(
 				r.getDrawable().getBorderTopElement()));

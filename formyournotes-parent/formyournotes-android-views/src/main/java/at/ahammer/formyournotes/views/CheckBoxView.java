@@ -17,6 +17,7 @@ public class CheckBoxView extends LinearLayout {
 	public CheckBoxView(Context context, FormR r, FormBean formBean,
 			CheckBoxBean checkBoxBean) {
 		super(context);
+		setId(checkBoxBean.getId());
 		setOrientation(HORIZONTAL);
 		checkBox = viewHelper.newDefaultCheckBox(context);
 		checkBox.setText(checkBoxBean.getDiscription());

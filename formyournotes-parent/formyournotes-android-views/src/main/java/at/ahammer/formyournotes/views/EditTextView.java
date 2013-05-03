@@ -20,6 +20,7 @@ public class EditTextView extends LinearLayout {
 	public EditTextView(Context context, FormR r, FormBean formBean,
 			EditTextBean editTextBean) {
 		super(context);
+		setId(editTextBean.getId());
 		setOrientation(HORIZONTAL);
 		viewName = viewHelper.newDefaultTextView(context);
 		viewName.setText(editTextBean.getDiscription());

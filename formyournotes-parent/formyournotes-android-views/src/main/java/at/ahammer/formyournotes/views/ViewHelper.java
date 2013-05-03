@@ -106,4 +106,11 @@ public class ViewHelper {
 		layoutParams.setMargins(0, 0, 0, 0);
 		return layoutParams;
 	}
+
+	public LinearLayout.LayoutParams getLinearLayoutTopElements() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		layoutParams.setMargins(5, 5, 5, 5);
+		return layoutParams;
+	}
 }

@@ -17,29 +17,36 @@ public class CheckBoxGroupView extends LinearLayout {
 	private final TextView viewName;
 	private final TextView viewColon;
 	private final List<CheckBoxView> checkBoxes = new ArrayList<CheckBoxView>();
-	
-	public CheckBoxGroupView(Context context, FormR r, FormBean formBean, CheckBoxGroupBean checkBoxGroupBean) {
+
+	public CheckBoxGroupView(Context context, FormR r, FormBean formBean,
+			CheckBoxGroupBean checkBoxGroupBean) {
 		super(context);
+		setId(checkBoxGroupBean.getId());
 		setOrientation(VERTICAL);
 		viewName = viewHelper.newDefaultTextView(context);
 		viewName.setText(checkBoxGroupBean.getDiscription());
 		viewColon = viewHelper.newDefaultTextView(context);
 		viewColon.setText(": ");
 		for (CheckBoxBean checkBoxBean : checkBoxGroupBean.getCheckBoxes()) {
-			checkBoxes.add(new CheckBoxView(context, r, formBean, checkBoxBean));
+			checkBoxes
+					.add(new CheckBoxView(context, r, formBean, checkBoxBean));
 		}
-		addView(addRow(context, viewName, viewColon), viewHelper.getLinearLayoutParamWrap());
-//		addView(viewName, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-//				LayoutParams.WRAP_CONTENT));
-//		addView(viewColon, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-//				LayoutParams.WRAP_CONTENT));
+		addView(addRow(context, viewName, viewColon),
+				viewHelper.getLinearLayoutParamWrap());
+		// addView(viewName, new
+		// LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+		// LayoutParams.WRAP_CONTENT));
+		// addView(viewColon, new
+		// LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+		// LayoutParams.WRAP_CONTENT));
 		for (CheckBoxView checkBoxView : checkBoxes) {
 			TextView viewBlank = viewHelper.newDefaultTextView(context);
 			viewBlank.setText("    ");
-			addView(addRow(context, viewBlank, checkBoxView), viewHelper.getLinearLayoutParamWrap());
+			addView(addRow(context, viewBlank, checkBoxView),
+					viewHelper.getLinearLayoutParamWrap());
 		}
 	}
-	
+
 	private LinearLayout addRow(Context context, View... views) {
 		LinearLayout row = new LinearLayout(context);
 		row.setOrientation(LinearLayout.HORIZONTAL);
@@ -48,16 +55,16 @@ public class CheckBoxGroupView extends LinearLayout {
 		}
 		return row;
 	}
-	
+
 	public String getName() {
-	     return viewName.getText().toString();
+		return viewName.getText().toString();
 	}
 
 	public List<CheckBoxView> getCheckBoxes() {
-	     return checkBoxes;
+		return checkBoxes;
 	}
 
 	public void setName(String name) {
-	     viewName.setText(name);
+		viewName.setText(name);
 	}
 }
