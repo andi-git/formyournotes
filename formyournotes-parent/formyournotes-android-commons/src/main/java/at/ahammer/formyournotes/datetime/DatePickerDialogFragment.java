@@ -1,4 +1,4 @@
-package at.ahammer.formyournotes.dialog;
+package at.ahammer.formyournotes.datetime;
 
 import java.util.Calendar;
 

@@ -1,23 +1,13 @@
 package at.ahammer.formyournotes.views;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
+import android.text.Editable;
 import android.util.Log;
-import android.view.View;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.FormBean;
-import at.ahammer.formyournotes.dialog.DatePickerDialogFragment;
-import at.ahammer.formyournotes.logging.LogTag;
+import at.ahammer.formyournotes.datetime.OnClickCalendarListener;
 
 public class CalendarView extends LinearLayout {
 
@@ -25,8 +15,6 @@ public class CalendarView extends LinearLayout {
 	private final TextView viewName;
 	private final TextView viewColon;
 	private final TextView viewText;
-	public static final SimpleDateFormat SDF = new SimpleDateFormat(
-			"dd.MM.yyyy");
 
 	public CalendarView(final Activity activity, FormR r,
 			final FormBean formBean, final CalendarBean calendarBean) {
@@ -35,25 +23,17 @@ public class CalendarView extends LinearLayout {
 		viewName = viewHelper.newDefaultTextView(activity);
 		viewName.setText(calendarBean.getDiscription());
 		viewText = viewHelper.newDefaultTextView(activity);
-		viewText.setText(calendarBean.getValue());
-		viewText.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				FragmentTransaction ft = activity.getFragmentManager()
-						.beginTransaction();
-				Calendar date = Calendar.getInstance();
-				try {
-					date.setTime(SDF.parse(calendarBean.getData().getValue()));
-				} catch (ParseException e) {
-					Log.e(LogTag.FYN.getTag(), "error on parsing calendar: "
-							+ calendarBean.getData().getValue(), e);
-				}
-				DialogFragment newFragment = new DatePickerDialogFragment(
-						new OnSetDateWatcher(calendarBean, formBean, viewText),
-						date);
-				newFragment.show(ft, "date_dialog");
-			}
-		});
+		viewText.setLayoutParams(viewHelper.getLinearLayoutParamMatch());
+		if (calendarBean.getValue() == null
+				|| "".equals(calendarBean.getValue())) {
+			viewText.setText("Choose Date...");
+		} else {
+			viewText.setText(calendarBean.getValue());
+		}
+		viewText.setOnClickListener(new OnClickCalendarListener(activity,
+				viewText));
+		viewText.addTextChangedListener(new CalendarWatcher(calendarBean,
+				formBean));
 		viewColon = viewHelper.newDefaultTextView(activity);
 		viewColon.setText(": ");
 		addView(viewName, viewHelper.getLinearLayoutParamWrap());
@@ -77,42 +57,34 @@ public class CalendarView extends LinearLayout {
 		viewText.setText(text);
 	}
 
-	public static class OnSetDateWatcher implements
-			DatePickerDialog.OnDateSetListener {
+	public static class CalendarWatcher extends AbstractTextWatcher {
 
 		private final CalendarBean calendarBean;
-		private final FormBean formBean;
-		private final TextView textView;
 
-		public OnSetDateWatcher(CalendarBean calendarBean, FormBean formBean,
-				TextView textView) {
+		private final FormBean formBean;
+
+		public CalendarWatcher(CalendarBean calendarBean, FormBean formBean) {
 			this.calendarBean = calendarBean;
 			this.formBean = formBean;
-			this.textView = textView;
 		}
 
 		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-			String dateString = SDF.format(cal.getTime());
-			textView.setText(dateString);
-
-			Log.i(LogTag.FYN.getTag(),
+		public void afterTextChanged(Editable editable) {
+			Log.i("FormYourNotes",
 					"set value of " + calendarBean.getDiscription() + " to '"
-							+ dateString + "'");
+							+ editable.toString() + "'");
 			calendarBean.getData().setItemId(calendarBean);
 			// TODO why do i have to set that hard-coded?
 			formBean.setDataChange(true);
 			// if
 			// (formBean.possibleDataChange(calendarBean.getData().getValue(),
-			// dateString)) {
+			// editable.toString())) {
 			// Log.i(LogTag.FYN.getTag(),
 			// "data changed from "
 			// + calendarBean.getData().getValue() + " to "
-			// + dateString);
+			// + editable.toString());
 			// }
-			calendarBean.getData().setValue(dateString);
+			calendarBean.getData().setValue(editable.toString());
 		}
 	}
 }

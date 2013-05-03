@@ -36,7 +36,7 @@ public class HebammenFormular {
 	private FormData createData1() {
 		FormData data = new FormData(1, 1, "Miriam Musterfrau");
 		data.add(new ContactData("Miriam Musterfrau", 2));
-		data.add(new CalendarData("01.01.1980", 3));
+		data.add(new CalendarData("", 3));
 		data.add(new EditTextData("0000010180", 4));
 		data.add(new EditTextData("WGKK", 5));
 		data.add(new CheckBoxData(false, 6));
