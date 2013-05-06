@@ -134,7 +134,7 @@ public class HebammenFormular {
 		
 		// elements for group Geburtsverlauf
 		form.newCalendar(230, 1, groupGeburtsverlauf,
-				"Geburts am", CalendarBean.Type.DATE);
+				"Geburt am", CalendarBean.Type.DATE);
 		form.newCalendar(231, 2, groupGeburtsverlauf,
 				"Geburt um", CalendarBean.Type.TIME);
 		form.newEditText(232, 3, groupGeburtsverlauf, "Geburt in");

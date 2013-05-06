@@ -20,8 +20,9 @@ public class FormR {
 
 	public static final class Drawable {
 		private int borderTopElement;
-		private int buttonEdit;
-		private int buttonDown;
+		private int buttonContact;
+		private int buttonChat;
+		private int buttonCalendar;
 
 		public int getBorderTopElement() {
 			return borderTopElement;
@@ -31,20 +32,28 @@ public class FormR {
 			this.borderTopElement = borderTopElement;
 		}
 
-		public int getButtonEdit() {
-			return buttonEdit;
+		public int getButtonContact() {
+			return buttonContact;
 		}
 
-		public void setButtonEdit(int buttonEdit) {
-			this.buttonEdit = buttonEdit;
+		public void setButtonContact(int buttonContact) {
+			this.buttonContact = buttonContact;
 		}
 
-		public int getButtonDown() {
-			return buttonDown;
+		public int getButtonChat() {
+			return buttonChat;
 		}
 
-		public void setButtonDown(int buttonDown) {
-			this.buttonDown = buttonDown;
+		public void setButtonChat(int buttonChat) {
+			this.buttonChat = buttonChat;
+		}
+
+		public int getButtonCalendar() {
+			return buttonCalendar;
+		}
+
+		public void setButtonCalendar(int buttonCalendar) {
+			this.buttonCalendar = buttonCalendar;
 		}
 	}
 

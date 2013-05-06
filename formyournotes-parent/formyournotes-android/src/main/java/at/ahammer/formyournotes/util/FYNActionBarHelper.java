@@ -28,7 +28,7 @@ public enum FYNActionBarHelper {
 		int actionbarLayoutCompat = R.layout.actionbar_compat;
 		int actionbarLayoutIndeterminateProgress = R.layout.actionbar_indeterminate_progress;
 
-		int icHome = R.drawable.ic_home;
+		int icHome = R.drawable.actionbar_home;
 
 		int actionbarCompatItemStyle = R.attr.actionbarCompatTitleStyle;
 		int actionbarCompatItemHomeStyle = R.attr.actionbarCompatItemHomeStyle;

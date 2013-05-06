@@ -23,7 +23,7 @@ public class GroupView extends LinearLayout {
 		setLayoutParams(viewHelper.getLinearLayoutParamMatch());
 		viewName = viewHelper.newHeaderTextView(activity);
 		viewName.setText(groupBean.getName());
-		addView(viewName, viewHelper.getLinearLayoutParamFirstInRow());
+		addView(viewName, viewHelper.getLinearLayoutGroupHeader());
 		for (FormYourNotesBean<?> child : formBean.getAllChildren(groupBean)) {
 			View view = FormView.getView(formBean, activity, r, child);
 			addView(view, viewHelper.getLinearLayoutParamFirstInRow());

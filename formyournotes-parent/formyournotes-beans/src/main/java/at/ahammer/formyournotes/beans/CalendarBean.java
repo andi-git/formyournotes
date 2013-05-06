@@ -5,7 +5,17 @@ import at.ahammer.formyournotes.data.CalendarData;
 public class CalendarBean extends FormYourNotesBean<CalendarData> {
 
 	public static enum Type {
-		DATE, TIME;
+		DATE("00.00.0000"), TIME("00:00");
+
+		private final String defaultValue;
+
+		Type(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
 	}
 
 	private String discription;
@@ -32,6 +42,10 @@ public class CalendarBean extends FormYourNotesBean<CalendarData> {
 
 	public String getValue() {
 		return data.getValue();
+	}
+
+	public String getDefaultValue() {
+		return type.getDefaultValue();
 	}
 
 	public void setValue(String value) {

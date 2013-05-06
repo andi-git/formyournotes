@@ -93,6 +93,13 @@ public class ViewHelper {
 		return layoutParams;
 	}
 
+	public LinearLayout.LayoutParams getLinearLayoutGroupHeader() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(20, 5, 0, 5);
+		return layoutParams;
+	}
+
 	public LinearLayout.LayoutParams getLinearLayoutParamWrap() {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -100,6 +107,13 @@ public class ViewHelper {
 		return layoutParams;
 	}
 
+	public LinearLayout.LayoutParams getLinearLayoutCalendarParamWrap() {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0, 5, 0, 5);
+		return layoutParams;
+	}
+	
 	public LinearLayout.LayoutParams getLinearLayoutParamMatch() {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

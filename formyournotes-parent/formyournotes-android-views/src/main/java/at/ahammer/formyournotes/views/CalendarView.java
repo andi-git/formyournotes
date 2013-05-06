@@ -7,7 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.FormBean;
-import at.ahammer.formyournotes.datetime.OnClickCalendarListener;
+import at.ahammer.formyournotes.datetime.OnDateClickListener;
+import at.ahammer.formyournotes.datetime.OnTimeClickListener;
 
 public class CalendarView extends LinearLayout {
 
@@ -27,19 +28,24 @@ public class CalendarView extends LinearLayout {
 		viewText.setLayoutParams(viewHelper.getLinearLayoutParamMatch());
 		if (calendarBean.getValue() == null
 				|| "".equals(calendarBean.getValue())) {
-			viewText.setText("Choose Date...");
+			viewText.setText(calendarBean.getDefaultValue());
 		} else {
 			viewText.setText(calendarBean.getValue());
 		}
-		viewText.setOnClickListener(new OnClickCalendarListener(activity,
-				viewText));
+		if (calendarBean.getType() == CalendarBean.Type.TIME) {
+			viewText.setOnClickListener(new OnTimeClickListener(activity,
+					viewText));
+		} else {
+			viewText.setOnClickListener(new OnDateClickListener(activity,
+					viewText));
+		}
 		viewText.addTextChangedListener(new CalendarWatcher(calendarBean,
 				formBean));
 		viewColon = viewHelper.newDefaultTextView(activity);
 		viewColon.setText(": ");
-		addView(viewName, viewHelper.getLinearLayoutParamWrap());
-		addView(viewColon, viewHelper.getLinearLayoutParamWrap());
-		addView(viewText, viewHelper.getLinearLayoutParamWrap());
+		addView(viewName, viewHelper.getLinearLayoutCalendarParamWrap());
+		addView(viewColon, viewHelper.getLinearLayoutCalendarParamWrap());
+		addView(viewText, viewHelper.getLinearLayoutCalendarParamWrap());
 	}
 
 	public String getName() {
