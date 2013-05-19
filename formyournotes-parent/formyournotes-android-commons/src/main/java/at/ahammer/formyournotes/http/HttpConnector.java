@@ -16,16 +16,38 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.util.Log;
+import at.ahammer.formyournotes.security.EncryptDecrypt;
+import at.ahammer.formyournotes.security.NoneEncryptDecrypt;
 import at.ahammer.formyournotes.security.PHPEncryptDecrypt;
 
 public class HttpConnector {
 
+	public static enum EncryptionStrategy {
+		NONE(new NoneEncryptDecrypt()), PHP_ENCRYP_DECRYPT(
+				new PHPEncryptDecrypt());
+
+		private final EncryptDecrypt encryptDecrypt;
+
+		EncryptionStrategy(EncryptDecrypt encryptDecrypt) {
+			this.encryptDecrypt = encryptDecrypt;
+		}
+
+		public EncryptDecrypt getEncryptDecrypt() {
+			return this.encryptDecrypt;
+		}
+
+		public String encrypt(String string) throws Exception {
+			return encryptDecrypt.bytesToHex(encryptDecrypt.encrypt(string));
+		}
+	}
+
 	private final String url;
 
-	private final PHPEncryptDecrypt phpEncryptDecrypt = new PHPEncryptDecrypt();
+	private final EncryptionStrategy enctyptionStrategy;
 
-	public HttpConnector(String url) {
+	public HttpConnector(String url, EncryptionStrategy encryptionStrategy) {
 		this.url = url;
+		this.enctyptionStrategy = encryptionStrategy;
 	}
 
 	public String doPost(Map<String, String> parameter)
@@ -33,11 +55,14 @@ public class HttpConnector {
 		try {
 			InputStream inputStream = null;
 			try {
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(url);
-				httppost.setEntity(new UrlEncodedFormEntity(
-						createNameValuePairs(parameter)));
-				HttpResponse response = httpclient.execute(httppost);
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost httpPost = new HttpPost(url);
+				UrlEncodedFormEntity httpEntity = new UrlEncodedFormEntity(
+						createNameValuePairs(parameter), "UTF-8");
+				httpPost.setEntity(httpEntity);
+				httpPost.addHeader("content-type",
+						"application/x-www-form-urlencoded; charset=UTF-8");
+				HttpResponse response = httpClient.execute(httpPost);
 				inputStream = response.getEntity().getContent();
 			} catch (Exception e) {
 				Log.e("android-common",
@@ -55,8 +80,7 @@ public class HttpConnector {
 		for (String key : parameter.keySet()) {
 			try {
 				nameValuePairs.add(new BasicNameValuePair(key,
-						PHPEncryptDecrypt.bytesToHex(phpEncryptDecrypt
-								.encrypt(parameter.get(key)))));
+						enctyptionStrategy.encrypt(parameter.get(key))));
 			} catch (Exception e) {
 				Log.e("log_tag", "Error creating parameters " + e.toString());
 			}
@@ -70,12 +94,12 @@ public class HttpConnector {
 			try {
 				StringBuilder sb = new StringBuilder();
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(inputStream, "iso-8859-1"), 8);
+						new InputStreamReader(inputStream, "UTF-8"), 8);
 				sb = new StringBuilder();
-				sb.append(reader.readLine() + "\n");
+				sb.append(reader.readLine());
 				String line = "0";
 				while ((line = reader.readLine()) != null) {
-					sb.append(line + "\n");
+					sb.append("\n" + line);
 				}
 				inputStream.close();
 				result = sb.toString();
@@ -84,7 +108,8 @@ public class HttpConnector {
 			}
 		}
 		try {
-			return new String(phpEncryptDecrypt.decrypt(result), "UTF-8");
+			return new String(enctyptionStrategy.getEncryptDecrypt().decrypt(
+					result), "UTF-8");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

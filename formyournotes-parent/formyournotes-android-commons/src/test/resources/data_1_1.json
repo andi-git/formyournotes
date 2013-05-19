@@ -1,0 +1,36 @@
+{
+  "calendarDataList": [
+    {
+      "value": "",
+      "itemId": 101
+    }
+  ],
+  "checkBoxDataList": [
+    {
+      "checked": false,
+      "itemId": 104
+    }
+  ],
+  "contactDataList": [
+    {
+      "displayName": "Miriam Musterfrau",
+      "emails": [],
+      "phones": [],
+      "itemId": 100
+    }
+  ],
+  "name": "Miriam Musterfrau",
+  "editTextDataList": [
+    {
+      "value": "0000010180",
+      "itemId": 102
+    },
+    {
+      "value": "WGKK",
+      "itemId": 103
+    }
+  ],
+  "deleted": false,
+  "formId": 1,
+  "dataId": 1
+}

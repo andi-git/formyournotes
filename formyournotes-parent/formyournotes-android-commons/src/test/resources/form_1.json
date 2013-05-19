@@ -1,0 +1,885 @@
+{
+  "addedData": {
+    "calendarDataList": [],
+    "checkBoxDataList": [],
+    "contactDataList": [],
+    "name": "unknown",
+    "editTextDataList": [],
+    "deleted": false,
+    "formId": -1,
+    "dataId": -1
+  },
+  "calendarBeans": [
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsdatum",
+      "type": "DATE",
+      "id": 101,
+      "parent": 1,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsdatum",
+      "type": "DATE",
+      "id": 111,
+      "parent": 2,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Errechneter Termin",
+      "type": "DATE",
+      "id": 130,
+      "parent": 4,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburt am",
+      "type": "DATE",
+      "id": 230,
+      "parent": 12,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburt um",
+      "type": "TIME",
+      "id": 231,
+      "parent": 12,
+      "rank": 2
+    }
+  ],
+  "checkBoxBeans": [
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Zusatzversicherung",
+      "id": 104,
+      "parent": 1,
+      "rank": 5
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "AK",
+      "id": 200,
+      "parent": 9,
+      "rank": 1
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Epi-No",
+      "id": 201,
+      "parent": 9,
+      "rank": 2
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "GV",
+      "id": 202,
+      "parent": 9,
+      "rank": 3
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Sectio",
+      "id": 203,
+      "parent": 9,
+      "rank": 4
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Analgesie",
+      "id": 204,
+      "parent": 9,
+      "rank": 5
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Revers",
+      "id": 205,
+      "parent": 9,
+      "rank": 6
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Rhes.",
+      "id": 220,
+      "parent": 11,
+      "rank": 1
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "PKU",
+      "id": 221,
+      "parent": 11,
+      "rank": 2
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Konakion",
+      "id": 222,
+      "parent": 11,
+      "rank": 3
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "Rö",
+      "id": 223,
+      "parent": 11,
+      "rank": 4
+    },
+    {
+      "data": {
+        "checked": false,
+        "itemId": 1
+      },
+      "discription": "KIA",
+      "id": 224,
+      "parent": 11,
+      "rank": 5
+    }
+  ],
+  "checkBoxGroupBeans": [],
+  "contactBeans": [
+    {
+      "data": {
+        "emails": [],
+        "phones": [],
+        "itemId": 1
+      },
+      "discription": "Mutter",
+      "id": 100,
+      "parent": 1,
+      "rank": 1
+    },
+    {
+      "data": {
+        "emails": [],
+        "phones": [],
+        "itemId": 1
+      },
+      "discription": "Partner",
+      "id": 110,
+      "parent": 2,
+      "rank": 1
+    }
+  ],
+  "name": "Hebammen Formular",
+  "groupBeans": [
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Personendaten Mutter",
+      "id": 1,
+      "parent": 0,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Personendaten Partner",
+      "id": 2,
+      "parent": 0,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "aktuelle Schwangerschaft",
+      "id": 4,
+      "parent": 0,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "bisherige Geburten",
+      "id": 5,
+      "parent": 0,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Laborbefunde",
+      "id": 6,
+      "parent": 0,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "medizinische Betreuung",
+      "id": 7,
+      "parent": 0,
+      "rank": 7
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Anamnese",
+      "id": 8,
+      "parent": 0,
+      "rank": 8
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Geburtsvorbereitung",
+      "id": 9,
+      "parent": 0,
+      "rank": 9
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Besuche",
+      "id": 10,
+      "parent": 0,
+      "rank": 10
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Post Pertum",
+      "id": 11,
+      "parent": 0,
+      "rank": 11
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Geburtsverlauf",
+      "id": 12,
+      "parent": 0,
+      "rank": 12
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Kind",
+      "id": 13,
+      "parent": 0,
+      "rank": 13
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "Wochenbettverlauf",
+      "id": 14,
+      "parent": 0,
+      "rank": 14
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "name": "",
+      "id": 15,
+      "parent": 0,
+      "rank": 15
+    }
+  ],
+  "editTextBeans": [
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Versicherungsnummer",
+      "id": 102,
+      "parent": 1,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Krankenkasse",
+      "id": 103,
+      "parent": 1,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Beruf",
+      "id": 105,
+      "parent": 1,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Beruf",
+      "id": 112,
+      "parent": 2,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsort",
+      "id": 132,
+      "parent": 4,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Arzt",
+      "id": 133,
+      "parent": 4,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Besonderheit",
+      "id": 134,
+      "parent": 4,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "LNR",
+      "id": 135,
+      "parent": 4,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Konzeption",
+      "id": 136,
+      "parent": 4,
+      "rank": 7
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Zyklus",
+      "id": 137,
+      "parent": 4,
+      "rank": 8
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Partus",
+      "id": 138,
+      "parent": 4,
+      "rank": 9
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Frühere SS",
+      "id": 139,
+      "parent": 4,
+      "rank": 10
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "BG",
+      "id": 160,
+      "parent": 6,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Rh",
+      "id": 161,
+      "parent": 6,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "HbsAG",
+      "id": 162,
+      "parent": 6,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "HIV",
+      "id": 163,
+      "parent": 6,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "TOXO",
+      "id": 164,
+      "parent": 6,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "RÖ-AK",
+      "id": 165,
+      "parent": 6,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "ERY",
+      "id": 166,
+      "parent": 6,
+      "rank": 7
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "HB",
+      "id": 167,
+      "parent": 6,
+      "rank": 8
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "OGTT",
+      "id": 168,
+      "parent": 6,
+      "rank": 9
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Organscreening",
+      "id": 169,
+      "parent": 6,
+      "rank": 10
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Facharzt",
+      "id": 180,
+      "parent": 7,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Kontaktaufnahme durch",
+      "id": 181,
+      "parent": 7,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsvorbereitung",
+      "id": 182,
+      "parent": 7,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Allergie",
+      "id": 190,
+      "parent": 8,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Psych.",
+      "id": 191,
+      "parent": 8,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Erkrankungen, OP",
+      "id": 192,
+      "parent": 8,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Eigene Geburt",
+      "id": 193,
+      "parent": 8,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Wünsche",
+      "id": 194,
+      "parent": 8,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Wunschkind",
+      "id": 195,
+      "parent": 8,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburt in",
+      "id": 232,
+      "parent": 12,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburt aus",
+      "id": 233,
+      "parent": 12,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsmodus",
+      "id": 234,
+      "parent": 12,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsposition",
+      "id": 235,
+      "parent": 12,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsverletzung",
+      "id": 236,
+      "parent": 12,
+      "rank": 7
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Nubain",
+      "id": 237,
+      "parent": 12,
+      "rank": 8
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Epidurale",
+      "id": 238,
+      "parent": 12,
+      "rank": 9
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Syntocinon",
+      "id": 239,
+      "parent": 12,
+      "rank": 10
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Bachblüten",
+      "id": 240,
+      "parent": 12,
+      "rank": 11
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Homöopathie",
+      "id": 241,
+      "parent": 12,
+      "rank": 12
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Akupunktur",
+      "id": 242,
+      "parent": 12,
+      "rank": 13
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Epi No",
+      "id": 243,
+      "parent": 12,
+      "rank": 14
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Einleitung wegen",
+      "id": 244,
+      "parent": 12,
+      "rank": 15
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Einleitung mit",
+      "id": 245,
+      "parent": 12,
+      "rank": 16
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "BSP",
+      "id": 246,
+      "parent": 12,
+      "rank": 17
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "FW",
+      "id": 247,
+      "parent": 12,
+      "rank": 18
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Plazenta",
+      "id": 248,
+      "parent": 12,
+      "rank": 19
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geburtsdauer",
+      "id": 249,
+      "parent": 12,
+      "rank": 20
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Geschlecht",
+      "id": 260,
+      "parent": 13,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Name",
+      "id": 261,
+      "parent": 13,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Apgar",
+      "id": 262,
+      "parent": 13,
+      "rank": 3
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "NspH - BE",
+      "id": 263,
+      "parent": 13,
+      "rank": 4
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Gewicht",
+      "id": 264,
+      "parent": 13,
+      "rank": 5
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Länge",
+      "id": 265,
+      "parent": 13,
+      "rank": 6
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Kopf",
+      "id": 266,
+      "parent": 13,
+      "rank": 7
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Komplikationen",
+      "id": 270,
+      "parent": 14,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Entlassung",
+      "id": 271,
+      "parent": 14,
+      "rank": 2
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Hebamme",
+      "id": 280,
+      "parent": 15,
+      "rank": 1
+    },
+    {
+      "data": {
+        "itemId": 1
+      },
+      "discription": "Arzt",
+      "id": 281,
+      "parent": 15,
+      "rank": 2
+    }
+  ],
+  "deleted": false,
+  "id": 1,
+  "dataChanged": false
+}

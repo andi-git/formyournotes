@@ -7,10 +7,10 @@ public class PHPEncryptDecryptTest {
 
 	@Test
 	public void testPhpEncryptDecrypt() throws Exception {
-		PHPEncryptDecrypt crypt = new PHPEncryptDecrypt();
+		EncryptDecrypt crypt = new PHPEncryptDecrypt();
 		// encrypt
 		String text = "Text to Encrypt";
-		String encrypted = PHPEncryptDecrypt.bytesToHex(crypt.encrypt(text));
+		String encrypted = crypt.bytesToHex(crypt.encrypt(text));
 		// decrypt
 		String decrypted = new String(crypt.decrypt(encrypted), "UTF-8");
 		// test

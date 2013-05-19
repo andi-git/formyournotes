@@ -1,5 +1,9 @@
 package at.ahammer.formyournotes.http;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +16,7 @@ import at.ahammer.formyournotes.beans.ServerData;
 import at.ahammer.formyournotes.beans.ServerLastUpdate;
 import at.ahammer.formyournotes.beanserializer.BeanSerializer;
 import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
+import at.ahammer.formyournotes.http.HttpConnector.EncryptionStrategy;
 
 public class HttpConnectorTest {
 
@@ -21,7 +26,8 @@ public class HttpConnectorTest {
 		parameters.put("email", "test@user.at");
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
 		HttpConnector connector = new HttpConnector(
-				"http://www.eppel-boote.at/fyn/lastUpdate.php");
+				"http://www.eppel-boote.at/fyn/lastUpdate.php",
+				EncryptionStrategy.NONE);
 		String result = connector.doPost(parameters);
 		// System.out.println(result);
 		Assert.assertTrue(!"".equals(result));
@@ -34,7 +40,8 @@ public class HttpConnectorTest {
 		parameters.put("email", "test@user.at");
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
 		HttpConnector connector = new HttpConnector(
-				"http://www.eppel-boote.at/fyn/lastUpdate.php");
+				"http://www.eppel-boote.at/fyn/lastUpdate.php",
+				EncryptionStrategy.NONE);
 		String result = connector.doPost(parameters);
 		BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
 		ServerLastUpdate lastUpdate = jsonBeanSerializer.deserialize(result,
@@ -50,7 +57,8 @@ public class HttpConnectorTest {
 		parameters.put("email", "test@user.at");
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
 		HttpConnector connector = new HttpConnector(
-				"http://www.eppel-boote.at/fyn/itemsForUserWithoutContent.php");
+				"http://www.eppel-boote.at/fyn/itemsForUserWithoutContent.php",
+				EncryptionStrategy.NONE);
 		String result = connector.doPost(parameters);
 		BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
 		ServerData[] serverData = jsonBeanSerializer.deserialize(result,
@@ -71,7 +79,8 @@ public class HttpConnectorTest {
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
 		parameters.put("filenames", "filename,myfilename2");
 		HttpConnector connector = new HttpConnector(
-				"http://www.eppel-boote.at/fyn/itemsForUserWithContent.php");
+				"http://www.eppel-boote.at/fyn/itemsForUserWithContent.php",
+				EncryptionStrategy.NONE);
 		String result = connector.doPost(parameters);
 		// System.out.println(result);
 		BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
@@ -85,20 +94,21 @@ public class HttpConnectorTest {
 				"ServerData [user=2, filename=filename, content=content, timestamp=1365345585091, hash=1234]",
 				serverData[0].toString());
 		Assert.assertEquals(
-				"ServerData [user=2, filename=myFilename2, content=myContent2, timestamp=1234567891, hash=ahash2]",
+				"ServerData [user=2, filename=myFilename2, content={  \"calendarDataList..., timestamp=1234567891, hash=ahash2]",
 				serverData[1].toString());
 	}
 
 	@Test
 	public void testAddItems() throws Exception {
 		ServerData serverData1 = new ServerData();
-		serverData1.setContent("myContent");
+
+		serverData1.setContent(readFile("src/test/resources", "form_1.json"));
 		serverData1.setFilename("myFilename");
 		serverData1.setHash("ahash");
 		serverData1.setTimestamp(1234567890L);
 
 		ServerData serverData2 = new ServerData();
-		serverData2.setContent("myContent2");
+		serverData2.setContent(readFile("src/test/resources", "data_1_1.json"));
 		serverData2.setFilename("myFilename2");
 		serverData2.setHash("ahash2");
 		serverData2.setTimestamp(1234567891L);
@@ -109,13 +119,29 @@ public class HttpConnectorTest {
 		parameters.put("email", "test@user.at");
 		parameters.put("password", "5f4dcc3b5aa765d61d8327deb882cf99");
 		String items = new JSONBeanSerializer().serialize(serverDataArray);
-		items = items.replaceAll("\n", "");
+
 		parameters.put("items", items);
 		parameters.put("persist", "true");
 		HttpConnector connector = new HttpConnector(
-				"http://www.eppel-boote.at/fyn/addItems.php");
+				"http://www.eppel-boote.at/fyn/addItems.php",
+				EncryptionStrategy.NONE);
 		String result = connector.doPost(parameters);
+		System.out.println(result);
 		Assert.assertEquals("success", result);
 	}
 
+	private String readFile(String relativePath, String fileName)
+			throws Exception {
+		File file = new File(relativePath, fileName);
+		FileInputStream fis = new FileInputStream(file);
+		StringBuilder contentString = new StringBuilder();
+		BufferedReader in = new BufferedReader(new InputStreamReader(fis,
+				"UTF8"));
+		String line;
+		while ((line = in.readLine()) != null) {
+			contentString.append(line);
+			contentString.append("\n");
+		}
+		return contentString.toString();
+	}
 }

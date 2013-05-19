@@ -26,8 +26,6 @@ public class FormView {
 		this.formBean = formBean;
 		for (FormYourNotesBean<?> topLevelElement : formBean
 				.getAllTopLevelItemsSortedByRank()) {
-			Log.i(LogTag.FYN.getTag(), "add " + topLevelElement.getId()
-					+ " to topLevelElement");
 			topLevelElements.add(getView(formBean, activity, formR,
 					topLevelElement));
 		}
@@ -39,7 +37,6 @@ public class FormView {
 
 	public static View getView(FormBean formBean, Activity activity,
 			FormR formR, FormYourNotesBean<?> currentBean) {
-		Log.i(LogTag.FYN.getTag(), "get view for: " + currentBean);
 		if (currentBean instanceof EditTextBean) {
 			return new EditTextView(activity, formR, formBean,
 					(EditTextBean) currentBean);

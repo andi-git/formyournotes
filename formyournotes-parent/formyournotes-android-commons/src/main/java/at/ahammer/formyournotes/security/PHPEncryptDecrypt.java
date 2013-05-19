@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
  *      href="http://www.androidsnippets.com/encrypt-decrypt-between-android-and-php">some
  *      changes in comment below</a>
  */
-public class PHPEncryptDecrypt {
+public class PHPEncryptDecrypt implements EncryptDecrypt {
 
 	private static final String iv = "defabc3216549870";
 	private IvParameterSpec ivspec;
@@ -34,6 +34,7 @@ public class PHPEncryptDecrypt {
 		}
 	}
 
+	@Override
 	public byte[] encrypt(String text) throws Exception {
 		if (text == null || text.length() == 0)
 			throw new IllegalArgumentException("Empty string");
@@ -47,6 +48,7 @@ public class PHPEncryptDecrypt {
 		return encrypted;
 	}
 
+	@Override
 	public byte[] decrypt(String code) throws Exception {
 		if (code == null || code.length() == 0)
 			throw new IllegalArgumentException("Empty string");
@@ -60,7 +62,8 @@ public class PHPEncryptDecrypt {
 		return decrypted;
 	}
 
-	public static String bytesToHex(byte[] data) {
+	@Override
+	public String bytesToHex(byte[] data) {
 		if (data == null) {
 			return null;
 		}
@@ -76,7 +79,8 @@ public class PHPEncryptDecrypt {
 		return str;
 	}
 
-	public static byte[] hexToBytes(String str) {
+	@Override
+	public byte[] hexToBytes(String str) {
 		if (str == null) {
 			return null;
 		} else if (str.length() < 2) {

@@ -17,6 +17,7 @@ import at.ahammer.formyournotes.beanserializer.JSONBeanSerializer;
 import at.ahammer.formyournotes.beanserializer.SerializationException;
 import at.ahammer.formyournotes.http.ConnectionException;
 import at.ahammer.formyournotes.http.HttpConnector;
+import at.ahammer.formyournotes.http.HttpConnector.EncryptionStrategy;
 import at.ahammer.formyournotes.http.NetworkDetector;
 import at.ahammer.formyournotes.http.NetworkDetector.ConnectionType;
 import at.ahammer.formyournotes.logging.LogTag;
@@ -166,9 +167,6 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 			Map<String, String> parameters = getParametersWithAccountInfo();
 			String items = new JSONBeanSerializer().serialize(serverDataList
 					.toArray());
-			// TODO problem: the hash-code is not correct when removing
-			// line-breaks
-			items = items.replaceAll("\n", "");
 			parameters.put("items", items);
 			parameters.put("persist", "true");
 			return doPost(URL_ADD_ITEMS, parameters, new ServerResultSuccess());
@@ -240,7 +238,7 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 			Log.i(LogTag.FYN.getTag(),
 					"    " + key + " -> " + parameters.get(key));
 		}
-		HttpConnector connector = new HttpConnector(url);
+		HttpConnector connector = new HttpConnector(url, EncryptionStrategy.NONE);
 		String serverResult = "";
 		try {
 			serverResult = connector.doPost(parameters);
@@ -249,37 +247,6 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		return serverResultHandler.getServerResult(serverResult);
 	}
-
-	// private List<ServerData> doPost2(String url, Map<String, String>
-	// parameters)
-	// throws SyncException {
-	// List<ServerData> result = new ArrayList<ServerData>();
-	// try {
-	// Log.i(LogTag.FYN.getTag(), "call " + url + " with paramters");
-	// for (String key : parameters.keySet()) {
-	// Log.i(LogTag.FYN.getTag(),
-	// "    " + key + " -> " + parameters.get(key));
-	// }
-	// HttpConnector connector = new HttpConnector(url);
-	// String serverResult = connector.doPost(parameters);
-	// Log.i(LogTag.FYN.getTag(), "server-result: " + serverResult);
-	// if (serverResult != null && !"".equals(serverResult)) {
-	// BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
-	// ServerData[] serverData = jsonBeanSerializer.deserialize(
-	// serverResult, ServerData[].class);
-	// Log.i(LogTag.FYN.getTag(), "return ServerData");
-	// if (serverData != null) {
-	// for (ServerData currentServerData : serverData) {
-	// Log.i(LogTag.FYN.getTag(), currentServerData.toString());
-	// }
-	// result = Arrays.asList(serverData);
-	// }
-	// }
-	// } catch (Exception e) {
-	// throw new SyncException(e);
-	// }
-	// return result;
-	// }
 
 	@Override
 	protected void onPostExecute(Boolean success) {
@@ -343,6 +310,7 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 
 		@Override
 		public Boolean getServerResult(String httpResult) throws SyncException {
+			Log.i(LogTag.FYN.getTag(), "server result: " + httpResult);
 			return httpResult != null && "success".equalsIgnoreCase(httpResult);
 		}
 	}
