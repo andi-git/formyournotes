@@ -63,7 +63,6 @@ public class ContactView extends LinearLayout {
 		chooseButton.setImageResource(r.getDrawable().getButtonContact());
 		chooseButton.setOnClickListener(chooseButtonOnClickListener);
 		chooseButton.setBackground(null);
-		chooseButton.setBackground(null);
 
 		actionButton = new ImageButton(context);
 		actionButton.setImageResource(r.getDrawable().getButtonChat());

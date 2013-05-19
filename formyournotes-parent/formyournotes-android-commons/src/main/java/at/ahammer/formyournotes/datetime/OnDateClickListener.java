@@ -1,5 +1,8 @@
 package at.ahammer.formyournotes.datetime;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
@@ -21,8 +24,20 @@ public class OnDateClickListener implements View.OnClickListener {
 		FragmentTransaction ft = activity.getFragmentManager()
 				.beginTransaction();
 		OnDateSetListener onSetDateListener = new OnDateSetListener(textView);
+		Calendar calendarValue = getCalendar();
 		DialogFragment newFragment = new DatePickerDialogFragment(
-				onSetDateListener, DateHelper.parseCalendar(textView.getText().toString()));
+				onSetDateListener, calendarValue);
 		newFragment.show(ft, "date_dialog");
 	}
+
+	private Calendar getCalendar() {
+		String calendarString = textView.getText().toString();
+		Calendar calendar = Calendar.getInstance(TimeZone
+				.getTimeZone("Europe/Berlin"));
+		if (!"00.00.0000".equals(calendarString)) {
+			calendar = DateHelper.parseCalendar(calendarString);
+		}
+		return calendar;
+	}
+
 }

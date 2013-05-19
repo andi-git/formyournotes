@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
@@ -14,7 +13,6 @@ import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.beans.GroupBean;
-import at.ahammer.formyournotes.logging.LogTag;
 
 public class FormView {
 

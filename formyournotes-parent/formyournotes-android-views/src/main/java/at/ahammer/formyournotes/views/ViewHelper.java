@@ -110,7 +110,7 @@ public class ViewHelper {
 	public LinearLayout.LayoutParams getLinearLayoutCalendarParamWrap() {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(0, 5, 0, 5);
+		layoutParams.setMargins(0, 10, 0, 5);
 		return layoutParams;
 	}
 	

@@ -21,15 +21,17 @@ public class CalendarBean extends FormYourNotesBean<CalendarData> {
 	private String discription;
 	private CalendarData data = new CalendarData();
 	private Type type = Type.DATE;
+	private boolean showInvoke = false;
 
 	public CalendarBean() {
 		super();
 	}
 
-	public CalendarBean(String discription, Type type) {
+	public CalendarBean(String discription, Type type, boolean showInvoke) {
 		super();
 		this.discription = discription;
 		this.type = type;
+		this.showInvoke = showInvoke;
 	}
 
 	public String getDiscription() {
@@ -41,6 +43,9 @@ public class CalendarBean extends FormYourNotesBean<CalendarData> {
 	}
 
 	public String getValue() {
+		if (data.getValue() == null) {
+			return getDefaultValue();
+		}
 		return data.getValue();
 	}
 
@@ -58,6 +63,14 @@ public class CalendarBean extends FormYourNotesBean<CalendarData> {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public boolean isShowInvoke() {
+		return showInvoke;
+	}
+
+	public void setShowInvoke(boolean showInvoke) {
+		this.showInvoke = showInvoke;
 	}
 
 	@Override

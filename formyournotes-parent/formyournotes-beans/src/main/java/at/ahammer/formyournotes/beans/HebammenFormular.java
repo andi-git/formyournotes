@@ -56,7 +56,7 @@ public class HebammenFormular {
 		// elements for group mutter
 		form.newContactBean(100, 1, groupMutter, "Mutter");
 		form.newCalendar(101, 2, groupMutter, "Geburtsdatum",
-				CalendarBean.Type.DATE);
+				CalendarBean.Type.DATE, false);
 		form.newEditText(102, 3, groupMutter, "Versicherungsnummer");
 		form.newEditText(103, 4, groupMutter, "Krankenkasse");
 		form.newCheckBoxBean(104, 5, groupMutter, "Zusatzversicherung");
@@ -65,7 +65,7 @@ public class HebammenFormular {
 		// elements for group partner
 		form.newContactBean(110, 1, groupPartner, "Partner");
 		form.newCalendar(111, 2, groupPartner, "Geburtsdatum",
-				CalendarBean.Type.DATE);
+				CalendarBean.Type.DATE, false);
 		form.newEditText(112, 3, groupPartner, "Beruf");
 
 		// elements for group geburtstermin
@@ -78,7 +78,7 @@ public class HebammenFormular {
 
 		// elements for group aktuelle Schwangerschaft
 		form.newCalendar(130, 1, groupAktuelleSchwangerschaft,
-				"Errechneter Termin", CalendarBean.Type.DATE);
+				"Errechneter Termin", CalendarBean.Type.DATE, true);
 		form.newEditText(132, 3, groupAktuelleSchwangerschaft, "Geburtsort");
 		form.newEditText(133, 4, groupAktuelleSchwangerschaft, "Arzt");
 		form.newEditText(134, 5, groupAktuelleSchwangerschaft, "Besonderheit");
@@ -134,9 +134,9 @@ public class HebammenFormular {
 		
 		// elements for group Geburtsverlauf
 		form.newCalendar(230, 1, groupGeburtsverlauf,
-				"Geburt am", CalendarBean.Type.DATE);
+				"Geburt am", CalendarBean.Type.DATE, false);
 		form.newCalendar(231, 2, groupGeburtsverlauf,
-				"Geburt um", CalendarBean.Type.TIME);
+				"Geburt um", CalendarBean.Type.TIME, false);
 		form.newEditText(232, 3, groupGeburtsverlauf, "Geburt in");
 		form.newEditText(233, 4, groupGeburtsverlauf, "Geburt aus");
 		form.newEditText(234, 5, groupGeburtsverlauf, "Geburtsmodus");

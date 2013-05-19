@@ -159,20 +159,26 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 
 	private boolean sendToServer(List<ServerData> serverDataList)
 			throws SyncException {
-		try {
-			Log.i(LogTag.FYN.getTag(), "send files to server");
-			for (ServerData serverData : serverDataList) {
-				Log.i(LogTag.FYN.getTag(), "    " + serverData.getFilename());
+		boolean result = true;
+		if (serverDataList != null && !serverDataList.isEmpty()) {
+			try {
+				Log.i(LogTag.FYN.getTag(), "send files to server");
+				for (ServerData serverData : serverDataList) {
+					Log.i(LogTag.FYN.getTag(),
+							"    " + serverData.getFilename());
+				}
+				Map<String, String> parameters = getParametersWithAccountInfo();
+				String items = new JSONBeanSerializer()
+						.serialize(serverDataList.toArray());
+				parameters.put("items", items);
+				parameters.put("persist", "true");
+				result = doPost(URL_ADD_ITEMS, parameters,
+						new ServerResultSuccess());
+			} catch (SerializationException e) {
+				throw new SyncException(e);
 			}
-			Map<String, String> parameters = getParametersWithAccountInfo();
-			String items = new JSONBeanSerializer().serialize(serverDataList
-					.toArray());
-			parameters.put("items", items);
-			parameters.put("persist", "true");
-			return doPost(URL_ADD_ITEMS, parameters, new ServerResultSuccess());
-		} catch (SerializationException e) {
-			throw new SyncException(e);
 		}
+		return result;
 	}
 
 	private ServerData createServerData(SingleFileStatus singleFileStatus)
@@ -238,7 +244,8 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 			Log.i(LogTag.FYN.getTag(),
 					"    " + key + " -> " + parameters.get(key));
 		}
-		HttpConnector connector = new HttpConnector(url, EncryptionStrategy.NONE);
+		HttpConnector connector = new HttpConnector(url,
+				EncryptionStrategy.NONE);
 		String serverResult = "";
 		try {
 			serverResult = connector.doPost(parameters);

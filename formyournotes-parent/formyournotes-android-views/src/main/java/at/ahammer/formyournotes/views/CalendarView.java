@@ -3,10 +3,14 @@ package at.ahammer.formyournotes.views;
 import android.app.Activity;
 import android.text.Editable;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.FormBean;
+import at.ahammer.formyournotes.calendar.CalendarIntent;
+import at.ahammer.formyournotes.datetime.DateHelper;
 import at.ahammer.formyournotes.datetime.OnDateClickListener;
 import at.ahammer.formyournotes.datetime.OnTimeClickListener;
 
@@ -16,6 +20,7 @@ public class CalendarView extends LinearLayout {
 	private final TextView viewName;
 	private final TextView viewColon;
 	private final TextView viewText;
+	private final ImageButton invokeButton;
 
 	public CalendarView(final Activity activity, FormR r,
 			final FormBean formBean, final CalendarBean calendarBean) {
@@ -46,6 +51,27 @@ public class CalendarView extends LinearLayout {
 		addView(viewName, viewHelper.getLinearLayoutCalendarParamWrap());
 		addView(viewColon, viewHelper.getLinearLayoutCalendarParamWrap());
 		addView(viewText, viewHelper.getLinearLayoutCalendarParamWrap());
+		invokeButton = new ImageButton(activity);
+		if (calendarBean.getType() == CalendarBean.Type.DATE
+				&& calendarBean.isShowInvoke()) {
+			invokeButton.setImageResource(r.getDrawable().getButtonCalendar());
+			invokeButton.setBackground(null);
+			invokeButton.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					new CalendarIntent(activity)
+							.//
+							setBeginDate(
+									DateHelper.parseCalendar(calendarBean
+											.getValue())).//
+							setTitle(calendarBean.getDiscription()).//
+							setAllDay(true).//
+							perform();
+				}
+			});
+			addView(invokeButton, viewHelper.getLinearLayoutParamWrap());
+		}
 	}
 
 	public String getName() {

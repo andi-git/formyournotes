@@ -170,19 +170,20 @@ public class FormBean {
 	}
 
 	public CalendarBean newCalendarBean(int id, int rank, int parent,
-			String discription, CalendarBean.Type type) {
+			String discription, CalendarBean.Type type, boolean showInvoke) {
 		CalendarBean calendarBean = new CalendarBean();
 		addCommonData(calendarBean, id, rank, parent);
 		calendarBean.setDiscription(discription);
 		calendarBean.setType(type);
+		calendarBean.setShowInvoke(showInvoke);
 		addCalendarBean(calendarBean);
 		return calendarBean;
 	}
 
 	public CalendarBean newCalendar(int id, int rank,
 			FormYourNotesBean<?> parent, String discription,
-			CalendarBean.Type type) {
-		return newCalendarBean(id, rank, parent.getId(), discription, type);
+			CalendarBean.Type type, boolean showInvoke) {
+		return newCalendarBean(id, rank, parent.getId(), discription, type, showInvoke);
 	}
 
 	public GroupBean newGroupBean(int id, int rank, int parent, String name) {
