@@ -9,6 +9,7 @@ import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
 import at.ahammer.formyournotes.data.EditTextData;
+import at.ahammer.formyournotes.data.EventData;
 import at.ahammer.formyournotes.data.FormData;
 
 public class FormBean {
@@ -24,6 +25,7 @@ public class FormBean {
 	private List<EditTextBean> editTextBeans = new ArrayList<EditTextBean>();
 	private List<GroupBean> groupBeans = new ArrayList<GroupBean>();
 	private List<CalendarBean> calendarBeans = new ArrayList<CalendarBean>();
+	private List<EventBean> eventBeans = new ArrayList<EventBean>();
 	private boolean dataChanged = false;
 
 	// TODO cache for ranking - bean
@@ -106,6 +108,14 @@ public class FormBean {
 		calendarBeans.add(calendarBean);
 	}
 
+	public List<EventBean> getEventBeans() {
+		return eventBeans;
+	}
+
+	public void addEventBean(EventBean eventBean) {
+		eventBeans.add(eventBean);
+	}
+
 	private void addCommonData(FormYourNotesBean<?> bean, int id, int rank,
 			int parent) {
 		bean.setId(id);
@@ -183,7 +193,26 @@ public class FormBean {
 	public CalendarBean newCalendar(int id, int rank,
 			FormYourNotesBean<?> parent, String discription,
 			CalendarBean.Type type, boolean showInvoke) {
-		return newCalendarBean(id, rank, parent.getId(), discription, type, showInvoke);
+		return newCalendarBean(id, rank, parent != null ? parent.getId() : -1,
+				discription, type, showInvoke);
+	}
+
+	public EventBean newEventBean(int id, int rank, int parent,
+			String discription, CalendarBean date, CalendarBean time) {
+		EventBean eventBean = new EventBean();
+		addCommonData(eventBean, id, rank, parent);
+		eventBean.setDiscription(discription);
+		date.setParent(eventBean);
+		eventBean.setDate(date);
+		time.setParent(eventBean);
+		eventBean.setTime(time);
+		addEventBean(eventBean);
+		return eventBean;
+	}
+
+	public EventBean newEvent(int id, int rank, FormYourNotesBean<?> parent,
+			String discription, CalendarBean date, CalendarBean time) {
+		return newEventBean(id, rank, parent.getId(), discription, date, time);
 	}
 
 	public GroupBean newGroupBean(int id, int rank, int parent, String name) {
@@ -236,6 +265,7 @@ public class FormBean {
 		items.addAll(editTextBeans);
 		items.addAll(groupBeans);
 		items.addAll(calendarBeans);
+		items.addAll(eventBeans);
 		return items;
 	}
 
@@ -286,6 +316,9 @@ public class FormBean {
 		for (CalendarBean calendarBean : calendarBeans) {
 			calendarBean.clearData();
 		}
+		for (EventBean eventBean : eventBeans) {
+			eventBean.clearData();
+		}
 	}
 
 	public FormBean setData(FormData formData) {
@@ -308,6 +341,9 @@ public class FormBean {
 			getById(calendarData.getItemId(), CalendarBean.class).setData(
 					calendarData);
 		}
+		for (EventData eventData : formData.getEventData()) {
+			getById(eventData.getItemId(), EventBean.class).setData(eventData);
+		}
 		return this;
 	}
 
@@ -317,6 +353,7 @@ public class FormBean {
 			addedData.clearContactData();
 			addedData.clearEditTextData();
 			addedData.clearCalendarData();
+			addedData.clearEventData();
 			for (CheckBoxBean checkBoxBean : checkBoxBeans) {
 				addedData.add(checkBoxBean.getData());
 			}
@@ -329,8 +366,20 @@ public class FormBean {
 			for (CalendarBean calendarBean : calendarBeans) {
 				addedData.add(calendarBean.getData());
 			}
+			for (EventBean eventBean : eventBeans) {
+				addedData.add(eventBean.getData());
+			}
 		}
 		return addedData;
+	}
+
+	public FormYourNotesBean<?> getById(int id) {
+		for (FormYourNotesBean<?> currentBean : getAllItems()) {
+			if (currentBean.getId() > 0 && currentBean.getId() == id) {
+				return currentBean;
+			}
+		}
+		throw new RuntimeException("Can't find item in form with id " + id);
 	}
 
 	public <T> T getById(int id, Class<T> clazz) {

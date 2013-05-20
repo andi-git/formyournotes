@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.CalendarBean;
+import at.ahammer.formyournotes.beans.EventBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.calendar.CalendarIntent;
 import at.ahammer.formyournotes.datetime.DateHelper;
@@ -48,9 +49,12 @@ public class CalendarView extends LinearLayout {
 				formBean));
 		viewColon = viewHelper.newDefaultTextView(activity);
 		viewColon.setText(": ");
-		addView(viewName, viewHelper.getLinearLayoutCalendarParamWrap());
-		addView(viewColon, viewHelper.getLinearLayoutCalendarParamWrap());
-		addView(viewText, viewHelper.getLinearLayoutCalendarParamWrap());
+		if (calendarBean.getDiscription() != null
+				&& !"".equals(calendarBean.getDiscription())) {
+			addView(viewName, getCalendarLayoutParams(formBean, calendarBean));
+			addView(viewColon, getCalendarLayoutParams(formBean, calendarBean));
+		}
+		addView(viewText, getCalendarLayoutParams(formBean, calendarBean));
 		invokeButton = new ImageButton(activity);
 		if (calendarBean.getType() == CalendarBean.Type.DATE
 				&& calendarBean.isShowInvoke()) {
@@ -74,6 +78,13 @@ public class CalendarView extends LinearLayout {
 		}
 	}
 
+	private LayoutParams getCalendarLayoutParams(final FormBean formBean, final CalendarBean calendarBean) {
+		if (formBean.getById(calendarBean.getParent()) instanceof EventBean) {
+			return viewHelper.getLinearLayoutParamWrap();
+		}
+		return viewHelper.getLinearLayoutCalendarParamWrap();
+	}
+	
 	public String getName() {
 		return viewName.getText().toString();
 	}

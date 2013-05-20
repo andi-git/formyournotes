@@ -62,6 +62,13 @@ public class ViewHelper {
 		return textView;
 	}
 
+	public TextView newDefaultTextViewBlank(Context context) {
+		TextView textView = new TextView(context);
+		textView.setText(" ");
+		setAllDefaults(textView);
+		return textView;
+	}
+
 	public TextView newHeaderTextView(Context context) {
 		TextView textView = new TextView(context);
 		setAllHeaders(textView);

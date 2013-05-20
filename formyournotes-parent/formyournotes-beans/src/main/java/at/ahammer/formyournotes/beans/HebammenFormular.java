@@ -4,6 +4,7 @@ import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
 import at.ahammer.formyournotes.data.EditTextData;
+import at.ahammer.formyournotes.data.EventData;
 import at.ahammer.formyournotes.data.FormData;
 
 public class HebammenFormular {
@@ -43,15 +44,13 @@ public class HebammenFormular {
 		GroupBean groupGeburtsvorbereitung = form.newGroupBean(9, 9, 0,
 				"Geburtsvorbereitung");
 		GroupBean groupBesuche = form.newGroupBean(10, 10, 0, "Besuche");
-		GroupBean groupPostPertum = form.newGroupBean(11, 11, 0,
-				"Post Pertum");
+		GroupBean groupPostPertum = form.newGroupBean(11, 11, 0, "Post Pertum");
 		GroupBean groupGeburtsverlauf = form.newGroupBean(12, 12, 0,
 				"Geburtsverlauf");
 		GroupBean groupKind = form.newGroupBean(13, 13, 0, "Kind");
 		GroupBean groupWochenbettverlauf = form.newGroupBean(14, 14, 0,
 				"Wochenbettverlauf");
-		GroupBean groupXXX = form.newGroupBean(15, 15, 0,
-				"");
+		GroupBean groupXXX = form.newGroupBean(15, 15, 0, "");
 
 		// elements for group mutter
 		form.newContactBean(100, 1, groupMutter, "Mutter");
@@ -89,7 +88,7 @@ public class HebammenFormular {
 		form.newEditText(139, 10, groupAktuelleSchwangerschaft, "Frühere SS");
 
 		// elements for group bisherige Geburten
-		
+
 		// elements for group Laborbefunde
 		form.newEditText(160, 1, groupLaborbefunde, "BG");
 		form.newEditText(161, 2, groupLaborbefunde, "Rh");
@@ -101,12 +100,14 @@ public class HebammenFormular {
 		form.newEditText(167, 8, groupLaborbefunde, "HB");
 		form.newEditText(168, 9, groupLaborbefunde, "OGTT");
 		form.newEditText(169, 10, groupLaborbefunde, "Organscreening");
-		
+
 		// elements for group medizinische Betreuung
 		form.newEditText(180, 1, groupMedizinischeBetreuung, "Facharzt");
-		form.newEditText(181, 2, groupMedizinischeBetreuung, "Kontaktaufnahme durch");
-		form.newEditText(182, 3, groupMedizinischeBetreuung, "Geburtsvorbereitung");
-		
+		form.newEditText(181, 2, groupMedizinischeBetreuung,
+				"Kontaktaufnahme durch");
+		form.newEditText(182, 3, groupMedizinischeBetreuung,
+				"Geburtsvorbereitung");
+
 		// elements for group Anamnese
 		form.newEditText(190, 1, groupAnamnese, "Allergie");
 		form.newEditText(191, 2, groupAnamnese, "Psych.");
@@ -114,7 +115,7 @@ public class HebammenFormular {
 		form.newEditText(193, 4, groupAnamnese, "Eigene Geburt");
 		form.newEditText(194, 5, groupAnamnese, "Wünsche");
 		form.newEditText(195, 6, groupAnamnese, "Wunschkind");
-		
+
 		// elements for group Geburtsvorbereitung
 		form.newCheckBoxBean(200, 1, groupGeburtsvorbereitung, "AK");
 		form.newCheckBoxBean(201, 2, groupGeburtsvorbereitung, "Epi-No");
@@ -124,19 +125,20 @@ public class HebammenFormular {
 		form.newCheckBoxBean(205, 6, groupGeburtsvorbereitung, "Revers");
 
 		// elements for group Besuche
-		
+
 		// elements for group Post Pertum
 		form.newCheckBoxBean(220, 1, groupPostPertum, "Rhes.");
 		form.newCheckBoxBean(221, 2, groupPostPertum, "PKU");
 		form.newCheckBoxBean(222, 3, groupPostPertum, "Konakion");
 		form.newCheckBoxBean(223, 4, groupPostPertum, "Rö");
 		form.newCheckBoxBean(224, 5, groupPostPertum, "KIA");
-		
+
 		// elements for group Geburtsverlauf
-		form.newCalendar(230, 1, groupGeburtsverlauf,
-				"Geburt am", CalendarBean.Type.DATE, false);
-		form.newCalendar(231, 2, groupGeburtsverlauf,
-				"Geburt um", CalendarBean.Type.TIME, false);
+		CalendarBean geburtAm = form.newCalendar(250, 1, null, "am",
+				CalendarBean.Type.DATE, false);
+		CalendarBean geburtUm = form.newCalendar(251, 2, null, "um",
+				CalendarBean.Type.TIME, false);
+		form.newEvent(230, 1, groupGeburtsverlauf, "Geburt", geburtAm, geburtUm);
 		form.newEditText(232, 3, groupGeburtsverlauf, "Geburt in");
 		form.newEditText(233, 4, groupGeburtsverlauf, "Geburt aus");
 		form.newEditText(234, 5, groupGeburtsverlauf, "Geburtsmodus");
@@ -155,7 +157,7 @@ public class HebammenFormular {
 		form.newEditText(247, 18, groupGeburtsverlauf, "FW");
 		form.newEditText(248, 19, groupGeburtsverlauf, "Plazenta");
 		form.newEditText(249, 20, groupGeburtsverlauf, "Geburtsdauer");
-		
+
 		// elements for group Kind
 		form.newEditText(260, 1, groupKind, "Geschlecht");
 		form.newEditText(261, 2, groupKind, "Name");
@@ -164,15 +166,15 @@ public class HebammenFormular {
 		form.newEditText(264, 5, groupKind, "Gewicht");
 		form.newEditText(265, 6, groupKind, "Länge");
 		form.newEditText(266, 7, groupKind, "Kopf");
-		
+
 		// elements for group Wochenbettverlauf
 		form.newEditText(270, 1, groupWochenbettverlauf, "Komplikationen");
 		form.newEditText(271, 2, groupWochenbettverlauf, "Entlassung");
-		
+
 		// elements for group XXX
 		form.newEditText(280, 1, groupXXX, "Hebamme");
 		form.newEditText(281, 2, groupXXX, "Arzt");
-		
+
 		return form;
 	}
 
@@ -183,6 +185,8 @@ public class HebammenFormular {
 		data.add(new EditTextData("0000010180", 102));
 		data.add(new EditTextData("WGKK", 103));
 		data.add(new CheckBoxData(false, 104));
+		data.add(new EventData(new CalendarData("02.03.2013", 250),
+				new CalendarData("21:45", 251), 230));
 		return data;
 	}
 

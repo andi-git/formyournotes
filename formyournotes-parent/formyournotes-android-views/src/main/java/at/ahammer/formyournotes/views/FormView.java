@@ -10,6 +10,7 @@ import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.CheckBoxGroupBean;
 import at.ahammer.formyournotes.beans.ContactBean;
 import at.ahammer.formyournotes.beans.EditTextBean;
+import at.ahammer.formyournotes.beans.EventBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.beans.GroupBean;
@@ -53,6 +54,9 @@ public class FormView {
 		} else if (currentBean instanceof CalendarBean) {
 			return new CalendarView(activity, formR, formBean,
 					(CalendarBean) currentBean);
+		} else if (currentBean instanceof EventBean) {
+			return new EventView(activity, formR, formBean,
+					(EventBean) currentBean);
 		}
 		throw new RuntimeException("View for " + currentBean.getClass()
 				+ " is not registered!");
