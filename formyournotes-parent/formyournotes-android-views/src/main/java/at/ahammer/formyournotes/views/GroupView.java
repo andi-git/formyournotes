@@ -7,6 +7,7 @@ import android.widget.TextView;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.beans.GroupBean;
+import at.ahammer.formyournotes.beans.GroupBean.Orientation;
 
 public class GroupView extends LinearLayout {
 
@@ -17,9 +18,31 @@ public class GroupView extends LinearLayout {
 			GroupBean groupBean) {
 		super(activity);
 		setId(groupBean.getId());
-		setOrientation(VERTICAL);
-		setBackground(getResources().getDrawable(
-				r.getDrawable().getBorderTopElement()));
+		if (groupBean.getOrientation() == Orientation.VERTICAL) {
+			setOrientation(VERTICAL);
+		} else {
+			setOrientation(HORIZONTAL);
+		}
+		if (groupBean.isTopLevelElement()) {
+			setBackground(getResources().getDrawable(
+					r.getDrawable().getBorderTopElement()));
+		} else {
+			switch (groupBean.getBorder()) {
+			case NONE:
+				// nothing
+				break;
+			case TOP_ELEMENT:
+				setBackground(getResources().getDrawable(
+						r.getDrawable().getBorderTopElement()));
+				break;
+			case LIGHT_GRAY:
+				setBackground(getResources().getDrawable(
+						r.getDrawable().getBorderLightGray()));
+				break;
+			default:
+				break;
+			}
+		}
 		setLayoutParams(viewHelper.getLinearLayoutParamMatch());
 		viewName = viewHelper.newHeaderTextView(activity);
 		viewName.setText(groupBean.getName());

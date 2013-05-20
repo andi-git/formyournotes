@@ -1,5 +1,7 @@
 package at.ahammer.formyournotes.beans;
 
+import at.ahammer.formyournotes.beans.GroupBean.Border;
+import at.ahammer.formyournotes.beans.GroupBean.Orientation;
 import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
@@ -27,30 +29,40 @@ public class HebammenFormular {
 
 		// groups
 		GroupBean groupMutter = form.newGroupBean(1, 1, 0,
-				"Personendaten Mutter");
+				"Personendaten Mutter", Orientation.VERTICAL,
+				Border.TOP_ELEMENT);
 		GroupBean groupPartner = form.newGroupBean(2, 2, 0,
-				"Personendaten Partner");
+				"Personendaten Partner", Orientation.VERTICAL,
+				Border.TOP_ELEMENT);
 		// GroupBean groupGeburtstermin= form.newGroupBean(3, 3, 0,
 		// "Geburtstermin");
 		GroupBean groupAktuelleSchwangerschaft = form.newGroupBean(4, 4, 0,
-				"aktuelle Schwangerschaft");
+				"aktuelle Schwangerschaft", Orientation.VERTICAL,
+				Border.TOP_ELEMENT);
 		GroupBean groupBisherigeGeburten = form.newGroupBean(5, 5, 0,
-				"bisherige Geburten");
-		GroupBean groupLaborbefunde = form
-				.newGroupBean(6, 6, 0, "Laborbefunde");
+				"bisherige Geburten", Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupLaborbefunde = form.newGroupBean(6, 6, 0,
+				"Laborbefunde", Orientation.VERTICAL, Border.TOP_ELEMENT);
 		GroupBean groupMedizinischeBetreuung = form.newGroupBean(7, 7, 0,
-				"medizinische Betreuung");
-		GroupBean groupAnamnese = form.newGroupBean(8, 8, 0, "Anamnese");
-		GroupBean groupGeburtsvorbereitung = form.newGroupBean(9, 9, 0,
-				"Geburtsvorbereitung");
-		GroupBean groupBesuche = form.newGroupBean(10, 10, 0, "Besuche");
-		GroupBean groupPostPertum = form.newGroupBean(11, 11, 0, "Post Pertum");
+				"medizinische Betreuung", Orientation.VERTICAL,
+				Border.TOP_ELEMENT);
+		GroupBean groupAnamnese = form.newGroupBean(8, 8, 0, "Anamnese",
+				Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupGeburtsvorbereitung = form
+				.newGroupBean(9, 9, 0, "Geburtsvorbereitung",
+						Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupBesuche = form.newGroupBean(10, 10, 0, "Besuche",
+				Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupPostPertum = form.newGroupBean(11, 11, 0, "Post Pertum",
+				Orientation.VERTICAL, Border.TOP_ELEMENT);
 		GroupBean groupGeburtsverlauf = form.newGroupBean(12, 12, 0,
-				"Geburtsverlauf");
-		GroupBean groupKind = form.newGroupBean(13, 13, 0, "Kind");
+				"Geburtsverlauf", Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupKind = form.newGroupBean(13, 13, 0, "Kind",
+				Orientation.VERTICAL, Border.TOP_ELEMENT);
 		GroupBean groupWochenbettverlauf = form.newGroupBean(14, 14, 0,
-				"Wochenbettverlauf");
-		GroupBean groupXXX = form.newGroupBean(15, 15, 0, "");
+				"Wochenbettverlauf", Orientation.VERTICAL, Border.TOP_ELEMENT);
+		GroupBean groupXXX = form.newGroupBean(15, 15, 0, "",
+				Orientation.VERTICAL, Border.TOP_ELEMENT);
 
 		// elements for group mutter
 		form.newContactBean(100, 1, groupMutter, "Mutter");
@@ -88,6 +100,10 @@ public class HebammenFormular {
 		form.newEditText(139, 10, groupAktuelleSchwangerschaft, "Frühere SS");
 
 		// elements for group bisherige Geburten
+		createGroupGeburt(form, groupBisherigeGeburten, "1. Geburt", 1, 500);
+		createGroupGeburt(form, groupBisherigeGeburten, "2. Geburt", 2, 520);
+		createGroupGeburt(form, groupBisherigeGeburten, "3. Geburt", 3, 540);
+		createGroupGeburt(form, groupBisherigeGeburten, "4. Geburt", 4, 560);
 
 		// elements for group Laborbefunde
 		form.newEditText(160, 1, groupLaborbefunde, "BG");
@@ -125,6 +141,18 @@ public class HebammenFormular {
 		form.newCheckBoxBean(205, 6, groupGeburtsvorbereitung, "Revers");
 
 		// elements for group Besuche
+		createGroupBesuche(form, groupBesuche, "1. Besuch", 1, 600);
+		createGroupBesuche(form, groupBesuche, "2. Besuch", 2, 610);
+		createGroupBesuche(form, groupBesuche, "3. Besuch", 3, 620);
+		createGroupBesuche(form, groupBesuche, "4. Besuch", 4, 630);
+		createGroupBesuche(form, groupBesuche, "5. Besuch", 5, 640);
+		createGroupBesuche(form, groupBesuche, "6. Besuch", 6, 650);
+		createGroupBesuche(form, groupBesuche, "7. Besuch", 7, 660);
+		createGroupBesuche(form, groupBesuche, "8. Besuch", 8, 670);
+		createGroupBesuche(form, groupBesuche, "9. Besuch", 9, 680);
+		createGroupBesuche(form, groupBesuche, "10. Besuch", 10, 690);
+		createGroupBesuche(form, groupBesuche, "11. Besuch", 11, 700);
+		createGroupBesuche(form, groupBesuche, "12. Besuch", 12, 710);
 
 		// elements for group Post Pertum
 		form.newCheckBoxBean(220, 1, groupPostPertum, "Rhes.");
@@ -171,11 +199,48 @@ public class HebammenFormular {
 		form.newEditText(270, 1, groupWochenbettverlauf, "Komplikationen");
 		form.newEditText(271, 2, groupWochenbettverlauf, "Entlassung");
 
-		// elements for group XXX
+		// elements for group ???
 		form.newEditText(280, 1, groupXXX, "Hebamme");
 		form.newEditText(281, 2, groupXXX, "Arzt");
 
 		return form;
+	}
+
+	private void createGroupBesuche(FormBean form, GroupBean groupBesuche,
+			String header, int rank, int startId) {
+		GroupBean besuch = form.newGroupBean(startId++, rank, groupBesuche,
+				header, Orientation.VERTICAL, Border.NONE);
+		GroupBean row1 = form.newGroupBean(startId++, 1, besuch, null,
+				Orientation.HORIZONTAL, Border.NONE);
+		GroupBean row2 = form.newGroupBean(startId++, 2, besuch, null,
+				Orientation.HORIZONTAL, Border.NONE);
+		CalendarBean date = form.newCalendar(startId++, 1, null, "am",
+				CalendarBean.Type.DATE, false);
+		CalendarBean time = form.newCalendar(startId++, 2, null, "um",
+				CalendarBean.Type.TIME, false);
+		form.newEvent(startId++, 1, row1, "Besuch", date, time);
+		form.newEditText(startId++, 2, row2, "SSW");
+		form.newEditText(startId++, 3, row2, "Notiz");
+	}
+
+	private void createGroupGeburt(FormBean form,
+			GroupBean groupBisherigeGeburten, String header, int rank,
+			int startId) {
+		GroupBean geburt = form.newGroupBean(startId++, rank,
+				groupBisherigeGeburten, header, Orientation.VERTICAL,
+				Border.NONE);
+		GroupBean row1 = form.newGroupBean(startId++, 1, geburt, null,
+				Orientation.HORIZONTAL, Border.NONE);
+		GroupBean row2 = form.newGroupBean(startId++, 2, geburt, null,
+				Orientation.HORIZONTAL, Border.NONE);
+		GroupBean row3 = form.newGroupBean(startId++, 3, geburt, null,
+				Orientation.HORIZONTAL, Border.NONE);
+		form.newCalendar(startId++, 1, row1, "am", CalendarBean.Type.DATE,
+				false);
+		form.newEditText(startId++, 2, row1, "in");
+		form.newEditText(startId++, 1, row2, "Geschlecht");
+		form.newEditText(startId++, 2, row2, "Gewicht");
+		form.newEditText(startId++, 1, row3, "Verlauf");
 	}
 
 	private FormData createData1() {
@@ -187,6 +252,8 @@ public class HebammenFormular {
 		data.add(new CheckBoxData(false, 104));
 		data.add(new EventData(new CalendarData("02.03.2013", 250),
 				new CalendarData("21:45", 251), 230));
+		data.add(new EventData(new CalendarData("01.02.2013", 603),
+				new CalendarData("08:00", 604), 605));
 		return data;
 	}
 

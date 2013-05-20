@@ -20,6 +20,7 @@ public class FormR {
 
 	public static final class Drawable {
 		private int borderTopElement;
+		private int borderLightGray;
 		private int buttonContact;
 		private int buttonChat;
 		private int buttonCalendar;
@@ -30,6 +31,14 @@ public class FormR {
 
 		public void setBorderTopElement(int borderTopElement) {
 			this.borderTopElement = borderTopElement;
+		}
+
+		public int getBorderLightGray() {
+			return borderLightGray;
+		}
+
+		public void setBorderLightGray(int borderLightGray) {
+			this.borderLightGray = borderLightGray;
 		}
 
 		public int getButtonContact() {

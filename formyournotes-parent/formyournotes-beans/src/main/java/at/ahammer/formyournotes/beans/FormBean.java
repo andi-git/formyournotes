@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import at.ahammer.formyournotes.beans.GroupBean.Border;
+import at.ahammer.formyournotes.beans.GroupBean.Orientation;
 import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
@@ -215,17 +217,21 @@ public class FormBean {
 		return newEventBean(id, rank, parent.getId(), discription, date, time);
 	}
 
-	public GroupBean newGroupBean(int id, int rank, int parent, String name) {
+	public GroupBean newGroupBean(int id, int rank, int parent, String name,
+			Orientation orientation, Border border) {
 		GroupBean groupBean = new GroupBean();
 		addCommonData(groupBean, id, rank, parent);
 		groupBean.setName(name);
+		groupBean.setOrientation(orientation);
+		groupBean.setBorder(border);
 		addGroupBean(groupBean);
 		return groupBean;
 	}
 
 	public GroupBean newGroupBean(int id, int rank,
-			FormYourNotesBean<?> parent, String name) {
-		return newGroupBean(id, rank, parent.getId(), name);
+			FormYourNotesBean<?> parent, String name, Orientation orientation,
+			Border border) {
+		return newGroupBean(id, rank, parent.getId(), name, orientation, border);
 	}
 
 	public List<FormYourNotesBean<?>> getAllItemsSortedByRank() {

@@ -4,7 +4,19 @@ import at.ahammer.formyournotes.data.GroupData;
 
 public class GroupBean extends FormYourNotesBean<GroupData> {
 
+	public static enum Orientation {
+		VERTICAL, HORIZONTAL;
+	}
+
+	public static enum Border {
+		NONE, TOP_ELEMENT, LIGHT_GRAY;
+	}
+
 	private String name;
+
+	private Orientation orientation;
+
+	private Border border;
 
 	private GroupData data = new GroupData();
 
@@ -12,9 +24,11 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 		super();
 	}
 
-	public GroupBean(String name) {
+	public GroupBean(String name, Orientation orientation, Border border) {
 		super();
 		this.name = name;
+		this.orientation = orientation;
+		this.border = border;
 	}
 
 	public String getName() {
@@ -23,6 +37,22 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
+	public Border getBorder() {
+		return border;
+	}
+
+	public void setBorder(Border border) {
+		this.border = border;
 	}
 
 	@Override
@@ -39,7 +69,7 @@ public class GroupBean extends FormYourNotesBean<GroupData> {
 	public void clearData() {
 		data = new GroupData();
 	}
-	
+
 	@Override
 	public boolean canBeParent() {
 		return true;
