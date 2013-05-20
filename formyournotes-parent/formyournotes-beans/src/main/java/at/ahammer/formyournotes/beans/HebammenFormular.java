@@ -6,7 +6,6 @@ import at.ahammer.formyournotes.data.CalendarData;
 import at.ahammer.formyournotes.data.CheckBoxData;
 import at.ahammer.formyournotes.data.ContactData;
 import at.ahammer.formyournotes.data.EditTextData;
-import at.ahammer.formyournotes.data.EventData;
 import at.ahammer.formyournotes.data.FormData;
 
 public class HebammenFormular {
@@ -162,11 +161,7 @@ public class HebammenFormular {
 		form.newCheckBoxBean(224, 5, groupPostPertum, "KIA");
 
 		// elements for group Geburtsverlauf
-		CalendarBean geburtAm = form.newCalendar(250, 1, null, "am",
-				CalendarBean.Type.DATE, false);
-		CalendarBean geburtUm = form.newCalendar(251, 2, null, "um",
-				CalendarBean.Type.TIME, false);
-		form.newEvent(230, 1, groupGeburtsverlauf, "Geburt", geburtAm, geburtUm);
+		form.newEvent(230, 1, groupGeburtsverlauf, "Geburt", 250, 251);
 		form.newEditText(232, 3, groupGeburtsverlauf, "Geburt in");
 		form.newEditText(233, 4, groupGeburtsverlauf, "Geburt aus");
 		form.newEditText(234, 5, groupGeburtsverlauf, "Geburtsmodus");
@@ -214,11 +209,7 @@ public class HebammenFormular {
 				Orientation.HORIZONTAL, Border.NONE);
 		GroupBean row2 = form.newGroupBean(startId++, 2, besuch, null,
 				Orientation.HORIZONTAL, Border.NONE);
-		CalendarBean date = form.newCalendar(startId++, 1, null, "am",
-				CalendarBean.Type.DATE, false);
-		CalendarBean time = form.newCalendar(startId++, 2, null, "um",
-				CalendarBean.Type.TIME, false);
-		form.newEvent(startId++, 1, row1, "Besuch", date, time);
+		form.newEvent(startId++, 1, row1, "Besuch", startId++, startId++);
 		form.newEditText(startId++, 2, row2, "SSW");
 		form.newEditText(startId++, 3, row2, "Notiz");
 	}
@@ -250,10 +241,10 @@ public class HebammenFormular {
 		data.add(new EditTextData("0000010180", 102));
 		data.add(new EditTextData("WGKK", 103));
 		data.add(new CheckBoxData(false, 104));
-		data.add(new EventData(new CalendarData("02.03.2013", 250),
-				new CalendarData("21:45", 251), 230));
-		data.add(new EventData(new CalendarData("01.02.2013", 603),
-				new CalendarData("08:00", 604), 605));
+		data.add(new CalendarData("02.03.2013", 250));
+		data.add(new CalendarData("21:45", 251));
+		data.add(new CalendarData("01.02.2013", 604));
+		data.add(new CalendarData("08:00", 605));
 		return data;
 	}
 

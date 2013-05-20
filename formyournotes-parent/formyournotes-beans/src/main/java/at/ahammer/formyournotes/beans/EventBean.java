@@ -5,15 +5,15 @@ import at.ahammer.formyournotes.data.EventData;
 public class EventBean extends FormYourNotesBean<EventData> {
 
 	private String discription;
-	private CalendarBean date;
-	private CalendarBean time;
+	private int date;
+	private int time;
 	private EventData data = new EventData();
 
 	public EventBean() {
 		super();
 	}
 
-	public EventBean(String discription, CalendarBean date, CalendarBean time) {
+	public EventBean(String discription, int date, int time) {
 		super();
 		this.discription = discription;
 		this.date = date;
@@ -28,27 +28,25 @@ public class EventBean extends FormYourNotesBean<EventData> {
 		this.discription = discription;
 	}
 
-	public CalendarBean getDate() {
+	public int getDate() {
 		return date;
 	}
 
-	public void setDate(CalendarBean date) {
+	public void setDate(int date) {
 		this.date = date;
 	}
 
-	public CalendarBean getTime() {
+	public int getTime() {
 		return time;
 	}
 
-	public void setTime(CalendarBean time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 
 	@Override
 	public void setData(EventData data) {
 		this.data = data;
-		date.setData(data.getDate());
-		time.setData(data.getTime());
 	}
 
 	@Override

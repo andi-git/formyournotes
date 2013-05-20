@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import at.ahammer.formyournotes.beans.CalendarBean;
 import at.ahammer.formyournotes.beans.EventBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.calendar.CalendarIntent;
@@ -25,10 +26,12 @@ public class EventView extends LinearLayout {
 		viewName.setText(eventBean.getDiscription());
 		addView(viewName, viewHelper.getLinearLayoutCalendarParamWrap());
 		addView(viewHelper.newDefaultTextViewBlank(activity), viewHelper.getLinearLayoutCalendarParamWrap());
-		addView(FormView.getView(formBean, activity, r, eventBean.getDate()),
+		final CalendarBean date = formBean.getById(eventBean.getDate(), CalendarBean.class);
+		addView(FormView.getView(formBean, activity, r, date),
 				viewHelper.getLinearLayoutCalendarParamWrap());
+		final CalendarBean time = formBean.getById(eventBean.getTime(), CalendarBean.class);
 		addView(viewHelper.newDefaultTextViewBlank(activity), viewHelper.getLinearLayoutCalendarParamWrap());
-		addView(FormView.getView(formBean, activity, r, eventBean.getTime()),
+		addView(FormView.getView(formBean, activity, r, time),
 				viewHelper.getLinearLayoutCalendarParamWrap());
 		invokeButton = new ImageButton(activity);
 		invokeButton.setImageResource(r.getDrawable().getButtonCalendar());
@@ -40,10 +43,9 @@ public class EventView extends LinearLayout {
 				new CalendarIntent(activity)
 						.//
 						setBeginDate(
-								DateTimeHelper.parseCalendar(eventBean
-										.getDate().getValue()
+								DateTimeHelper.parseCalendar(date.getValue()
 										+ " "
-										+ eventBean.getTime().getValue())).//
+										+ time.getValue())).//
 						setTitle(eventBean.getDiscription()).//
 						perform();
 			}

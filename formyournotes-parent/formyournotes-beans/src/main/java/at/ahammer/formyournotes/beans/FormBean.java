@@ -199,22 +199,22 @@ public class FormBean {
 				discription, type, showInvoke);
 	}
 
-	public EventBean newEventBean(int id, int rank, int parent,
-			String discription, CalendarBean date, CalendarBean time) {
+	public EventBean newEventBean(int eventId, int eventRank, int eventParent,
+			String eventDiscription, int dateId, int timeId) {
 		EventBean eventBean = new EventBean();
-		addCommonData(eventBean, id, rank, parent);
-		eventBean.setDiscription(discription);
-		date.setParent(eventBean);
-		eventBean.setDate(date);
-		time.setParent(eventBean);
-		eventBean.setTime(time);
+		addCommonData(eventBean, eventId, eventRank, eventParent);
+		eventBean.setDiscription(eventDiscription);
+		newCalendar(dateId, 1, eventBean, "am", CalendarBean.Type.DATE, false);
+		newCalendar(timeId, 2, eventBean, "um", CalendarBean.Type.TIME, false);
+		eventBean.setDate(dateId);
+		eventBean.setTime(timeId);
 		addEventBean(eventBean);
 		return eventBean;
 	}
 
-	public EventBean newEvent(int id, int rank, FormYourNotesBean<?> parent,
-			String discription, CalendarBean date, CalendarBean time) {
-		return newEventBean(id, rank, parent.getId(), discription, date, time);
+	public EventBean newEvent(int eventId, int eventRank, FormYourNotesBean<?> eventParent,
+			String eventDiscription, int dateId, int timeId) {
+		return newEventBean(eventId, eventRank, eventParent.getId(), eventDiscription, dateId, timeId);
 	}
 
 	public GroupBean newGroupBean(int id, int rank, int parent, String name,
