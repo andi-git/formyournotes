@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.ahammer.formyournotes.beans.EditTextBean;
 import at.ahammer.formyournotes.beans.FormBean;
-import at.ahammer.formyournotes.logging.LogTag;
 
 public class EditTextView extends LinearLayout {
 
@@ -68,13 +67,16 @@ public class EditTextView extends LinearLayout {
 					"set value of " + editTextBean.getDiscription() + " to '"
 							+ editable.toString() + "'");
 			editTextBean.getData().setItemId(editTextBean);
-			if (formBean.possibleDataChange(editTextBean.getData().getValue(),
-					editable.toString())) {
-				Log.i(LogTag.FYN.getTag(),
-						"data changed from "
-								+ editTextBean.getData().getValue() + " to "
-								+ editable.toString());
-			}
+			// TODO why do i have to set that hard-coded?
+			formBean.setDataChange(true);
+			// if
+			// (formBean.possibleDataChange(editTextBean.getData().getValue(),
+			// editable.toString())) {
+			// Log.i(LogTag.FYN.getTag(),
+			// "data changed from "
+			// + editTextBean.getData().getValue() + " to "
+			// + editable.toString());
+			// }
 			editTextBean.getData().setValue(editable.toString());
 		}
 	}

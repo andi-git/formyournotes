@@ -7,7 +7,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import at.ahammer.formyournotes.beans.CheckBoxBean;
 import at.ahammer.formyournotes.beans.FormBean;
-import at.ahammer.formyournotes.logging.LogTag;
 
 public class CheckBoxView extends LinearLayout {
 
@@ -62,13 +61,15 @@ public class CheckBoxView extends LinearLayout {
 					"set value of " + checkBoxBean.getDiscription() + " to '"
 							+ isChecked + "'");
 			checkBoxBean.getData().setItemId(checkBoxBean);
-			if (formBean.possibleDataChange(checkBoxBean.getData().isChecked(),
-					isChecked)) {
-				Log.i(LogTag.FYN.getTag(), "data changed from "
-						+ checkBoxBean.getData().isChecked() + " to "
-						+ isChecked);
-			}
-
+			// TODO why do i have to set that hard-coded?
+			formBean.setDataChange(true);
+			// if
+			// (formBean.possibleDataChange(checkBoxBean.getData().isChecked(),
+			// isChecked)) {
+			// Log.i(LogTag.FYN.getTag(), "data changed from "
+			// + checkBoxBean.getData().isChecked() + " to "
+			// + isChecked);
+			// }
 			checkBoxBean.getData().setChecked(isChecked);
 		}
 	}
