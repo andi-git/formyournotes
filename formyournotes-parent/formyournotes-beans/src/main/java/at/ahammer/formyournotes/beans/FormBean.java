@@ -13,6 +13,7 @@ import at.ahammer.formyournotes.data.ContactData;
 import at.ahammer.formyournotes.data.EditTextData;
 import at.ahammer.formyournotes.data.EventData;
 import at.ahammer.formyournotes.data.FormData;
+import at.ahammer.formyournotes.data.SelectData;
 
 public class FormBean {
 
@@ -28,6 +29,7 @@ public class FormBean {
 	private List<GroupBean> groupBeans = new ArrayList<GroupBean>();
 	private List<CalendarBean> calendarBeans = new ArrayList<CalendarBean>();
 	private List<EventBean> eventBeans = new ArrayList<EventBean>();
+	private List<SelectBean> selectBeans = new ArrayList<SelectBean>();
 	private boolean dataChanged = false;
 
 	// TODO cache for ranking - bean
@@ -116,6 +118,14 @@ public class FormBean {
 
 	public void addEventBean(EventBean eventBean) {
 		eventBeans.add(eventBean);
+	}
+
+	public List<SelectBean> getSelectBeans() {
+		return selectBeans;
+	}
+	
+	public void addSelectBean(SelectBean selectBean) {
+		selectBeans.add(selectBean);
 	}
 
 	private void addCommonData(FormYourNotesBean<?> bean, int id, int rank,
@@ -217,6 +227,21 @@ public class FormBean {
 		return newEventBean(eventId, eventRank, eventParent.getId(), eventDiscription, dateId, timeId);
 	}
 
+	public SelectBean newSelectBean(int id, int rank, int parent,
+			String discription, List<String> values) {
+		SelectBean selectBean = new SelectBean();
+		addCommonData(selectBean, id, rank, parent);
+		selectBean.setDiscription(discription);
+		selectBean.setValues(values);
+		addSelectBean(selectBean);
+		return selectBean;
+	}
+	
+	public SelectBean newSelect(int id, int rank, FormYourNotesBean<?> parent,
+			String discription, List<String> values) {
+		return newSelectBean(id, rank, parent.getId(), discription, values);
+	}
+
 	public GroupBean newGroupBean(int id, int rank, int parent, String name,
 			Orientation orientation, Border border) {
 		GroupBean groupBean = new GroupBean();
@@ -272,6 +297,7 @@ public class FormBean {
 		items.addAll(groupBeans);
 		items.addAll(calendarBeans);
 		items.addAll(eventBeans);
+		items.addAll(selectBeans);
 		return items;
 	}
 
@@ -325,6 +351,9 @@ public class FormBean {
 		for (EventBean eventBean : eventBeans) {
 			eventBean.clearData();
 		}
+		for (SelectBean selectBean : selectBeans) {
+			selectBean.clearData();
+		}
 	}
 
 	public FormBean setData(FormData formData) {
@@ -350,6 +379,9 @@ public class FormBean {
 		for (EventData eventData : formData.getEventData()) {
 			getById(eventData.getItemId(), EventBean.class).setData(eventData);
 		}
+		for (SelectData selectData : formData.getSelectData()) {
+			getById(selectData.getItemId(), SelectBean.class).setData(selectData);
+		}
 		return this;
 	}
 
@@ -360,6 +392,7 @@ public class FormBean {
 			addedData.clearEditTextData();
 			addedData.clearCalendarData();
 			addedData.clearEventData();
+			addedData.clearSelectData();
 			for (CheckBoxBean checkBoxBean : checkBoxBeans) {
 				addedData.add(checkBoxBean.getData());
 			}
@@ -374,6 +407,9 @@ public class FormBean {
 			}
 			for (EventBean eventBean : eventBeans) {
 				addedData.add(eventBean.getData());
+			}
+			for (SelectBean selectBean : selectBeans) {
+				addedData.add(selectBean.getData());
 			}
 		}
 		return addedData;

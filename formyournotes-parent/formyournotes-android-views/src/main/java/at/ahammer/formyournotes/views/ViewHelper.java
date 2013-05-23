@@ -7,8 +7,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class ViewHelper {
 
@@ -91,6 +92,12 @@ public class ViewHelper {
 		Button button = new Button(context);
 		setAllDefaults(button);
 		return button;
+	}
+
+	public Spinner newDefaultSpinner(Context context) {
+		Spinner spinner = new Spinner(context);
+		// TODO set defaults?
+		return spinner;
 	}
 
 	public LinearLayout.LayoutParams getLinearLayoutParamFirstInRow() {

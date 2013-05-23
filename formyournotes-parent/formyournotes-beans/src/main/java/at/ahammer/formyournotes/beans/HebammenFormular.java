@@ -1,5 +1,7 @@
 package at.ahammer.formyournotes.beans;
 
+import java.util.Arrays;
+
 import at.ahammer.formyournotes.beans.GroupBean.Border;
 import at.ahammer.formyournotes.beans.GroupBean.Orientation;
 import at.ahammer.formyournotes.data.CalendarData;
@@ -182,7 +184,8 @@ public class HebammenFormular {
 		form.newEditText(249, 20, groupGeburtsverlauf, "Geburtsdauer");
 
 		// elements for group Kind
-		form.newEditText(260, 1, groupKind, "Geschlecht");
+		form.newSelect(260, 1, groupKind, "Geschlecht",
+				Arrays.asList("", "m", "w"));
 		form.newEditText(261, 2, groupKind, "Name");
 		form.newEditText(262, 3, groupKind, "Apgar");
 		form.newEditText(263, 4, groupKind, "NspH - BE");

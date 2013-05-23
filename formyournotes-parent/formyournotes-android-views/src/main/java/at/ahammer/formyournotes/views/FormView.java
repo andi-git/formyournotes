@@ -14,6 +14,7 @@ import at.ahammer.formyournotes.beans.EventBean;
 import at.ahammer.formyournotes.beans.FormBean;
 import at.ahammer.formyournotes.beans.FormYourNotesBean;
 import at.ahammer.formyournotes.beans.GroupBean;
+import at.ahammer.formyournotes.beans.SelectBean;
 
 public class FormView {
 
@@ -57,6 +58,9 @@ public class FormView {
 		} else if (currentBean instanceof EventBean) {
 			return new EventView(activity, formR, formBean,
 					(EventBean) currentBean);
+		} else if (currentBean instanceof SelectBean) {
+			return new SelectView(activity, formR, formBean,
+					(SelectBean) currentBean);
 		}
 		throw new RuntimeException("View for " + currentBean.getClass()
 				+ " is not registered!");

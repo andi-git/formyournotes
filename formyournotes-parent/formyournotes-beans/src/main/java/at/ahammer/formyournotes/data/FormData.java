@@ -15,6 +15,7 @@ public class FormData {
 	private final List<EditTextData> editTextDataList = new ArrayList<EditTextData>();
 	private final List<CalendarData> calendarDataList = new ArrayList<CalendarData>();
 	private final List<EventData> eventDataList = new ArrayList<EventData>();
+	private final List<SelectData> selectDataList = new ArrayList<SelectData>();
 
 	public FormData() {
 		super();
@@ -127,6 +128,26 @@ public class FormData {
 		eventDataList.clear();
 	}
 
+	public List<SelectData> getSelectData() {
+		return Collections.unmodifiableList(selectDataList);
+	}
+
+	public List<SelectData> add(SelectData selectData) {
+		if (selectData.isFilled()) {
+			selectDataList.add(selectData);
+		}
+		return getSelectData();
+	}
+
+	public List<SelectData> remove(SelectData selectData) {
+		selectDataList.remove(selectData);
+		return getSelectData();
+	}
+
+	public void clearSelectData() {
+		selectDataList.clear();
+	}
+
 	public int getFormId() {
 		return formId;
 	}
@@ -166,6 +187,6 @@ public class FormData {
 				+ checkBoxDataList + ", contactDataList=" + contactDataList
 				+ ", editTextDataList=" + editTextDataList
 				+ ", calendarDataList=" + calendarDataList + ", eventDataList="
-				+ eventDataList + "]";
+				+ eventDataList + ", selectDataList=" + selectDataList + "]";
 	}
 }

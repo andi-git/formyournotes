@@ -6,6 +6,8 @@ public class FormR {
 
 	private Style style = new Style();
 
+	private Layout layout = new Layout();
+
 	public FormR() {
 		// nothing
 	}
@@ -16,6 +18,10 @@ public class FormR {
 
 	public Style getStyle() {
 		return style;
+	}
+
+	public Layout getLayout() {
+		return layout;
 	}
 
 	public static final class Drawable {
@@ -63,6 +69,18 @@ public class FormR {
 
 		public void setButtonCalendar(int buttonCalendar) {
 			this.buttonCalendar = buttonCalendar;
+		}
+	}
+
+	public static final class Layout {
+		private int simpleSpinnerDropdownItem = android.R.layout.simple_spinner_dropdown_item;
+
+		public int getSimpleSpinnerDropdownItem() {
+			return simpleSpinnerDropdownItem;
+		}
+
+		public void setSimpleSpinnerDropdownItem(int simpleSpinnerDropdownItem) {
+			this.simpleSpinnerDropdownItem = simpleSpinnerDropdownItem;
 		}
 	}
 
