@@ -32,6 +32,7 @@ public class CalendarView extends LinearLayout {
 		viewName.setText(calendarBean.getDiscription());
 		viewText = viewHelper.newDefaultTextView(activity);
 		viewText.setLayoutParams(viewHelper.getLinearLayoutParamMatch());
+		// viewText.setBackgroundResource(r.getDrawable().getSpinnerBackground());
 		if (calendarBean.getValue() == null
 				|| "".equals(calendarBean.getValue())) {
 			viewText.setText(calendarBean.getDefaultValue());
@@ -78,13 +79,14 @@ public class CalendarView extends LinearLayout {
 		}
 	}
 
-	private LayoutParams getCalendarLayoutParams(final FormBean formBean, final CalendarBean calendarBean) {
+	private LayoutParams getCalendarLayoutParams(final FormBean formBean,
+			final CalendarBean calendarBean) {
 		if (formBean.getById(calendarBean.getParent()) instanceof EventBean) {
 			return viewHelper.getLinearLayoutParamWrap();
 		}
 		return viewHelper.getLinearLayoutCalendarParamWrap();
 	}
-	
+
 	public String getName() {
 		return viewName.getText().toString();
 	}

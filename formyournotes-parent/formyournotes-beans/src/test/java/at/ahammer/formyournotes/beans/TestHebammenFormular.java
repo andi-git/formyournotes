@@ -43,7 +43,7 @@ public class TestHebammenFormular {
 		System.out.println("----------");
 		List<FormYourNotesBean<?>> allChildren = hebammenFormular.getForm()
 				.getAllChildren(1);
-		Assert.assertEquals(6, allChildren.size());
+		Assert.assertEquals(7, allChildren.size());
 		for (FormYourNotesBean<?> bean : allChildren) {
 			System.out.println(bean.getRank());
 		}

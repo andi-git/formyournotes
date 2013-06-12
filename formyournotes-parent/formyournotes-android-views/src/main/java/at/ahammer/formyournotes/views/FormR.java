@@ -30,6 +30,7 @@ public class FormR {
 		private int buttonContact;
 		private int buttonChat;
 		private int buttonCalendar;
+		private int spinnerBackground = android.R.style.Widget_DeviceDefault_Light_Spinner;
 
 		public int getBorderTopElement() {
 			return borderTopElement;
@@ -70,6 +71,10 @@ public class FormR {
 		public void setButtonCalendar(int buttonCalendar) {
 			this.buttonCalendar = buttonCalendar;
 		}
+
+		public int getSpinnerBackground() {
+			return spinnerBackground;
+		}
 	}
 
 	public static final class Layout {
@@ -78,10 +83,6 @@ public class FormR {
 		public int getSimpleSpinnerDropdownItem() {
 			return simpleSpinnerDropdownItem;
 		}
-
-		public void setSimpleSpinnerDropdownItem(int simpleSpinnerDropdownItem) {
-			this.simpleSpinnerDropdownItem = simpleSpinnerDropdownItem;
-		}
 	}
 
 	public static final class Style {
@@ -89,11 +90,6 @@ public class FormR {
 
 		public int getWidget_DeviceDefault_Light_Spinner() {
 			return widget_DeviceDefault_Light_Spinner;
-		}
-
-		public void setWidget_DeviceDefault_Light_Spinner(
-				int widget_DeviceDefault_Light_Spinner) {
-			this.widget_DeviceDefault_Light_Spinner = widget_DeviceDefault_Light_Spinner;
 		}
 	}
 }

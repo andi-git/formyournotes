@@ -48,9 +48,6 @@ public class FormFragmentLayout extends FormActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FYNPreferences.INSTANCE.setAccount(this, "andreas.ahammer@gmail.com",
-				"bf1942");
-		FYNViewHelper.INSTANCE.saveCurrentForm(this);
 		// FYNSyncHelper.INSTANCE.performSync(this);
 	}
 

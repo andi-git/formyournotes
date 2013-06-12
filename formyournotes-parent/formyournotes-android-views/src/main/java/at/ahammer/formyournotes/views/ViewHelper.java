@@ -3,6 +3,7 @@ package at.ahammer.formyournotes.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -127,7 +128,7 @@ public class ViewHelper {
 		layoutParams.setMargins(0, 10, 0, 5);
 		return layoutParams;
 	}
-	
+
 	public LinearLayout.LayoutParams getLinearLayoutParamMatch() {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

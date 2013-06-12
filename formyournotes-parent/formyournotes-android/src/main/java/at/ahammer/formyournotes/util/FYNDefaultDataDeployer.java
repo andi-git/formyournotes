@@ -32,10 +32,10 @@ public class FYNDefaultDataDeployer {
 		try {
 			FYNController.INSTANCE.saveFormBean(context,
 					hebammenFormular.getForm());
-			FYNController.INSTANCE.saveFormData(context,
-					hebammenFormular.getData1());
-			FYNController.INSTANCE.saveFormData(context,
-					hebammenFormular.getData2());
+			// FYNController.INSTANCE.saveFormData(context,
+			// hebammenFormular.getData1());
+			// FYNController.INSTANCE.saveFormData(context,
+			// hebammenFormular.getData2());
 			// copyFile("form_1.json");
 			// copyFile("data_1_1.json");
 			// copyFile("data_1_2.json");
