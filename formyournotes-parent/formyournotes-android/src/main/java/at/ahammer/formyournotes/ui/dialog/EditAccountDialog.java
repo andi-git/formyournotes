@@ -11,6 +11,7 @@ import android.widget.Toast;
 import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNPreferences;
+import at.ahammer.formyournotes.util.FYNPreferences.Account;
 
 public class EditAccountDialog {
 
@@ -18,10 +19,6 @@ public class EditAccountDialog {
 
 	public EditAccountDialog(Activity activity) {
 		alertDialog = create(activity);
-		// NPE -> findViewById returns null
-		// Account account = FYNPreferences.INSTANCE.getAccount(activity);
-		// ((EditText)
-		// activity.findViewById(R.id.email_input)).setText(account.getEmail());
 	}
 
 	public void show() {
@@ -36,20 +33,19 @@ public class EditAccountDialog {
 
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
-		final View viewToInflate = inflater.inflate(
-				R.layout.dialog_edit_account, null);
-		builder.setView(viewToInflate)
-				.setTitle(R.string.title_edit_account)
+		final View viewToInflate = inflater.inflate(R.layout.dialog_edit_account, null);
+		builder.setView(viewToInflate).setTitle(R.string.title_edit_account)
 				// Add action buttons
-				.setPositiveButton(R.string.change,
-						new OnPositivButtonClick(viewToInflate, activity))
-				.setNegativeButton(R.string.cancel,
-						new OnNegativeButtonClick(activity));
+				.setPositiveButton(R.string.change, new OnPositivButtonClick(viewToInflate, activity))
+				.setNegativeButton(R.string.cancel, new OnNegativeButtonClick(activity));
+
+		Account account = FYNPreferences.INSTANCE.getAccount(activity);
+		((EditText) viewToInflate.findViewById(R.id.email_input)).setText(account.getEmail());
+
 		return builder.create();
 	}
 
-	private static class OnNegativeButtonClick implements
-			DialogInterface.OnClickListener {
+	private static class OnNegativeButtonClick implements DialogInterface.OnClickListener {
 		private final Activity activity;
 
 		private OnNegativeButtonClick(Activity activity) {
@@ -58,13 +54,11 @@ public class EditAccountDialog {
 
 		@Override
 		public void onClick(DialogInterface dialog, int id) {
-			Toast.makeText(activity, R.string.cancel, Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(activity, R.string.cancel, Toast.LENGTH_SHORT).show();
 		}
 	}
 
-	private static class OnPositivButtonClick implements
-			DialogInterface.OnClickListener {
+	private static class OnPositivButtonClick implements DialogInterface.OnClickListener {
 		private final View viewToInflate;
 		private final Activity activity;
 
@@ -75,15 +69,12 @@ public class EditAccountDialog {
 
 		@Override
 		public void onClick(DialogInterface dialog, int id) {
-			String email = ((EditText) viewToInflate
-					.findViewById(R.id.email_input)).getText().toString();
-			String password = ((EditText) viewToInflate
-					.findViewById(R.id.password_input)).getText().toString();
+			String email = ((EditText) viewToInflate.findViewById(R.id.email_input)).getText().toString();
+			String password = ((EditText) viewToInflate.findViewById(R.id.password_input)).getText().toString();
 			Log.i(LogTag.FYN.getTag(), "Email: " + email);
 			Log.i(LogTag.FYN.getTag(), "Password: " + password);
 			FYNPreferences.INSTANCE.setAccount(activity, email, password);
-			Toast.makeText(activity, R.string.change_account,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity, R.string.change_account, Toast.LENGTH_SHORT).show();
 		}
 	}
 }
