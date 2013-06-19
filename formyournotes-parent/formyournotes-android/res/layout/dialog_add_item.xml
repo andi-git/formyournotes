@@ -11,6 +11,12 @@
     <!-- android:scaleType="center" -->
     <!-- android:src="@drawable/header_logo" /> -->
 
+    <ImageButton
+        android:id="@+id/addItemChooseContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/button_contact" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"

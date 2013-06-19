@@ -12,7 +12,7 @@ import at.ahammer.formyournotes.intent.IntentBuilder;
 import at.ahammer.formyournotes.logging.LogTag;
 import at.ahammer.formyournotes.util.FYNController;
 import at.ahammer.formyournotes.util.FYNDefaultDataDeployer;
-import at.ahammer.formyournotes.util.FYNPreferences;
+import at.ahammer.formyournotes.util.FYNSyncHelper;
 import at.ahammer.formyournotes.util.FYNViewHelper;
 
 /**
@@ -48,14 +48,14 @@ public class FormFragmentLayout extends FormActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		// FYNSyncHelper.INSTANCE.performSync(this);
+		FYNSyncHelper.INSTANCE.performSync(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 		FYNViewHelper.INSTANCE.saveCurrentForm(this);
-		// FYNSyncHelper.INSTANCE.performSync(this);
+		FYNSyncHelper.INSTANCE.performSync(this);
 	}
 
 	public static class FormFragmentLayoutIntent extends IntentBuilder {

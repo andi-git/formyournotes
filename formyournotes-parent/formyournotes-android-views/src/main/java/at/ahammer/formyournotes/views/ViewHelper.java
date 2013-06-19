@@ -3,7 +3,6 @@ package at.ahammer.formyournotes.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
