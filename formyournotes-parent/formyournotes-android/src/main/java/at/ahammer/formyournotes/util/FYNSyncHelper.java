@@ -1,25 +1,29 @@
 package at.ahammer.formyournotes.util;
 
-import android.content.Context;
+import android.app.Activity;
 import android.widget.Toast;
+import at.ahammer.formyournotes.ui.activity.FormFragmentLayout.FormFragmentLayoutIntent;
 
 public enum FYNSyncHelper {
 
 	INSTANCE;
 
-	public void performSync(Context context) {
-		SyncTask syncTask = new SyncTask(context);
+	public void performSync(Activity activity) {
+		SyncTask syncTask = new SyncTask(activity);
 		try {
 			if (syncTask.execute().get()) {
-				Toast.makeText(context, "Sync completed!", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(activity, "Sync completed!", Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(context, "General sync error!",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, "General sync error!", Toast.LENGTH_SHORT).show();
 			}
 		} catch (Exception e) {
-			Toast.makeText(context, "General sync error!", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(activity, "General sync error!", Toast.LENGTH_SHORT).show();
+		}
+		if (syncTask.isNewElement()) {
+			activity.finish();
+			activity.startActivity(new FormFragmentLayoutIntent(activity).//
+					setMessage("here goes a message").//
+					build());
 		}
 	}
 }

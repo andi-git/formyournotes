@@ -1,10 +1,7 @@
 package at.ahammer.formyournotes.ui.dialog;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +11,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import at.ahammer.formyournotes.R;
 import at.ahammer.formyournotes.components.contact.ContactChooseButtonOnClickListener;
-import at.ahammer.formyournotes.components.contact.ContactChooseDialogFactory;
-import at.ahammer.formyournotes.contact.ContactDao;
 import at.ahammer.formyournotes.dao.DaoException;
 import at.ahammer.formyournotes.data.FormData;
 import at.ahammer.formyournotes.logging.LogTag;
@@ -48,15 +43,8 @@ public class AddItemDialog {
 				.setNegativeButton(R.string.cancel, new OnNegativeButtonClick(activity));
 
 		EditText editText = (EditText) viewToInflate.findViewById(R.id.itemName);
-		ContactDao contactDao = new ContactDao();
-		List<String> displayNames = contactDao.getAllDisplayNames(activity);
-		Dialog chooseContactDialog = ContactChooseDialogFactory.createChooseContactDialog(activity, editText,
-				displayNames);
-		View.OnClickListener chooseButtonOnClickListener = new ContactChooseButtonOnClickListener(chooseContactDialog);
 		ImageButton chooseContact = (ImageButton) viewToInflate.findViewById(R.id.addItemChooseContact);
-		Log.i(LogTag.FYN.getTag(), "editText: " + editText);
-		Log.i(LogTag.FYN.getTag(), "chooseContact: " + chooseContact);
-		chooseContact.setOnClickListener(chooseButtonOnClickListener);
+		chooseContact.setOnClickListener(new ContactChooseButtonOnClickListener(activity, editText));
 
 		return builder.create();
 	}

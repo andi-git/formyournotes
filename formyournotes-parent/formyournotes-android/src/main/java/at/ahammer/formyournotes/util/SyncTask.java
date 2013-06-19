@@ -36,9 +36,12 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		this.context = context;
 	}
 
+	private boolean newElement = false;
+	
 	@Override
 	protected Boolean doInBackground(Void... nothing) {
 		boolean success = true;
+		newElement = false;
 		if (hasNetworkConnection()) {
 			try {
 				List<ServerData> serverDataList = getAllServerDataWithoutContent();
@@ -46,24 +49,26 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 				List<ServerData> getFromServer = new ArrayList<ServerData>();
 				for (ServerData serverData : serverDataList) {
 					SingleFileStatus singleFileStatus = getLocalFileStatus(serverData);
-					if (!hashEquals(singleFileStatus, serverData)) {
-						if (isLocalNewer(singleFileStatus, serverData)) {
-							Log.i(LogTag.FYN.getTag(), "add to sendToServer: "
-									+ singleFileStatus.getFileName());
-							sendToServer
-									.add(createServerData(singleFileStatus));
-						} else {
-							Log.i(LogTag.FYN.getTag(), "add to getFromServer: "
-									+ serverData.getFilename());
-							getFromServer.add(serverData);
+					if (singleFileStatus != null) {
+						if (!hashEquals(singleFileStatus, serverData)) {
+							if (isLocalNewer(singleFileStatus, serverData)) {
+								Log.i(LogTag.FYN.getTag(), "add to sendToServer: " + singleFileStatus.getFileName());
+								sendToServer.add(createServerData(singleFileStatus));
+							} else {
+								Log.i(LogTag.FYN.getTag(), "add to getFromServer: " + serverData.getFilename());
+								getFromServer.add(serverData);
+							}
 						}
+					} else {
+						Log.i(LogTag.FYN.getTag(), "add to getFromServer: " + serverData.getFilename());
+						getFromServer.add(serverData);
+						newElement = true;
 					}
 				}
 				List<SingleFileStatus> localCreated = getAllLocalCreatedFiles(serverDataList);
 				for (SingleFileStatus singleFileStatus : localCreated) {
 					Log.i(LogTag.FYN.getTag(),
-							"local created -> add to sendToServer: "
-									+ singleFileStatus.getFileName());
+							"local created -> add to sendToServer: " + singleFileStatus.getFileName());
 					sendToServer.add(createServerData(singleFileStatus));
 				}
 				saveDataFromServer(getFromServer(getFromServer));
@@ -71,8 +76,7 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 					throw new SyncException("send to server returned failure");
 				}
 			} catch (SyncException e) {
-				Log.e(LogTag.FYN.getTag(),
-						"general sync error: " + e.getMessage(), e);
+				Log.e(LogTag.FYN.getTag(), "general sync error: " + e.getMessage(), e);
 				success = false;
 			}
 		} else {
@@ -81,24 +85,18 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		return success;
 	}
 
-	private void saveDataFromServer(List<ServerData> serverDataList)
-			throws SyncException {
+	private void saveDataFromServer(List<ServerData> serverDataList) throws SyncException {
 		try {
-			FileStatus fileStatus = FYNController.INSTANCE
-					.getFileStatus(context);
+			FileStatus fileStatus = FYNController.INSTANCE.getFileStatus(context);
 			for (ServerData serverData : serverDataList) {
 				// save in file
-				FYNFileHelper.INSTANCE.saveFileContent(context,
-						serverData.getFilename(), serverData.getContent());
-				Log.i(LogTag.FYN.getTag(),
-						"update file: " + serverData.getFilename());
+				FYNFileHelper.INSTANCE.saveFileContent(context, serverData.getFilename(), serverData.getContent());
+				Log.i(LogTag.FYN.getTag(), "update file: " + serverData.getFilename());
 				// update fileStatus
-				SingleFileStatus singleFileStatus = new SingleFileStatus(
-						serverData.getFilename(), serverData.getHash(),
-						serverData.getTimestamp());
+				SingleFileStatus singleFileStatus = new SingleFileStatus(serverData.getFilename(),
+						serverData.getHash(), serverData.getTimestamp());
 				fileStatus.setSingleFileStatus(singleFileStatus);
-				Log.i(LogTag.FYN.getTag(), "update file-status for file: "
-						+ serverData.getFilename());
+				Log.i(LogTag.FYN.getTag(), "update file-status for file: " + serverData.getFilename());
 			}
 			// save filestatus
 			FYNController.INSTANCE.saveFileStatus(context, fileStatus);
@@ -108,8 +106,7 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		}
 	}
 
-	private List<ServerData> getFromServer(List<ServerData> getFromServer)
-			throws SyncException {
+	private List<ServerData> getFromServer(List<ServerData> getFromServer) throws SyncException {
 		List<ServerData> result = new ArrayList<ServerData>();
 		if (getFromServer != null && !getFromServer.isEmpty()) {
 			Log.i(LogTag.FYN.getTag(), "get from server: ");
@@ -125,19 +122,15 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 				first = false;
 			}
 			parameters.put("filenames", fileNames.toString());
-			Log.i(LogTag.FYN.getTag(),
-					"parameter filenames: " + fileNames.toString());
-			result = doPost(URL_ITEMS_WITH_CONTENT, parameters,
-					new ServerResultServerData());
+			Log.i(LogTag.FYN.getTag(), "parameter filenames: " + fileNames.toString());
+			result = doPost(URL_ITEMS_WITH_CONTENT, parameters, new ServerResultServerData());
 		}
 		return result;
 	}
 
-	private List<SingleFileStatus> getAllLocalCreatedFiles(
-			List<ServerData> serverDataList) {
+	private List<SingleFileStatus> getAllLocalCreatedFiles(List<ServerData> serverDataList) {
 		List<SingleFileStatus> localCreatedFile = new ArrayList<SingleFileStatus>();
-		for (SingleFileStatus singleFileStatus : FYNController.INSTANCE
-				.getFileStatus(context).getFiles()) {
+		for (SingleFileStatus singleFileStatus : FYNController.INSTANCE.getFileStatus(context).getFiles()) {
 			String localFile = singleFileStatus.getFileName();
 			boolean isInServerDataList = false;
 			for (ServerData serverData : serverDataList) {
@@ -157,23 +150,19 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		return localCreatedFile;
 	}
 
-	private boolean sendToServer(List<ServerData> serverDataList)
-			throws SyncException {
+	private boolean sendToServer(List<ServerData> serverDataList) throws SyncException {
 		boolean result = true;
 		if (serverDataList != null && !serverDataList.isEmpty()) {
 			try {
 				Log.i(LogTag.FYN.getTag(), "send files to server");
 				for (ServerData serverData : serverDataList) {
-					Log.i(LogTag.FYN.getTag(),
-							"    " + serverData.getFilename());
+					Log.i(LogTag.FYN.getTag(), "    " + serverData.getFilename());
 				}
 				Map<String, String> parameters = getParametersWithAccountInfo();
-				String items = new JSONBeanSerializer()
-						.serialize(serverDataList.toArray());
+				String items = new JSONBeanSerializer().serialize(serverDataList.toArray());
 				parameters.put("items", items);
 				parameters.put("persist", "true");
-				result = doPost(URL_ADD_ITEMS, parameters,
-						new ServerResultSuccess());
+				result = doPost(URL_ADD_ITEMS, parameters, new ServerResultSuccess());
 			} catch (SerializationException e) {
 				throw new SyncException(e);
 			}
@@ -181,12 +170,10 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		return result;
 	}
 
-	private ServerData createServerData(SingleFileStatus singleFileStatus)
-			throws SyncException {
+	private ServerData createServerData(SingleFileStatus singleFileStatus) throws SyncException {
 		ServerData serverData = new ServerData();
 		try {
-			serverData.setContent(FYNFileHelper.INSTANCE.getFileContent(
-					context, singleFileStatus.getFileName()));
+			serverData.setContent(FYNFileHelper.INSTANCE.getFileContent(context, singleFileStatus.getFileName()));
 		} catch (Exception e) {
 			throw new SyncException(e);
 		}
@@ -196,56 +183,49 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		return serverData;
 	}
 
-	private boolean isLocalNewer(SingleFileStatus singleFileStatus,
-			ServerData serverData) {
+	private boolean isLocalNewer(SingleFileStatus singleFileStatus, ServerData serverData) {
 		boolean result = false;
 		if (singleFileStatus != null && serverData != null) {
-			result = singleFileStatus.getTimestamp() > serverData
-					.getTimestamp();
+			result = singleFileStatus.getTimestamp() > serverData.getTimestamp();
 		}
-		Log.i(LogTag.FYN.getTag(),
-				"local file " + singleFileStatus.getFileName() + " is newer: "
-						+ result);
-		Log.i(LogTag.FYN.getTag(),
-				"    local:  " + singleFileStatus.getTimestamp());
+		Log.i(LogTag.FYN.getTag(), "local file " + singleFileStatus.getFileName() + " is newer: " + result);
+		Log.i(LogTag.FYN.getTag(), "    local:  " + singleFileStatus.getTimestamp());
 		Log.i(LogTag.FYN.getTag(), "    server: " + serverData.getTimestamp());
 		return result;
 	}
 
-	private boolean hashEquals(SingleFileStatus singleFileStatus,
-			ServerData serverData) {
+	private boolean hashEquals(SingleFileStatus singleFileStatus, ServerData serverData) {
 		boolean result = false;
-		if (singleFileStatus != null && serverData != null
-				&& serverData.getHash() != null) {
+		if (singleFileStatus != null && serverData != null && serverData.getHash() != null) {
 			result = serverData.getHash().equals(singleFileStatus.getHash());
 		}
-		Log.i(LogTag.FYN.getTag(), "hash of " + singleFileStatus.getFileName()
-				+ " equals: " + result);
+		Log.i(LogTag.FYN.getTag(), "singleFileStatus: " + singleFileStatus);
+		Log.i(LogTag.FYN.getTag(), "hash of " + singleFileStatus.getFileName() + " equals: " + result);
 		Log.i(LogTag.FYN.getTag(), "    local:  " + singleFileStatus.getHash());
 		Log.i(LogTag.FYN.getTag(), "    server: " + serverData.getHash());
 		return result;
 	}
 
 	private SingleFileStatus getLocalFileStatus(ServerData serverData) {
-		return FYNController.INSTANCE.getSingleFileStatus(context,
+		SingleFileStatus singleFileStatus = FYNController.INSTANCE.getSingleFileStatus(context,
 				serverData.getFilename());
+		if (singleFileStatus == null) {
+			Log.i(LogTag.FYN.getTag(), "no file status available for file: " + serverData.getFilename());
+		}
+		return singleFileStatus;
 	}
 
-	private List<ServerData> getAllServerDataWithoutContent()
+	private List<ServerData> getAllServerDataWithoutContent() throws SyncException {
+		return doPost(URL_ITEMS_WITHOUT_CONTENT, getParametersWithAccountInfo(), new ServerResultServerData());
+	}
+
+	private <T> T doPost(String url, Map<String, String> parameters, ServerResultHandler<T> serverResultHandler)
 			throws SyncException {
-		return doPost(URL_ITEMS_WITHOUT_CONTENT,
-				getParametersWithAccountInfo(), new ServerResultServerData());
-	}
-
-	private <T> T doPost(String url, Map<String, String> parameters,
-			ServerResultHandler<T> serverResultHandler) throws SyncException {
 		Log.i(LogTag.FYN.getTag(), "call " + url + " with paramters");
 		for (String key : parameters.keySet()) {
-			Log.i(LogTag.FYN.getTag(),
-					"    " + key + " -> " + parameters.get(key));
+			Log.i(LogTag.FYN.getTag(), "    " + key + " -> " + parameters.get(key));
 		}
-		HttpConnector connector = new HttpConnector(url,
-				EncryptionStrategy.NONE);
+		HttpConnector connector = new HttpConnector(url, EncryptionStrategy.NONE);
 		String serverResult = "";
 		try {
 			serverResult = connector.doPost(parameters);
@@ -265,8 +245,7 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 		Account account = FYNPreferences.INSTANCE.getAccount(context);
 		Log.i(LogTag.FYN.getTag(), "account valid: " + account.isValid());
 		Log.i(LogTag.FYN.getTag(), "account email: " + account.getEmail());
-		Log.i(LogTag.FYN.getTag(),
-				"account password: " + account.getPasswordHash());
+		Log.i(LogTag.FYN.getTag(), "account password: " + account.getPasswordHash());
 		if (account.isValid()) {
 			parameters.put(PARAMETER_EMAIL, account.getEmail());
 			parameters.put(PARAMETER_PASSWORD, account.getPasswordHash());
@@ -275,27 +254,23 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private boolean hasNetworkConnection() {
-		return new NetworkDetector().hasNetworkConnection(context,
-				ConnectionType.ANY);
+		return new NetworkDetector().hasNetworkConnection(context, ConnectionType.ANY);
 	}
 
 	private static interface ServerResultHandler<T> {
 		T getServerResult(String httpResult) throws SyncException;
 	}
 
-	private static class ServerResultServerData implements
-			ServerResultHandler<List<ServerData>> {
+	private static class ServerResultServerData implements ServerResultHandler<List<ServerData>> {
 
 		@Override
-		public List<ServerData> getServerResult(String httpResult)
-				throws SyncException {
+		public List<ServerData> getServerResult(String httpResult) throws SyncException {
 			List<ServerData> result = new ArrayList<ServerData>();
 			if (httpResult != null && !"".equals(httpResult)) {
 				BeanSerializer jsonBeanSerializer = new JSONBeanSerializer();
 				ServerData[] serverData = null;
 				try {
-					serverData = jsonBeanSerializer.deserialize(httpResult,
-							ServerData[].class);
+					serverData = jsonBeanSerializer.deserialize(httpResult, ServerData[].class);
 				} catch (SerializationException e) {
 					throw new SyncException(e);
 				}
@@ -312,13 +287,16 @@ public class SyncTask extends AsyncTask<Void, Void, Boolean> {
 
 	}
 
-	private static class ServerResultSuccess implements
-			ServerResultHandler<Boolean> {
+	private static class ServerResultSuccess implements ServerResultHandler<Boolean> {
 
 		@Override
 		public Boolean getServerResult(String httpResult) throws SyncException {
 			Log.i(LogTag.FYN.getTag(), "server result: " + httpResult);
 			return httpResult != null && "success".equalsIgnoreCase(httpResult);
 		}
+	}
+	
+	public boolean isNewElement() {
+		return this.newElement;
 	}
 }
