@@ -21,19 +21,15 @@ public class OnDateClickListener implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		FragmentTransaction ft = activity.getFragmentManager()
-				.beginTransaction();
-		OnDateSetListener onSetDateListener = new OnDateSetListener(textView);
+		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
 		Calendar calendarValue = getCalendar();
-		DialogFragment newFragment = new DatePickerDialogFragment(
-				onSetDateListener, calendarValue);
+		DialogFragment newFragment = new DatePickerDialogFragment(calendarValue, textView);
 		newFragment.show(ft, "date_dialog");
 	}
 
 	private Calendar getCalendar() {
 		String calendarString = textView.getText().toString();
-		Calendar calendar = Calendar.getInstance(TimeZone
-				.getTimeZone("Europe/Berlin"));
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"));
 		if (!"00.00.0000".equals(calendarString)) {
 			calendar = DateHelper.parseCalendar(calendarString);
 		}

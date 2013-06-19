@@ -18,11 +18,8 @@ public class OnTimeClickListener implements View.OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		FragmentTransaction ft = activity.getFragmentManager()
-				.beginTransaction();
-		OnTimeSetListener onSetTimeListener = new OnTimeSetListener(textView);
-		DialogFragment newFragment = new TimePickerDialogFragment(
-				onSetTimeListener, textView.getText().toString());
+		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+		DialogFragment newFragment = new TimePickerDialogFragment(textView);
 		newFragment.show(ft, "time_dialog");
 	}
 }

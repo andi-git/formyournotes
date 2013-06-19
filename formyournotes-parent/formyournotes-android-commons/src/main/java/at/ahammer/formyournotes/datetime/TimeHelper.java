@@ -7,6 +7,8 @@ import at.ahammer.formyournotes.logging.LogTag;
 
 public class TimeHelper {
 
+	public static final String DEFAULT_TIME = "00:00";
+	
 	public static class Time {
 
 		boolean unset = true;

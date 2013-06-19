@@ -12,6 +12,8 @@ public class DateHelper {
 	public static final SimpleDateFormat SDF = new SimpleDateFormat(
 			"dd.MM.yyyy");
 
+	public static final String DEFAULT_DATE = "00.00.0000";
+	
 	public static Calendar parseCalendar(String wellFormedCalendar) {
 		Calendar date = Calendar.getInstance();
 		try {
@@ -25,5 +27,13 @@ public class DateHelper {
 	
 	public static String formatCalendar(Calendar calendar) {
 		return SDF.format(calendar.getTime());
+	}
+
+	public static String formatCalendar(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.DAY_OF_MONTH, day);
+		return formatCalendar(calendar);
 	}
 }

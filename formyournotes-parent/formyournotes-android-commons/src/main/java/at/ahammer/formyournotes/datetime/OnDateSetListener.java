@@ -16,8 +16,7 @@ public class OnDateSetListener implements DatePickerDialog.OnDateSetListener {
 	}
 
 	@Override
-	public void onDateSet(DatePicker view, int year, int monthOfYear,
-			int dayOfMonth) {
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
 		textView.setText(DateHelper.formatCalendar(cal));
 	}
