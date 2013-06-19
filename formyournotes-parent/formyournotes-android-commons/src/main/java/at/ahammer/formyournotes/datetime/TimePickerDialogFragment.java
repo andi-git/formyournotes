@@ -11,7 +11,7 @@ public class TimePickerDialogFragment extends DialogFragment {
 	private OnTimeSetListener onSetListener;
 
 	private String wellFormedTime;
-	
+
 	public TimePickerDialogFragment() {
 		// the default constructor is required to prevent the app from crashing
 		// on device orientation changes
@@ -23,7 +23,10 @@ public class TimePickerDialogFragment extends DialogFragment {
 	}
 
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Time time = TimeHelper.parseTime(wellFormedTime);
+		Time time = TimeHelper.currentTime();
+		if (wellFormedTime != null && !"".equals(wellFormedTime) && !"00:00".equals(wellFormedTime)) {
+			time = TimeHelper.parseTime(wellFormedTime);
+		}
 		return new TimePickerDialog(getActivity(), onSetListener, time.getHour(), time.getMinute(), true);
 	}
 }
